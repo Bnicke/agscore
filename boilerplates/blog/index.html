@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, height=device-height, width=device-width">
+    <title>Mobility</title>
+    
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" type="text/css" href="vendor/font-awesome/awesome.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/open-sans/open-sans.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/mobility/mobility.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/mobility/mobility-pink.css" />
+    <link rel="stylesheet" type="text/css" href="custom.css" />
+    
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+	<script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="vendor/classified/classified.js"></script>
+	<script type="text/javascript" src="vendor/doon/doon.js"></script>
+	<script type="text/javascript" src="vendor/time/time.js"></script>
+    <script type="text/javascript" src="vendor/mobility/mobility.js"></script>
+    <script type="text/javascript" src="vendor/acquire/acquire.js"></script>
+    <script type="text/javascript" src="vendor/handlebars/handlebars.js"></script>
+	<script type="text/javascript" src="vendor/chops/chops.js"></script>
+    <script type="text/javascript" src="vendor/cropper/cropper.js"></script>
+    <script type="text/javascript" src="vendor/password/password.js"></script>
+    <script type="text/javascript" src="custom.js"></script>
+</head>
+<body>
+	<section class="screen current"></section>
+    
+    <div id="popover" 
+    	class="popover hide" 
+        data-do="popover-close" 
+        data-on="click" 
+        data-target="#popover">
+        <nav class="nav-list">
+            <a href="/all-stories">All Stories</a>
+            <a href="/must-reads">Must Reads</a>
+            <a href="/social-media">Social Media</a>
+            <a href="/tech">Tech</a>
+            <a href="/business">Business</a>
+            <a href="/entertainment">Entertainment</a>
+            <a href="/us-world">US &amp; World</a>
+            <a href="/water-cooler">Watercooler</a>
+        </nav>
+    </div>
+</body>
+</html>

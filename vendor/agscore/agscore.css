@@ -1,0 +1,4 @@
+.aside-slide-right .aside, .aside-return .aside, .aside-slide-left .aside {
+    overflow: auto;
+}
+
