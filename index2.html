@@ -529,7 +529,7 @@ $.ajax({
       inputs: {
          processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
       }
-    });
+    }).bind('dynatable:afterUpdate', processingComplete());
   }
 });
 function processingComplete(a)
