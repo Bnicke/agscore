@@ -1,4 +1,11 @@
 .aside-slide-right .aside, .aside-return .aside, .aside-slide-left .aside {
     overflow: auto;
 }
+th a {
+  color: #444;
+}
+th a:hover {
+  color: #666;
+  text-decoration: underline;
+}
 
