@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/open-sans/open-sans.css" />
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="vendor/mobility/mobility.css" />
-	<link rel="stylesheet" type="text/css" href="vendor/dynatable/jquery.dynatable.css" />
+	<link rel="stylesheet" type="text/css" href="vendor/dynatable/jquery.dynatable.css" /> 
 	<link rel="stylesheet" type="text/css" href="vendor/stacktable/stacktable.css" />
 	<link rel="stylesheet" type="text/css" href="vendor/agscore/agscore.css" />
     
@@ -30,7 +30,7 @@
     <script type="text/javascript" src="vendor/cropper/cropper.js"></script>
     <script type="text/javascript" src="vendor/password/password.js"></script>
 	<script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
-	<script src="vendor/stacktable/stacktable.min.js" type="text/javascript"></script>
+	<script src="vendor/stacktable/stacktable.js" type="text/javascript"></script>
 </head>
 <body>
 	<section class="screen current"></section>
@@ -496,7 +496,7 @@
             <h1 class="title">Test</h1>
         </header>
         <section class="body with-foot with-head pad">
-<table id="my-ajax-table2" class="table table-condensed table-bordered">
+<table id="my-ajax-table2" class="table table-condensed">
 <caption><h3>RM0</h3></caption>
 <thead>
 <th>Rank</th>
@@ -518,27 +518,25 @@
 </table>
 
 <script>
-$('#my-ajax-table2').dynatable({
-  features: {
-    paginate: false,
-    sort: false,
-    search: false,
-    perPageSelect: false
-  },
-  dataset: {
-    ajax: true,
-    ajaxUrl: '/ES/comp1/allaround/_search',
-    ajaxOnLoad: true,
-    records: []
-  },
-  inputs: {
-      processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
-    }
-}).bind('dynatable:afterUpdate', processingComplete);
+$.ajax({
+  url: 'dynatable3.json',
+  success: function(data){
+    $('#my-ajax-table2').dynatable({
+      dataset: {
+        records: data
+      },
+      inputs: {
+         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      }
+    });
+  }
+});
 function processingComplete(a)
 {
- $('#my-ajax-table2').stacktable();
+	$("#my-ajax-table2-stacktable-small-only").remove();
+	$('#my-ajax-table2').stacktable();
 }
+
 
 </script>
         </section>
