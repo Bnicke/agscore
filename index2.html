@@ -522,14 +522,24 @@
 $.ajax({
   url: 'dynatable3.json',
   success: function(data){
-    $('#my-ajax-table2').dynatable({
+     (function() {
+      var dynatable = $('#my-ajax-table2').dynatable({
       dataset: {
         records: data
       },
       inputs: {
          processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      },
+      features: {
+         paginate: false
       }
-    }).bind('dynatable:afterUpdate', processingComplete());
+    })
+   .bind('dynatable:afterUpdate', processingComplete())
+   .data('dynatable');
+    $('#dynatable-query-search-my-ajax-table2').keypress( function() {
+	processingComplete();
+    });
+  })();
   }
 });
 function processingComplete(a)
@@ -537,8 +547,6 @@ function processingComplete(a)
 	$("#my-ajax-table2-stacktable-small-only").remove();
 	$('#my-ajax-table2').stacktable();
 }
-
-
 </script>
         </section>
     </script> 
