@@ -500,7 +500,7 @@
 <table id="my-ajax-table2" class="table table-condensed">
 <caption><h3>RM0</h3></caption>
 <thead>
-<th>Rank</th>
+<th data-dynatable-sorts>Rank</th>
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
@@ -519,9 +519,26 @@
 </table>
 
 <script>
+function sortJSON(data, key, way) {
+    return data.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        if (way === '123' ) { return ((x < y) ? -1 : ((x > y) ? 1 : 0)); }
+        if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
+    });
+}
 $.ajax({
-  url: 'dynatable3.json',
-  success: function(data){
+  url: 'dynatable4.json',
+  success: function(data_tmp){
+     var data = sortJSON(data_tmp,'total', '123');
+     var rank = 0;
+     var total = 0;
+     for (var n = 0; n < data.length; n++) {
+	  if ( total < data[n].total ) {
+		rank = n + 1;
+	  } 
+	  total = data[n].total;
+          data[n].rank = rank;
+     }
      (function() {
       var dynatable = $('#my-ajax-table2').dynatable({
       dataset: {
