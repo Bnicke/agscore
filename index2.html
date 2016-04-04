@@ -528,6 +528,9 @@ function sortJSON(data, key, way) {
 }
 $.ajax({
   url: '/ES/comp1/allaround/_search',
+  error: function(){
+	$.mobility.notify('Error fetching scores, is database running?', 'error')
+  },
   success: function(data_tmp){
      var data = new Array();
      for (var i = 0; i < data_tmp.hits.hits.length; i++) {
