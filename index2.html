@@ -527,16 +527,20 @@ function sortJSON(data, key, way) {
     });
 }
 $.ajax({
-  url: 'dynatable4.json',
+  url: '/ES/comp1/allaround/_search',
   success: function(data_tmp){
-     var data = sortJSON(data_tmp,'total', '123');
+     var data = new Array();
+     for (var i = 0; i < data_tmp.hits.hits.length; i++) {
+	data.push(data_tmp.hits.hits[i]._source)
+     }
+     data = sortJSON(data,'total', '123');
      var rank = 0;
      var total = 0;
      for (var n = 0; n < data.length; n++) {
-	  if ( total < data[n].total ) {
-		rank = n + 1;
-	  } 
-	  total = data[n].total;
+ 	  if ( total < data[n].total ) {
+ 		rank = n + 1;
+ 	  } 
+ 	  total = data[n].total;
           data[n].rank = rank;
      }
      (function() {
