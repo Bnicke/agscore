@@ -533,15 +533,15 @@ $.ajax({
      for (var i = 0; i < data_tmp.hits.hits.length; i++) {
 	data.push(data_tmp.hits.hits[i]._source)
      }
-     data = sortJSON(data,'total', '123');
+     data = sortJSON(data,'total', '321');
      var rank = 0;
-     var total = 0;
+     var total = 1000000;
      for (var n = 0; n < data.length; n++) {
- 	  if ( total < data[n].total ) {
- 		rank = n; 
+ 	  if ( total > data[n].total ) {
+ 		rank = n + 1; 
  	  } 
  	  total = data[n].total;
-          data[n].rank = rank + 1;
+          data[n].rank = rank;
      }
      (function() {
       var dynatable = $('#my-ajax-table2').dynatable({
