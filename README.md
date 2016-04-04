@@ -22,7 +22,7 @@ ProxyPassReverse /ES http://127.0.0.1:9200
 ```
 
 ### elastic
-Indexes for elastic search are /<competition>/<Apparatus>/<startnumber>.. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/pommelHorse/3 
+Indexes for elastic search are `/<competition>/<Apparatus>/<startnumber>`.. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/pommelHorse/3 
 
 #### Ex. storing a score:
 curl -XPUT http://localhost:9200/comp1/allaround/18 -d'{"number": 18, "gymnast": "Albin Bergström","born": 1999,"club": "KFUM Gymnastikavdelningar","rules": "Öppet Pr.","floor": 10.00,"pommelHorse": 9.20,"rings": 8.10,"vault": 13.25,"parallellBars": 8.00,"highBar": 8.50,"total": 57.05}'
