@@ -1,27 +1,7 @@
 # agscore
 # Dummy files to start up.
 # agscore 0.1
-#httpd.conf:
-ProxyRequests Off
-ProxyPass /ES http://127.0.0.1:9200
-ProxyPassReverse /ES http://127.0.0.1:9200
-
-# put example data in elastic
-curl -XPUT 'http://localhost:9200/comp1/allaround/3' -d'{
-"number": 3,
-"gymnast": "Albin Bergstr&ouml;m",
-"born": 2008,
-"club": "KFUM Gymnastikavdelningar",
-"rules": "RM0 bas",
-"floor": "11,40",
-"pommelHorse": "12,05",
-"rings": "12,25",
-"vault": "12,40 (12,40+12,40)/2",
-"parallellBars": "12,10",
-"highBar": "11,30",
-"total": 71.50
-}'
-
+# References:
 
 Mobility UI:
 https://github.com/cblanquera/mobility
@@ -29,6 +9,30 @@ https://github.com/cblanquera/mobility
 Dynatable:
 https://github.com/alfajango/jquery-dynatable
 https://www.dynatable.com/
+
+Stacktable.js:
+https://github.com/johnpolacek/stacktable.js/
+
+#httpd.conf:
+ProxyRequests Off
+ProxyPass /ES http://127.0.0.1:9200
+ProxyPassReverse /ES http://127.0.0.1:9200
+
+Indexes for elastic search are /<competition>/<Apparatus>/<startnumber>.. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/pommelHorse/3 
+
+Ex. storing a score:
+curl -XPUT http://localhost:9200/comp1/allaround/18 -d'{"number": 18, "gymnast": "Albin Bergström","born": 1999,"club": "KFUM Gymnastikavdelningar","rules": "Öppet Pr.","floor": 10.00,"pommelHorse": 9.20,"rings": 8.10,"vault": 13.25,"parallellBars": 8.00,"highBar": 8.50,"total": 57.05}'
+or
+curl -XPUT http://localhost:9200/comp1/pommelHorse/18 -d'{"number": 18, "gymnast": "Albin Bergström","born": 1999,"club": "KFUM Gymnastikavdelningar","rules": "Öppet Pr.", "pen": 0, "d": 2.7, "e1": 3.5, "e2": 3.5, "avgE": 3.5, "base": 10, "e": 6.5, "total" : 9.20 }'
+
+Delete a score:
+curl -XDELETE http://localhost:9200/comp1/allaround/18
+
+View a score:
+curl http://localhost:9200/comp1/allaround/18
+
+
+
 
 Stacktable.js:
 https://github.com/johnpolacek/stacktable.js/
