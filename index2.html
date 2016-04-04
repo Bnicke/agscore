@@ -41,6 +41,7 @@ function sortJSON(data, key, way) {
     });
 }
 function processingComplete(table) {
+	$(table + " td:contains('undefined')").html('-');
 	$(table + "-stacktable-small-only").remove();
 	$(table).stacktable();
 }
