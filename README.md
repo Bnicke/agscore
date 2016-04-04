@@ -15,7 +15,8 @@ https://github.com/johnpolacek/stacktable.js/
 
 ### Config
 ####httpd.conf:
-```ProxyRequests Off
+```
+ProxyRequests Off
 ProxyPass /ES http://127.0.0.1:9200
 ProxyPassReverse /ES http://127.0.0.1:9200
 ```
@@ -39,7 +40,8 @@ curl http://localhost:9200/comp1/allaround/18
 
 
 ###Convert allaround from old agscore
-```for i in `cat file | awk '{print $2}'`; do
+```
+for i in `cat file | awk '{print $2}'`; do
 	row=`cat test2 |  sed 's/,/./g' | grep -P "^.*\t$i " | awk -F'\t' '{print $2"\",\"born\": " $3",\"club\": \"" $4"\",\"rules\": \"" $5"\",\"floor\": " $6",\"pomme
 lHorse\": " $7",\"rings\": " $8",\"vault\": " $9",\"parallellBars\": " $10",\"highBar\": " $11",\"total\": " $12"}"'} | cut -f 1 -d ' ' --complement` 
 	echo "curl -XPUT http://localhost:9200/comp1/allaround/$i -d'{\"number\": "$i", \"gymnast\": \""$row\'
