@@ -1,43 +1,50 @@
 # agscore
-# Dummy files to start up.
-# agscore 0.1
-# References:
+#### Dummy files to start up.
+#### agscore 0.1
+## References:
 
-Mobility UI:
+####Mobility UI:
 https://github.com/cblanquera/mobility
 
-Dynatable:
+####Dynatable:
 https://github.com/alfajango/jquery-dynatable
 https://www.dynatable.com/
 
-Stacktable.js:
+####Stacktable.js:
 https://github.com/johnpolacek/stacktable.js/
 
-#httpd.conf:
+### Config
+####httpd.conf:
+<code>
 ProxyRequests Off
 ProxyPass /ES http://127.0.0.1:9200
 ProxyPassReverse /ES http://127.0.0.1:9200
+<code>
 
+### elastic
 Indexes for elastic search are /<competition>/<Apparatus>/<startnumber>.. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/pommelHorse/3 
 
-Ex. storing a score:
+#### Ex. storing a score:
 curl -XPUT http://localhost:9200/comp1/allaround/18 -d'{"number": 18, "gymnast": "Albin Bergström","born": 1999,"club": "KFUM Gymnastikavdelningar","rules": "Öppet Pr.","floor": 10.00,"pommelHorse": 9.20,"rings": 8.10,"vault": 13.25,"parallellBars": 8.00,"highBar": 8.50,"total": 57.05}'
+
 or
+
+
 curl -XPUT http://localhost:9200/comp1/pommelHorse/18 -d'{"number": 18, "gymnast": "Albin Bergström","born": 1999,"club": "KFUM Gymnastikavdelningar","rules": "Öppet Pr.", "pen": 0, "d": 2.7, "e1": 3.5, "e2": 3.5, "avgE": 3.5, "base": 10, "e": 6.5, "total" : 9.20 }'
 
-Delete a score:
+####Delete a score:
 curl -XDELETE http://localhost:9200/comp1/allaround/18
 
-View a score:
+####View a score:
 curl http://localhost:9200/comp1/allaround/18
 
 
 
-#Convert allaround from old agscore
-
+###Convert allaround from old agscore
+<code>
 for i in `cat file | awk '{print $2}'`; do
 	row=`cat test2 |  sed 's/,/./g' | grep -P "^.*\t$i " | awk -F'\t' '{print $2"\",\"born\": " $3",\"club\": \"" $4"\",\"rules\": \"" $5"\",\"floor\": " $6",\"pomme
 lHorse\": " $7",\"rings\": " $8",\"vault\": " $9",\"parallellBars\": " $10",\"highBar\": " $11",\"total\": " $12"}"'} | cut -f 1 -d ' ' --complement` 
 	echo "curl -XPUT http://localhost:9200/comp1/allaround/$i -d'{\"number\": "$i", \"gymnast\": \""$row\'
 done
-
+</code>
