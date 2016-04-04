@@ -538,10 +538,10 @@ $.ajax({
      var total = 0;
      for (var n = 0; n < data.length; n++) {
  	  if ( total < data[n].total ) {
- 		rank = n + 1;
+ 		rank = n; 
  	  } 
  	  total = data[n].total;
-          data[n].rank = rank;
+          data[n].rank = rank + 1;
      }
      (function() {
       var dynatable = $('#my-ajax-table2').dynatable({
