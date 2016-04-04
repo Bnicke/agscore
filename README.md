@@ -1,7 +1,7 @@
 # agscore
 # Dummy files to start up.
 # agscore 0.1
-httpd.conf:
+#httpd.conf:
 ProxyRequests Off
 ProxyPass /ES http://127.0.0.1:9200
 ProxyPassReverse /ES http://127.0.0.1:9200
@@ -21,3 +21,7 @@ curl -XPUT 'http://localhost:9200/comp1/allaround/3' -d'{
 "highBar": "11,30",
 "total": 71.50
 }'
+
+
+Mobility doc:
+https://github.com/cblanquera/mobility
