@@ -21,7 +21,6 @@ Download Elastic search from https://www.elastic.co/downloads/elasticsearch
   cd elasticsearch-2.2.1/bin
   ./elasticsearch
 ```
-
 Install apache:
 ```
  sudo aptitude install -y libapache2-mod-proxy-html libxml2-dev
