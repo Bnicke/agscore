@@ -107,6 +107,7 @@ $('#' + table + '-search-class').change( function(e) {
   } else {
     dynatable.queries.add("class",value);
   }
+  setTimeout(function() {processingComplete("#" + table);}, 100);
   dynatable.process();
 });
   })();
@@ -579,9 +580,12 @@ $('#' + table + '-search-class').change( function(e) {
             <h1 class="title">Test</h1>
         </header>
         <section class="body with-foot with-head pad">
-Class: <select id="allaround-table-search-class" name="allaround-table-class">
-  <option></option>
-</select>
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="allaround-table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
 <table id="allaround-table" class="table table-condensed">
 <thead>
 <th>Class</th>
@@ -614,8 +618,15 @@ drawgymtable("/ES/comp1/allaround/_search","allaround-table");
             <h1 class="title">Test</h1>
         </header>
         <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="pommelHorse-table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
 <table id="pommelHorse-table" class="table table-condensed">
 <thead>
+<th>Class</th>
 <th>Rank</th>
 <th>Number</th>
 <th>Gymnast</th>

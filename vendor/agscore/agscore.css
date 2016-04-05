@@ -8,4 +8,28 @@ th a:hover {
   color: #666;
   text-decoration: underline;
 }
-
+.dynatable-search {
+    background-color: #FFFFFF;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    cursor: pointer;
+    display: table;
+    font-size: 12pt;
+    margin-bottom: 16px;
+    padding: 13px 16px;
+    width: 100%;
+    white-space: nowrap;
+}
+.dynatable-search input[type="search"] {
+    -webkit-box-shadow: none;
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    display: inline-block;
+    font-size: inherit;
+    height: auto;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    width: 100%;
+}
