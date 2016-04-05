@@ -14,6 +14,20 @@ https://www.dynatable.com/
 https://github.com/johnpolacek/stacktable.js/
 
 ### Config
+#### Install 
+Download Elastic search from https://www.elastic.co/downloads/elasticsearch
+```
+  unzip  elasticsearch-2.2.1.zip 
+  cd elasticsearch-2.2.1/bin
+  ./elasticsearch
+```
+
+Install apache:
+```
+ sudo aptitude install -y libapache2-mod-proxy-html libxml2-dev
+ sudo apt-get install libapache2-mod-proxy-html libxml2-dev
+ sudo a2enmod (use *proxy* as wildcard when prompted)
+```
 ####httpd.conf:
 ```
 ProxyRequests Off
