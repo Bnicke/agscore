@@ -57,15 +57,35 @@ $.ajax({
 	data.push(data_tmp.hits.hits[i]._source)
      }
      data = sortJSON(data,'total', '321');
+     data = sortJSON(data,'class', '123');
      var rank = 0;
+     var last_rank = 0;
      var total = 1000000;
+     var klass = 'NONE';
+     var classOptions = new Array();
      for (var n = 0; n < data.length; n++) {
+	  if ( klass != data[n].class ) {
+		rank = 1;
+     		last_rank = 0;
+		classOptions.push(data[n].class);
+	  }
  	  if ( total > data[n].total ) {
- 		rank = n + 1; 
+ 		rank = last_rank + 1; 
  	  } 
  	  total = data[n].total;
           data[n].rank = rank;
+	  klass = data[n].class;
+	  last_rank = last_rank + 1;
      }
+     var $el = $("#" + table + "-search-class");
+     $('#' + table + '-search-class option:gt(0)').remove();
+      for (var i = 0; i < classOptions.length; i++) {
+//	n = i + 1;
+ 	$el.append($("<option></option>")
+        .attr("value", classOptions[i] ).text(classOptions[i]));
+	console.log(classOptions[i]);
+	console.log("Option " + n);
+      }
      (function() {
       var dynatable = $('#' + table).dynatable({
       dataset: {
@@ -83,6 +103,15 @@ $.ajax({
     $('#dynatable-query-search-' + table).keypress( function() {
 	processingComplete("#" + table);
     });
+$('#' + table + '-search-class').change( function() {
+  var value = $(this).val();
+  if (value === "") {
+    dynatable.queries.remove("class");
+  } else {
+    dynatable.queries.add("class",value);
+  }
+  dynatable.process();
+});
   })();
   }
 });
@@ -553,10 +582,13 @@ $.ajax({
             <h1 class="title">Test</h1>
         </header>
         <section class="body with-foot with-head pad">
+Class: <select id="allaround-table-search-class" name="allaround-table-class">
+  <option></option>
+</select>
 <table id="allaround-table" class="table table-condensed">
-<caption><h3>RM0</h3></caption>
 <thead>
 <th>Rank</th>
+<th>Class</th>
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
