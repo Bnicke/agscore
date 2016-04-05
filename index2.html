@@ -43,7 +43,7 @@ function sortJSON(data, key, way) {
 function processingComplete(table) {
 	$(table + " td:contains('undefined')").html('-');
 	$(table + "-stacktable-small-only").remove();
-	$(table).stacktable();
+	$(table).stacktable({headIndex:1});
 }
 function drawgymtable(ESurl,table) {
 $.ajax({
@@ -80,11 +80,8 @@ $.ajax({
      var $el = $("#" + table + "-search-class");
      $('#' + table + '-search-class option:gt(0)').remove();
       for (var i = 0; i < classOptions.length; i++) {
-//	n = i + 1;
  	$el.append($("<option></option>")
         .attr("value", classOptions[i] ).text(classOptions[i]));
-	console.log(classOptions[i]);
-	console.log("Option " + n);
       }
      (function() {
       var dynatable = $('#' + table).dynatable({
@@ -103,7 +100,7 @@ $.ajax({
     $('#dynatable-query-search-' + table).keypress( function() {
 	processingComplete("#" + table);
     });
-$('#' + table + '-search-class').change( function() {
+$('#' + table + '-search-class').change( function(e) {
   var value = $(this).val();
   if (value === "") {
     dynatable.queries.remove("class");
@@ -587,8 +584,8 @@ Class: <select id="allaround-table-search-class" name="allaround-table-class">
 </select>
 <table id="allaround-table" class="table table-condensed">
 <thead>
-<th>Rank</th>
 <th>Class</th>
+<th>Rank</th>
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
