@@ -38,6 +38,6 @@ th a:hover {
     position: relative;
     top: -7px;
 }
-input[type="number"] {
-   width:54px;
-}
+#input[type="number"] {
+#   width:54px;
+#}

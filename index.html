@@ -69,6 +69,7 @@ function agcalculate(part,number,agtable) {
     var E3 = $("#" + table + " :input[name='e3_"+number+"']").val();
     var E4 = $("#" + table + " :input[name='e4_"+number+"']").val();
     var D = $("#" + table + " :input[name='d_"+number+"']").val();
+    var curr = "";
     Utg = Utg.replace(",",".");
     Pen = Pen.replace(",",".");
     E1 = E1.replace(",",".");
@@ -84,17 +85,6 @@ function agcalculate(part,number,agtable) {
     $("#" + hidetable + " :input[name='e4_"+number+"']").val(E4);
     $("#" + hidetable + " :input[name='d_"+number+"']").val(D);
 
-
-  //  $("#pommelHorse_table-stacktable-small-only :input[name='e1_18']").val();
-  //  $("#pommelHorse_table :input[name='e1_18']").val();
-//    var Utg = $('#base_' + number).val().replace(",",".");
- //   var Pen = $('#pen_' + number).val().replace(",",".");
-  //  var E1 = $('#e1_' + number).val().replace(",",".");
-  //  var E2 = $('#e2_' + number).val().replace(",",".");
-  //  var E3 = $('#e3_' + number).val().replace(",",".");
-  //  var E4 = $('#e4_' + number).val().replace(",",".");
-  //  var D = $('#d_' + number).val().replace(",",".");
-//
     if (!isNumber(Utg)) {
         Utg="0";
     }
@@ -145,11 +135,11 @@ function agcalculate(part,number,agtable) {
 }
 function inputreg (part,agnumber,agvalue,agtable) {
 	if (( part == 'avgE' ) || (part == 'e' )) {
-		return '<input readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="10" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	} else if ( part == 'total' ) {
-		return '<input readonly onchange="alert(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="20" readonly onchange="alert(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	} else {
-		return '<input onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="10" onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	}
 }
 function drawgymtable(ESurl,table,type) {
