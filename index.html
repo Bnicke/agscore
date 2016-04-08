@@ -45,7 +45,114 @@ function processingComplete(table) {
 	$(table + "-stacktable-small-only").remove();
 	$(table).stacktable({headIndex:1});
 }
-function drawgymtable(ESurl,table) {
+function isNumber(value) {
+    if ((undefined === value) || (null === value) || ("" == value)) {
+        return false;
+    }
+    if (typeof value == 'number') {
+        return true;
+    }
+    return !isNaN(value - 0);
+}
+function agcalculate(part,number,agtable) {
+    if ( $(window).width() > 900 ) {
+	table = agtable;
+	hidetable = agtable + '-stacktable-small-only';
+    } else {
+	table = agtable + '-stacktable-small-only';
+	hidetable = agtable;
+    }
+    var Utg = $("#" + table + " :input[name='base_"+number+"']").val();
+    var Pen = $("#" + table + " :input[name='pen_"+number+"']").val();
+    var E1 = $("#" + table + " :input[name='e1_"+number+"']").val();
+    var E2 = $("#" + table + " :input[name='e2_"+number+"']").val();
+    var E3 = $("#" + table + " :input[name='e3_"+number+"']").val();
+    var E4 = $("#" + table + " :input[name='e4_"+number+"']").val();
+    var D = $("#" + table + " :input[name='d_"+number+"']").val();
+    Utg = Utg.replace(",",".");
+    Pen = Pen.replace(",",".");
+    E1 = E1.replace(",",".");
+    E2 = E2.replace(",",".");
+    E3 = E4.replace(",",".");
+    E4 = E4.replace(",",".");
+    D = D.replace(",",".");
+    $("#" + hidetable + " :input[name='base_"+number+"']").val(Utg);
+    $("#" + hidetable + " :input[name='pen_"+number+"']").val(Pen);
+    $("#" + hidetable + " :input[name='e1_"+number+"']").val(E1);
+    $("#" + hidetable + " :input[name='e2_"+number+"']").val(E2);
+    $("#" + hidetable + " :input[name='e3_"+number+"']").val(E3);
+    $("#" + hidetable + " :input[name='e4_"+number+"']").val(E4);
+    $("#" + hidetable + " :input[name='d_"+number+"']").val(D);
+
+
+  //  $("#pommelHorse_table-stacktable-small-only :input[name='e1_18']").val();
+  //  $("#pommelHorse_table :input[name='e1_18']").val();
+//    var Utg = $('#base_' + number).val().replace(",",".");
+ //   var Pen = $('#pen_' + number).val().replace(",",".");
+  //  var E1 = $('#e1_' + number).val().replace(",",".");
+  //  var E2 = $('#e2_' + number).val().replace(",",".");
+  //  var E3 = $('#e3_' + number).val().replace(",",".");
+  //  var E4 = $('#e4_' + number).val().replace(",",".");
+  //  var D = $('#d_' + number).val().replace(",",".");
+//
+    if (!isNumber(Utg)) {
+        Utg="0";
+    }
+    if (!isNumber(D)) {
+        D="0";
+    }
+    if (!isNumber(Pen)) {
+        Pen="0";
+    }
+    if (!isNumber(E1)) {
+        E1="0";
+    }
+    if (!isNumber(E2)) {
+        E2=E1;
+    }
+    if (!isNumber(E4)) {
+        if (!isNumber(E3)) {
+                E3=E1;
+                E4=E2;
+        } else {
+                E4 = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) -  parseFloat(Math.max(E1,E2,E3)) -  parseFloat(Math.min(E1,E2,E3)));
+                E1 = E4;
+                E2 = E4;
+                E3 = E4;
+        }
+    }   else {
+                E4 = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4) -  parseFloat(Math.max(E1,E2,E3,E4)) -  parseFloat(Math.min(E1,E2,E3,E4)))/2;
+                E1 = E4;
+                E2 = E4;
+                E3 = E4;
+
+    }
+    var avgE = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4))/4;
+    //$('#avgE_' + number).val(avgE.toFixed(2));
+    $("#" + hidetable + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
+    $("#" + table + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
+    var E = Utg-avgE;
+    //$('#e_' + number).val(E.toFixed(2));
+    $("#" + hidetable + " :input[name='e_"+number+"']").val(E.toFixed(2));
+    $("#" + table + " :input[name='e_"+number+"']").val(E.toFixed(2));
+    var total=parseFloat(Utg)+parseFloat(D)-parseFloat(Pen)-parseFloat(avgE);
+    //$('#total_' + number).val(total.toFixed(2));
+    $("#" + hidetable + " :input[name='total_"+number+"']").val(total.toFixed(2));
+    $("#" + table + " :input[name='total_"+number+"']").val(total.toFixed(2));
+    if ((E1 > 5) || (E1 < 0) || (E2 > 5) || (E2 < 0) || (E3 > 5) || (E3 < 0) || (E4 > 5) || (E4 < 0) || (D > 6) || (D < 0) || (Pen > 4) || (Pen < 0) || ( Utg > 10 ) || (Utg < 3)) {
+	$.mobility.notify('An abnormally high or low point registered, please validate your input.', 'warning');
+    }
+}
+function inputreg (part,agnumber,agvalue,agtable) {
+	if (( part == 'avgE' ) || (part == 'e' )) {
+		return '<input readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+	} else if ( part == 'total' ) {
+		return '<input readonly onchange="alert(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+	} else {
+		return '<input onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+	}
+}
+function drawgymtable(ESurl,table,type) {
 $.ajax({
   url: ESurl,
   error: function(){
@@ -56,18 +163,41 @@ $.ajax({
      for (var i = 0; i < data_tmp.hits.hits.length; i++) {
 	data.push(data_tmp.hits.hits[i]._source)
      }
-     data = sortJSON(data,'total', '321');
-     data = sortJSON(data,'class', '123');
      var rank = 0;
      var last_rank = 0;
      var total = 1000000;
      var klass = 'NONE';
-     var classOptions = new Array();
-     for (var n = 0; n < data.length; n++) {
+     var pool = 'NONE';
+     var Options = new Array();
+     if (type == "reg") {
+     	data = sortJSON(data,'number', '123');
+     	data = sortJSON(data,'pool', '123');
+	for (var n = 0; n < data.length; n++) {
+		if ( pool != data[n].class ) {
+			Options.push(data[n].class);
+		}
+		data[n].pen = inputreg("pen",data[n].number,data[n].pen,table);
+		data[n].d = inputreg("d",data[n].number,data[n].d,table);
+		data[n].e1 = inputreg("e1",data[n].number,data[n].e1,table);
+		data[n].e2 = inputreg("e2",data[n].number,data[n].e2,table);
+		data[n].e3 = inputreg("e3",data[n].number,data[n].e3,table);
+		data[n].e4 = inputreg("e4",data[n].number,data[n].e4,table);
+		data[n].base = inputreg("base",data[n].number,data[n].base,table);
+		data[n].avgE = inputreg("avgE",data[n].number,data[n].avgE,table);
+		data[n].e = inputreg("e",data[n].number,data[n].e,table);
+		data[n].total = inputreg("total",data[n].number,data[n].total,table);
+		data[n].club = data[n].club.substring(0,8)
+		pool = data[n].class;
+	}
+       var $el = $("#" + table + "-search-pool");
+     } else {
+     	data = sortJSON(data,'total', '321');
+     	data = sortJSON(data,'class', '123');
+     	for (var n = 0; n < data.length; n++) {
 	  if ( klass != data[n].class ) {
 		rank = 1;
      		last_rank = 0;
-		classOptions.push(data[n].class);
+		Options.push(data[n].class);
 	  }
  	  if ( total > data[n].total ) {
  		rank = last_rank + 1; 
@@ -76,12 +206,13 @@ $.ajax({
           data[n].rank = rank;
 	  klass = data[n].class;
 	  last_rank = last_rank + 1;
+     	}
+       var $el = $("#" + table + "-search-class");
      }
-     var $el = $("#" + table + "-search-class");
      $('#' + table + '-search-class option:gt(0)').remove();
-      for (var i = 0; i < classOptions.length; i++) {
+      for (var i = 0; i < Options.length; i++) {
  	$el.append($("<option></option>")
-        .attr("value", classOptions[i] ).text(classOptions[i]));
+        .attr("value", Options[i] ).text(Options[i]));
       }
      (function() {
       var dynatable = $('#' + table).dynatable({
@@ -91,9 +222,11 @@ $.ajax({
       inputs: {
          processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
       },
-      features: {
-         paginate: false
-      }
+features: {
+    paginate: false,
+    sort: false,
+    perPageSelect: false
+  }
     })
    .bind('dynatable:afterUpdate', processingComplete("#" + table))
    .data('dynatable');
@@ -244,12 +377,12 @@ $('#' + table + '-search-class').change( function(e) {
         </nav>
 		<h4 class="pad upper">Register Points</h4>
         <nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#none">Floor<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Pommel horse<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Still rings<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#none">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#none">Parallel bars<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#none">High bars<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#REGfloor">Floor<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#REGpommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#REGrings">Still rings<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGvault">Vault<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGparalellBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGhighBar">High bars<i class="fa fa-chevron-right"></i></a>
         </nav>
 		<h4 class="pad upper">Administration</h4>
         <nav class="nav-list">
@@ -285,13 +418,13 @@ $('#' + table + '-search-class').change( function(e) {
         </nav>
 			
             <h4 class="pad upper">Register points</h4>
-	<nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#none">Floor<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Pommel horse<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Still rings<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#none">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#none">Parallel bars<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#none">High bars<i class="fa fa-chevron-right"></i></a>
+        <nav class="nav-list">
+            <a data-do="go-forward" data-on="click" href="#REGfloor">Floor<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#REGpommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#REGrings">Still rings<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGvault">Vault<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGparalellBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGhighBar">High bars<i class="fa fa-chevron-right"></i></a>
         </nav>
 	<h4 class="pad upper">Administration</h4>	
 	<nav class="nav-list">
@@ -309,13 +442,14 @@ $('#' + table + '-search-class').change( function(e) {
         <section class="body with-foot with-head pad">
 <div class="hero" data-do="hero">
   <div class="frame">
-<img src="images/bars.svg" />
-<img src="images/floor.svg" />
-<img src="images/hbars.svg" />
-<img src="images/horse.svg" />
-<img src="images/rings.svg" />
-<img src="images/vault.svg" />
-
+<img src="images/bars.png" \>
+<img src="images/beam.png" \>
+<img src="images/floor.png" \>
+<img src="images/highBar.png" \>
+<img src="images/horse.png" \>
+<img src="images/rings.png" \>
+<img src="images/unevenBars.png" \>
+<img src="images/vault.png" \>
   </div>
 </div>
      </section>
@@ -324,16 +458,16 @@ $('#' + table + '-search-class').change( function(e) {
       <script id="allaround" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">All-around</h1>
+            <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="allaround-table-search-class" class="form-control">
+  <select id="allaround_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="allaround-table" class="table table-condensed">
+<table id="allaround_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -354,7 +488,7 @@ $('#' + table + '-search-class').change( function(e) {
 </table>
 
 <script>
-drawgymtable("/ES/comp1/allaround/_search","allaround-table");
+drawgymtable("/ES/comp1/allaround/_search","allaround_table");
 </script>
         </section>
     </script> 
@@ -362,16 +496,16 @@ drawgymtable("/ES/comp1/allaround/_search","allaround-table");
       <script id="floor" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">Floor</h1>
+            <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="floor-table-search-class" class="form-control">
+  <select id="floor_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="floor-table" class="table table-condensed">
+<table id="floor_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -395,23 +529,23 @@ drawgymtable("/ES/comp1/allaround/_search","allaround-table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/floor/_search","floor-table");
+drawgymtable("/ES/comp1/floor/_search","floor_table");
 </script>
         </section>
     </script>
        <script id="pommelHorse" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">Pommel horse</h1>
+            <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="pommelHorse-table-search-class" class="form-control">
+  <select id="pommelHorse_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="pommelHorse-table" class="table table-condensed">
+<table id="pommelHorse_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -435,7 +569,7 @@ drawgymtable("/ES/comp1/floor/_search","floor-table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse-table");
+drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table");
 </script>
         </section>
  </script>
@@ -443,16 +577,16 @@ drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse-table");
       <script id="rings" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">Rings</h1>
+            <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="rings-table-search-class" class="form-control">
+  <select id="rings_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="rings-table" class="table table-condensed">
+<table id="rings_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -476,23 +610,23 @@ drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse-table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/rings/_search","rings-table");
+drawgymtable("/ES/comp1/rings/_search","rings_table");
 </script>
         </section>
     </script>
       <script id="vault" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">Vault</h1>
+            <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="vault-table-search-class" class="form-control">
+  <select id="vault_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="vault-table" class="table table-condensed">
+<table id="vault_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -516,7 +650,7 @@ drawgymtable("/ES/comp1/rings/_search","rings-table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/vault/_search","vault-table");
+drawgymtable("/ES/comp1/vault/_search","vault_table");
 </script>
   </section>
     </script>
@@ -524,16 +658,16 @@ drawgymtable("/ES/comp1/vault/_search","vault-table");
       <script id="parallelBars" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">Paralell Bars</h1>
+            <h1 class="title"><img src="images/bars.png" \>&nbsp;Paralell Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="paralellBars-table-search-class" class="form-control">
+  <select id="paralellBars_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="paralellBars-table" class="table table-condensed">
+<table id="paralellBars_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -557,7 +691,7 @@ drawgymtable("/ES/comp1/vault/_search","vault-table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/paralellBars/_search","paralellBars-table");
+drawgymtable("/ES/comp1/paralellBars/_search","paralellBars_table");
 </script>
   </section>
     </script>
@@ -565,16 +699,16 @@ drawgymtable("/ES/comp1/paralellBars/_search","paralellBars-table");
       <script id="highBar" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">High bar</h1>
+            <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="highBar-table-search-class" class="form-control">
+  <select id="highBar_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="highBar-table" class="table table-condensed">
+<table id="highBar_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -598,11 +732,253 @@ drawgymtable("/ES/comp1/paralellBars/_search","paralellBars-table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/highBar/_search","highBar-table");
+drawgymtable("/ES/comp1/highBar/_search","highBar_table");
+</script>
+  </section>
+    </script>
+      <script id="REGfloor" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="floor_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="floor_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th>Number</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Club</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/comp1/floor/_search","floor_table");
+</script>
+        </section>
+    </script>
+       <script id="REGpommelHorse" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select pool:</label>
+  <select id="pommelHorse_table-search-pool" class="form-control">
+    <option></option>
+  </select>
+</div>
+<form action="" id="pommelHorse_table_form">
+<table id="pommelHorse_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th data-dynatable-column="number">#</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Club</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+</form>
+<script>
+drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table","reg");
+</script>
+        </section>
+ </script>
+    
+      <script id="REGrings" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="rings_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="rings_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th>Number</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Club</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/comp1/rings/_search","rings_table");
+</script>
+        </section>
+    </script>
+      <script id="REGvault" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="vault_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="vault_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th>Number</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Club</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/comp1/vault/_search","vault_table");
 </script>
   </section>
     </script>
 
+      <script id="REGparallelBars" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/bars.png" \>&nbsp;Paralell Bars</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="paralellBars_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="paralellBars_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th>Number</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Club</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/comp1/paralellBars/_search","paralellBars_table");
+</script>
+  </section>
+    </script>
+
+      <script id="REGhighBar" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="highBar_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="highBar_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th>Number</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Club</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/comp1/highBar/_search","highBar_table");
+</script>
+  </section>
+    </script>
     <script type="text/javascript">
 	//initialize
 	jQuery.mobility.start();

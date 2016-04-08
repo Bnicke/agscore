@@ -31,5 +31,13 @@ th a:hover {
     font-size: inherit;
     height: auto;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    width: 100%;
+    width: 70%;
+}
+.title img {
+    height: 28px;
+    position: relative;
+    top: -7px;
+}
+input[type="number"] {
+   width:54px;
 }
