@@ -33,8 +33,9 @@
 	<script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
 	<script src="vendor/stacktable/stacktable.js" type="text/javascript"></script>
 <script type="text/javascript">
-function sortJSON(data, key, way) {
-    return data.sort(function(a, b) {
+var data = new Array();
+function sortJSON(tosort, key, way) {
+    return tosort.sort(function(a, b) {
         var x = a[key]; var y = b[key];
         if (way === '123' ) { return ((x < y) ? -1 : ((x > y) ? 1 : 0)); }
         if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
@@ -49,12 +50,12 @@ function isNumber(value) {
     if ((undefined === value) || (null === value) || ("" == value)) {
         return false;
     }
-    if (typeof value == 'number') {
+    if ((typeof value == 'number') || ("0" == value)){
         return true;
     }
     return !isNaN(value - 0);
 }
-function agcalculate(part,number,agtable) {
+function agcalculate(part,number,agtable,index) {
     if ( $(window).width() > 900 ) {
 	table = agtable;
 	hidetable = agtable + '-stacktable-small-only';
@@ -62,22 +63,28 @@ function agcalculate(part,number,agtable) {
 	table = agtable + '-stacktable-small-only';
 	hidetable = agtable;
     }
-    var Utg = $("#" + table + " :input[name='base_"+number+"']").val();
+    var Base = $("#" + table + " :input[name='base_"+number+"']").val();
     var Pen = $("#" + table + " :input[name='pen_"+number+"']").val();
     var E1 = $("#" + table + " :input[name='e1_"+number+"']").val();
     var E2 = $("#" + table + " :input[name='e2_"+number+"']").val();
     var E3 = $("#" + table + " :input[name='e3_"+number+"']").val();
     var E4 = $("#" + table + " :input[name='e4_"+number+"']").val();
     var D = $("#" + table + " :input[name='d_"+number+"']").val();
-    var curr = "";
-    Utg = Utg.replace(",",".");
+    Base = Base.replace(",",".");
     Pen = Pen.replace(",",".");
     E1 = E1.replace(",",".");
     E2 = E2.replace(",",".");
     E3 = E4.replace(",",".");
     E4 = E4.replace(",",".");
     D = D.replace(",",".");
-    $("#" + hidetable + " :input[name='base_"+number+"']").val(Utg);
+    data[index].base = inputreg(index,"base",number,Base,agtable);
+    data[index].pen = inputreg(index,"pen",number,Pen,agtable);
+    data[index].e1 = inputreg(index,"e1",number,E1,agtable);
+    data[index].e2 = inputreg(index,"e2",number,E2,agtable);
+    data[index].e3 = inputreg(index,"e3",number,E3,agtable);
+    data[index].e4 = inputreg(index,"e4",number,E4,agtable);
+    data[index].d = inputreg(index,"d",number,D,agtable);
+    $("#" + hidetable + " :input[name='base_"+number+"']").val(Base);
     $("#" + hidetable + " :input[name='pen_"+number+"']").val(Pen);
     $("#" + hidetable + " :input[name='e1_"+number+"']").val(E1);
     $("#" + hidetable + " :input[name='e2_"+number+"']").val(E2);
@@ -85,23 +92,30 @@ function agcalculate(part,number,agtable) {
     $("#" + hidetable + " :input[name='e4_"+number+"']").val(E4);
     $("#" + hidetable + " :input[name='d_"+number+"']").val(D);
 
-    if (!isNumber(Utg)) {
-        Utg="0";
+    if (!isNumber(Base)) {
+	data[index].base = inputreg(index,"base",number,"",agtable);
+        Base="0";
     }
     if (!isNumber(D)) {
+	data[index].d = inputreg(index,"d",number,"",agtable);
         D="0";
     }
     if (!isNumber(Pen)) {
+	data[index].pen = inputreg(index,"pen",number,"",agtable);
         Pen="0";
     }
     if (!isNumber(E1)) {
+	data[index].e1 = inputreg(index,"e1",number,"",agtable);
         E1="0";
     }
     if (!isNumber(E2)) {
+	data[index].e2 = inputreg(index,"e2",number,"",agtable);
         E2=E1;
     }
     if (!isNumber(E4)) {
+	data[index].e4 = inputreg(index,"e4",number,"",agtable);
         if (!isNumber(E3)) {
+		data[index].e3 = inputreg(index,"e3",number,"",agtable);
                 E3=E1;
                 E4=E2;
         } else {
@@ -118,30 +132,81 @@ function agcalculate(part,number,agtable) {
 
     }
     var avgE = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4))/4;
-    //$('#avgE_' + number).val(avgE.toFixed(2));
     $("#" + hidetable + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
     $("#" + table + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
-    var E = Utg-avgE;
-    //$('#e_' + number).val(E.toFixed(2));
+    data[index].avgE = inputreg(index,"avgE",number,avgE.toFixed(2),agtable);
+    var E = Base-avgE;
     $("#" + hidetable + " :input[name='e_"+number+"']").val(E.toFixed(2));
     $("#" + table + " :input[name='e_"+number+"']").val(E.toFixed(2));
-    var total=parseFloat(Utg)+parseFloat(D)-parseFloat(Pen)-parseFloat(avgE);
-    //$('#total_' + number).val(total.toFixed(2));
+    data[index].e = inputreg(index,"e",number,E.toFixed(2),agtable);
+    var total=parseFloat(Base)+parseFloat(D)-parseFloat(Pen)-parseFloat(avgE);
     $("#" + hidetable + " :input[name='total_"+number+"']").val(total.toFixed(2));
     $("#" + table + " :input[name='total_"+number+"']").val(total.toFixed(2));
-    if ((E1 > 5) || (E1 < 0) || (E2 > 5) || (E2 < 0) || (E3 > 5) || (E3 < 0) || (E4 > 5) || (E4 < 0) || (D > 6) || (D < 0) || (Pen > 4) || (Pen < 0) || ( Utg > 10 ) || (Utg < 3)) {
+    data[index].total = inputreg(index,"total",number,total.toFixed(2),agtable);
+    if ((E1 > 5) || (E1 < 0) || (E2 > 5) || (E2 < 0) || (E3 > 5) || (E3 < 0) || (E4 > 5) || (E4 < 0) || (D > 6) || (D < 0) || (Pen > 4) || (Pen < 0) || ( Base > 10 ) || (Base < 3)) {
 	$.mobility.notify('An abnormally high or low point registered, please validate your input.', 'warning');
     }
 }
-function inputreg (part,agnumber,agvalue,agtable) {
+function inputreg (index,part,agnumber,agvalue,agtable) {
+	if (!isNumber(agvalue)) {
+		agvalue = "";
+	}
 	if (( part == 'avgE' ) || (part == 'e' )) {
-		return '<input class="form-control" min="0" max="10" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="10" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	} else if ( part == 'total' ) {
-		return '<input class="form-control" min="0" max="20" readonly onchange="alert(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="20" readonly onchange="alert(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	} else {
-		return '<input class="form-control" min="0" max="10" onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="10" onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	}
 }
+
+function drawdynatable(table) {
+      var datalocal = data;
+      var dynatable = $('#' + table).dynatable({
+      dataset: {
+        records: datalocal
+      },
+      inputs: {
+         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      },
+features: {
+    paginate: false,
+    sort: false,
+    pushState: true,
+    perPageSelect: false
+  }
+    })
+   .bind('dynatable:afterUpdate', processingComplete("#" + table))
+   .data('dynatable');
+    $('#dynatable-query-search-' + table).keypress( function(e) {
+	if(e.which == 13) {
+  	dynatable.records.updateFromJson({records: datalocal});
+  	dynatable.records.init();
+  	dynatable.process();
+	processingComplete("#" + table);
+	}
+    });
+    $('#dynatable-query-search-' + table).focusout( function(e) {
+	setTimeout(function() {processingComplete("#" + table);}, 100);
+        dynatable.records.updateFromJson({records: datalocal});
+        dynatable.records.init();
+        dynatable.process();
+    });
+
+$('#' + table + '-search-class').change( function(e) {
+  var value = $(this).val();
+  if (value === "") {
+    dynatable.queries.remove("class");
+  } else {
+    dynatable.queries.add("class",value);
+  }
+  setTimeout(function() {processingComplete("#" + table);}, 100);
+  dynatable.records.updateFromJson({records: datalocal});
+  dynatable.records.init();
+  dynatable.process();
+});
+  }
+
 function drawgymtable(ESurl,table,type) {
 $.ajax({
   url: ESurl,
@@ -149,7 +214,7 @@ $.ajax({
 	$.mobility.notify('Error fetching scores, is database running?', 'error')
   },
   success: function(data_tmp){
-     var data = new Array();
+     data = [];
      for (var i = 0; i < data_tmp.hits.hits.length; i++) {
 	data.push(data_tmp.hits.hits[i]._source)
      }
@@ -166,20 +231,21 @@ $.ajax({
 		if ( pool != data[n].class ) {
 			Options.push(data[n].class);
 		}
-		data[n].pen = inputreg("pen",data[n].number,data[n].pen,table);
-		data[n].d = inputreg("d",data[n].number,data[n].d,table);
-		data[n].e1 = inputreg("e1",data[n].number,data[n].e1,table);
-		data[n].e2 = inputreg("e2",data[n].number,data[n].e2,table);
-		data[n].e3 = inputreg("e3",data[n].number,data[n].e3,table);
-		data[n].e4 = inputreg("e4",data[n].number,data[n].e4,table);
-		data[n].base = inputreg("base",data[n].number,data[n].base,table);
-		data[n].avgE = inputreg("avgE",data[n].number,data[n].avgE,table);
-		data[n].e = inputreg("e",data[n].number,data[n].e,table);
-		data[n].total = inputreg("total",data[n].number,data[n].total,table);
+		data[n].pen = inputreg(n,"pen",data[n].number,data[n].pen,table);
+		data[n].d = inputreg(n,"d",data[n].number,data[n].d,table);
+		data[n].e1 = inputreg(n,"e1",data[n].number,data[n].e1,table);
+		data[n].e2 = inputreg(n,"e2",data[n].number,data[n].e2,table);
+		data[n].e3 = inputreg(n,"e3",data[n].number,data[n].e3,table);
+		data[n].e4 = inputreg(n,"e4",data[n].number,data[n].e4,table);
+		data[n].base = inputreg(n,"base",data[n].number,data[n].base,table);
+		data[n].avgE = inputreg(n,"avgE",data[n].number,data[n].avgE,table);
+		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
+		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
 		data[n].club = data[n].club.substring(0,8)
 		pool = data[n].class;
 	}
-       var $el = $("#" + table + "-search-pool");
+       var $el = $("#" + table + "-search-class");
+       $('#' + table + '-search-class option:gt(0)').remove();
      } else {
      	data = sortJSON(data,'total', '321');
      	data = sortJSON(data,'class', '123');
@@ -198,41 +264,14 @@ $.ajax({
 	  last_rank = last_rank + 1;
      	}
        var $el = $("#" + table + "-search-class");
+       $('#' + table + '-search-class option:gt(0)').remove();
      }
-     $('#' + table + '-search-class option:gt(0)').remove();
       for (var i = 0; i < Options.length; i++) {
  	$el.append($("<option></option>")
         .attr("value", Options[i] ).text(Options[i]));
       }
      (function() {
-      var dynatable = $('#' + table).dynatable({
-      dataset: {
-        records: data
-      },
-      inputs: {
-         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
-      },
-features: {
-    paginate: false,
-    sort: false,
-    perPageSelect: false
-  }
-    })
-   .bind('dynatable:afterUpdate', processingComplete("#" + table))
-   .data('dynatable');
-    $('#dynatable-query-search-' + table).keypress( function() {
-	processingComplete("#" + table);
-    });
-$('#' + table + '-search-class').change( function(e) {
-  var value = $(this).val();
-  if (value === "") {
-    dynatable.queries.remove("class");
-  } else {
-    dynatable.queries.add("class",value);
-  }
-  setTimeout(function() {processingComplete("#" + table);}, 100);
-  dynatable.process();
-});
+      drawdynatable(table);
   })();
   }
 });
@@ -774,7 +813,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select pool:</label>
-  <select id="pommelHorse_table-search-pool" class="form-control">
+  <select id="pommelHorse_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
