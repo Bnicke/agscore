@@ -56,6 +56,7 @@ function isNumber(value) {
     return !isNaN(value - 0);
 }
 function agcalculate(part,number,agtable,index) {
+    var post=data[index];
     if ( $(window).width() > 900 ) {
 	table = agtable;
 	hidetable = agtable + '-stacktable-small-only';
@@ -70,7 +71,6 @@ function agcalculate(part,number,agtable,index) {
     var E3 = $("#" + table + " :input[name='e3_"+number+"']").val();
     var E4 = $("#" + table + " :input[name='e4_"+number+"']").val();
     var D = $("#" + table + " :input[name='d_"+number+"']").val();
-    console.log("e1=" + E1 + " e2=" + E2 + " e3=" + E3 + " e4=" + E4);
     Base = Base.replace(",",".");
     Pen = Pen.replace(",",".");
     E1 = E1.replace(",",".");
@@ -79,12 +79,19 @@ function agcalculate(part,number,agtable,index) {
     E4 = E4.replace(",",".");
     D = D.replace(",",".");
     data[index].base = inputreg(index,"base",number,Base,agtable);
+    post.base=Base;
     data[index].pen = inputreg(index,"pen",number,Pen,agtable);
+    post.pen = Pen;
     data[index].e1 = inputreg(index,"e1",number,E1,agtable);
+    post.e1 = E1;
     data[index].e2 = inputreg(index,"e2",number,E2,agtable);
+    post.e2 = E2;
     data[index].e3 = inputreg(index,"e3",number,E3,agtable);
+    post.e3 = E3;
     data[index].e4 = inputreg(index,"e4",number,E4,agtable);
+    post.e4 = E4;
     data[index].d = inputreg(index,"d",number,D,agtable);
+    post.d = D;
     $("#" + hidetable + " :input[name='base_"+number+"']").val(Base);
     $("#" + hidetable + " :input[name='pen_"+number+"']").val(Pen);
     $("#" + hidetable + " :input[name='e1_"+number+"']").val(E1);
@@ -114,13 +121,11 @@ function agcalculate(part,number,agtable,index) {
     if (!isNumber(E4)) {
 	E4=(parseFloat(E1) + parseFloat(E2) + parseFloat(E3))/3;	
     }
-//    console.log("e1=" + E1 + " e2=" + E2 + " e3=" + E3 + " e4=" + E4);
-//    console.log("e1=" + parseFloat(E1) + " e2=" + parseFloat(E2) + " e3=" + parseFloat(E3) + " e4=" + parseFloat(E4))
- //   console.log(parseFloat(Math.max(E1,E2,E3,E4)) + " " + parseFloat(Math.min(E1,E2,E3,E4)));
     var avgE = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4) - parseFloat(Math.max(E1,E2,E3,E4)) - parseFloat(Math.min(E1,E2,E3,E4)))/2;
     $("#" + hidetable + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
     $("#" + table + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
     data[index].avgE = inputreg(index,"avgE",number,avgE.toFixed(2),agtable);
+    post.avgE = avgE.toFixed(2);
     var E = Base-avgE;
     if ( E < 0) {
 	E = 0;
@@ -129,13 +134,82 @@ function agcalculate(part,number,agtable,index) {
     $("#" + hidetable + " :input[name='e_"+number+"']").val(E.toFixed(2));
     $("#" + table + " :input[name='e_"+number+"']").val(E.toFixed(2));
     data[index].e = inputreg(index,"e",number,E.toFixed(2),agtable);
+    post.e = E.toFixed(2);
     var total=parseFloat(Base)+parseFloat(D)-parseFloat(Pen)-parseFloat(avgE);
+    if (total < 0) {
+	total = 0;
+    }
     $("#" + hidetable + " :input[name='total_"+number+"']").val(total.toFixed(2));
     $("#" + table + " :input[name='total_"+number+"']").val(total.toFixed(2));
     data[index].total = inputreg(index,"total",number,total.toFixed(2),agtable);
-    if ((E1 > 10) || (E1 < 0) || (E2 > 10) || (E2 < 0) || (E3 > 10) || (E3 < 0) || (E4 > 10) || (E4 < 0) || (D > 8) || (D <= 0) || (Pen > 5) || (Pen < 0) || ( Base > 10 ) || (Base < 3)) {
-	$.mobility.notify('An abnormally high or low point registered, please validate your input.', 'warning');
-    }
+    post.total = total.toFixed(2);
+    var app = agtable.split("_");
+    var notify;
+    var notifytype;
+    $.ajax({
+	'async': false,
+        type: "POST",
+        url: "/ES/comp1/" + app[0] + "/" + post.number,
+        data: JSON.stringify(post),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(s){
+		notify = "Gymnast #" + post.number + " " + app[0] + " updated";
+		notifytype = "success";
+    		if ((E1 > 10) || (E1 < 0) || (E2 > 10) || (E2 < 0) || (E3 > 10) || (E3 < 0) || (E4 > 10) || (E4 < 0) || (D > 8) || (D <= 0) || (Pen > 5) || (Pen < 0) || ( Base > 10 ) || (Base < 3)) {
+			notify = notify + " but an abnormally high or low point registered!";
+			notifytype = "warning";
+        	}
+	console.log("1" + notify + notifytype);
+//    	    $.mobility.notify(notify,notifytype);
+	},
+        error: function(xhr, ajaxOptions, thrownError) {
+		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + app[0] + " for " + post.number;
+		notifytype = "error";
+//		$.mobility.notify("\"" + xhr.status + " " + thrownError + "\" when updating " + post.number,"error");	
+    	}
+    });
+	console.log("2" + notify + notifytype);
+  $.ajax({
+	'async': false,
+        url: "/ES/comp1/allaround/" + post.number,
+  	error: function(xhr, ajaxOptions, thrownError) {
+		notify = notify + " and \"" + xhr.status + " " + thrownError + "\" when fetching allaround scores!";
+		notifytype = "error";
+  	},
+  	success: function(localdata){
+		var js = localdata._source;
+		var localscore=js[app[0]];
+		if (!isNumber(localscore)) {
+                        localscore=0;
+                }
+		var localtotal=js.total;
+		if (!isNumber(localtotal)) {
+			localtotal=0;
+		}
+		localtotal=parseFloat(localtotal)+parseFloat(total)-parseFloat(js[app[0]]);
+		js[app[0]]=parseFloat(total.toFixed(2));
+		js["total"]=parseFloat(localtotal.toFixed(2));
+		
+	        $.ajax({
+		    'async': false,
+	            type: "POST",
+        	    url: "/ES/comp1/allaround/" + post.number,
+	            data: JSON.stringify(js),
+	            contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: function(s){
+			notify = notify  + " and  allaround  updated";
+	            },
+	            error: function(xhr, ajaxOptions, thrownError) {
+				notify = "Gymnast #" + post.number + " allaround updated.";
+				notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.number;
+				notifytype = "error";
+	            }
+	        });
+	}
+     });
+    	    $.mobility.notify(notify,notifytype);
 }
 function inputreg (index,part,agnumber,agvalue,agtable) {
 	if (!isNumber(agvalue)) {
@@ -200,8 +274,8 @@ $('#' + table + '-search-class').change( function(e) {
 function drawgymtable(ESurl,table,type) {
 $.ajax({
   url: ESurl,
-  error: function(){
-	$.mobility.notify('Error fetching scores, is database running?', 'error')
+  error: function(xhr, ajaxOptions, thrownError) {
+                $.mobility.notify("\"" + xhr.status + " " + thrownError + "\" when fetching scores!","error");
   },
   success: function(data_tmp){
      data = [];
