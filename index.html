@@ -32,6 +32,8 @@
     <script type="text/javascript" src="vendor/password/password.js"></script>
 	<script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
 	<script src="vendor/stacktable/stacktable.js" type="text/javascript"></script>
+    <script src="vendor/editable-table/mindmup-editabletable.js"></script>
+    <script src="vendor/editable-table/numeric-input-example.js"></script>
 <script type="text/javascript">
 var data = new Array();
 function sortJSON(tosort, key, way) {
@@ -41,10 +43,18 @@ function sortJSON(tosort, key, way) {
         if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
     });
 }
-function processingComplete(table) {
-	$(table + " td:contains('undefined')").html('-');
+function processingComplete(table,type) {
+	$(table + " td:contains('undefined')").html('');
 	$(table + "-stacktable-small-only").remove();
 	$(table).stacktable({headIndex:1});
+	if (type == "edit") {
+  		$(table).editableTableWidget().numericInputExample().find('td:first').focus();
+  		$('#textAreaEditor').editableTableWidget({editor: $('<textarea>')});
+  		window.prettyPrint && prettyPrint();
+  		$(table + "-stacktable-small-only").editableTableWidget().numericInputExample().find('td:first').focus();
+  		$('#textAreaEditor').editableTableWidget({editor: $('<textarea>')});
+  		window.prettyPrint && prettyPrint();
+	}
 }
 function isNumber(value) {
     if ((undefined === value) || (null === value) || ("" == value)) {
@@ -222,7 +232,7 @@ function inputreg (index,part,agnumber,agvalue,agtable) {
 	}
 }
 
-function drawdynatable(table) {
+function drawdynatable(table,type) {
       var datalocal = data;
       var dynatable = $('#' + table).dynatable({
       dataset: {
@@ -238,31 +248,39 @@ features: {
     perPageSelect: false
   }
     })
-   .bind('dynatable:afterUpdate', processingComplete("#" + table))
+   .bind('dynatable:afterUpdate', processingComplete("#" + table,type))
    .data('dynatable');
     $('#dynatable-query-search-' + table).keypress( function(e) {
 	if(e.which == 13) {
   	dynatable.records.updateFromJson({records: datalocal});
   	dynatable.records.init();
   	dynatable.process();
-	processingComplete("#" + table);
+	processingComplete("#" + table,type);
 	}
     });
     $('#dynatable-query-search-' + table).focusout( function(e) {
-	setTimeout(function() {processingComplete("#" + table);}, 100);
+	setTimeout(function() {processingComplete("#" + table,type);}, 100);
         dynatable.records.updateFromJson({records: datalocal});
         dynatable.records.init();
         dynatable.process();
     });
 
-$('#' + table + '-search-class').change( function(e) {
+if (type = "reg") {
+    var option="class";
+} else if (type = "edit") {
+    var option= "team" ;
+} else {
+    var option= "pool";
+}
+
+$('#' + table + '-search-' + option).change( function(e) {
   var value = $(this).val();
   if (value === "") {
-    dynatable.queries.remove("class");
+    dynatable.queries.remove(option);
   } else {
-    dynatable.queries.add("class",value);
+    dynatable.queries.add(option,value);
   }
-  setTimeout(function() {processingComplete("#" + table);}, 100);
+  setTimeout(function() {processingComplete("#" + table,type);}, 100);
   dynatable.records.updateFromJson({records: datalocal});
   dynatable.records.init();
   dynatable.process();
@@ -291,8 +309,8 @@ $.ajax({
      	data = sortJSON(data,'number', '123');
      	data = sortJSON(data,'pool', '123');
 	for (var n = 0; n < data.length; n++) {
-		if ( pool != data[n].class ) {
-			Options.push(data[n].class);
+		if ( pool != data[n].pool ) {
+			Options.push(data[n].pool);
 		}
 		data[n].pen = inputreg(n,"pen",data[n].number,data[n].pen,table);
 		data[n].d = inputreg(n,"d",data[n].number,data[n].d,table);
@@ -305,7 +323,18 @@ $.ajax({
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
 		data[n].club = data[n].club.substring(0,8)
-		pool = data[n].class;
+		pool = data[n].pool;
+	}
+       var $el = $("#" + table + "-search-pool");
+       $('#' + table + '-search-pool option:gt(0)').remove();
+     } else if (type == "edit") {
+    	data = sortJSON(data,'number', '123');
+     	data = sortJSON(data,'pool', '123');
+	for (var n = 0; n < data.length; n++) {
+		if ( pool != data[n].pool ) {
+			Options.push(data[n].pool);
+		}
+		pool = data[n].pool;
 	}
        var $el = $("#" + table + "-search-class");
        $('#' + table + '-search-class option:gt(0)').remove();
@@ -334,7 +363,7 @@ $.ajax({
         .attr("value", Options[i] ).text(Options[i]));
       }
      (function() {
-      drawdynatable(table);
+      drawdynatable(table,type);
   })();
   }
 });
@@ -479,7 +508,7 @@ $.ajax({
 		<h4 class="pad upper">Administration</h4>
         <nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Start list<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>
     </aside>
@@ -521,11 +550,46 @@ $.ajax({
 	<h4 class="pad upper">Administration</h4>	
 	<nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Start list<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>	
         </section>
     </script>
+
+       <script id="startList" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title">Start list.</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select team:</label>
+  <select id="allaround_table-search-team" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="startList_table" class="table table-condensed">
+<thead>
+<th>Gymnast</th>
+<th data-dynatable-column="number">Startnumber</th>
+<th>Born</th>
+<th>Team</th>
+<th>Class</th>
+<th>Rules</th>
+<th>Pool</th>
+<th>About</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/comp1/allaround/_search","startList_table","edit");
+</script>
+<input type="number" step="any">
+     </section>
+    </script>
+
        <script id="none" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
@@ -571,7 +635,7 @@ $.ajax({
 <th>Pommel horse</th>
 <th>Rings</th>
 <th>Vault</th>
-<th>Parallell bars</th>
+<th>Parallel bars</th>
 <th>High bar</th>
 <th>Total</th>
 </thead>
@@ -876,7 +940,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select pool:</label>
-  <select id="pommelHorse_table-search-class" class="form-control">
+  <select id="pommelHorse_table-search-pool" class="form-control">
     <option></option>
   </select>
 </div>
