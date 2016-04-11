@@ -161,12 +161,10 @@ function agcalculate(part,number,agtable,index) {
 			notifytype = "warning";
         	}
 	console.log("1" + notify + notifytype);
-//    	    $.mobility.notify(notify,notifytype);
 	},
         error: function(xhr, ajaxOptions, thrownError) {
 		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + app[0] + " for " + post.number;
 		notifytype = "error";
-//		$.mobility.notify("\"" + xhr.status + " " + thrownError + "\" when updating " + post.number,"error");	
     	}
     });
 	console.log("2" + notify + notifytype);
@@ -274,6 +272,7 @@ $('#' + table + '-search-class').change( function(e) {
 function drawgymtable(ESurl,table,type) {
 $.ajax({
   url: ESurl,
+  'async': false,
   error: function(xhr, ajaxOptions, thrownError) {
                 $.mobility.notify("\"" + xhr.status + " " + thrownError + "\" when fetching scores!","error");
   },
@@ -464,7 +463,7 @@ $.ajax({
             <a data-do="go-forward" data-on="click" href="#pommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#rings">Rings<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#vault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#paralellBars">Paralell bars<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#parallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#highBar">High bar<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#allaround">All-around<i class="fa fa-chevron-right"></i></a>
         </nav>
@@ -474,7 +473,7 @@ $.ajax({
             <a data-do="go-forward" data-on="click" href="#REGpommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#REGrings">Still rings<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#REGvault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGparalellBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGparallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#REGhighBar">High bars<i class="fa fa-chevron-right"></i></a>
         </nav>
 		<h4 class="pad upper">Administration</h4>
@@ -516,7 +515,7 @@ $.ajax({
             <a data-do="go-forward" data-on="click" href="#REGpommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#REGrings">Still rings<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#REGvault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGparalellBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
+			<a data-do="go-forward" data-on="click" href="#REGparallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
 			<a data-do="go-forward" data-on="click" href="#REGhighBar">High bars<i class="fa fa-chevron-right"></i></a>
         </nav>
 	<h4 class="pad upper">Administration</h4>	
@@ -567,7 +566,7 @@ $.ajax({
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Floor</th>
 <th>Pommel horse</th>
 <th>Rings</th>
@@ -605,7 +604,7 @@ drawgymtable("/ES/comp1/allaround/_search","allaround_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -645,7 +644,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -686,7 +685,7 @@ drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -726,7 +725,7 @@ drawgymtable("/ES/comp1/rings/_search","rings_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -751,23 +750,23 @@ drawgymtable("/ES/comp1/vault/_search","vault_table");
       <script id="parallelBars" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title"><img src="images/bars.png" \>&nbsp;Paralell Bars</h1>
+            <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="paralellBars_table-search-class" class="form-control">
+  <select id="parallelBars_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="paralellBars_table" class="table table-condensed">
+<table id="parallelBars_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -784,7 +783,7 @@ drawgymtable("/ES/comp1/vault/_search","vault_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/paralellBars/_search","paralellBars_table");
+drawgymtable("/ES/comp1/parallelBars/_search","parallelBars_table");
 </script>
   </section>
     </script>
@@ -808,7 +807,7 @@ drawgymtable("/ES/comp1/paralellBars/_search","paralellBars_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -848,7 +847,7 @@ drawgymtable("/ES/comp1/highBar/_search","highBar_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -888,7 +887,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
 <th data-dynatable-column="number">#</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -929,7 +928,7 @@ drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table","reg");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -969,7 +968,7 @@ drawgymtable("/ES/comp1/rings/_search","rings_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -994,23 +993,23 @@ drawgymtable("/ES/comp1/vault/_search","vault_table");
       <script id="REGparallelBars" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title"><img src="images/bars.png" \>&nbsp;Paralell Bars</h1>
+            <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="paralellBars_table-search-class" class="form-control">
+  <select id="parallelBars_table-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="paralellBars_table" class="table table-condensed">
+<table id="parallelBars_table" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
@@ -1027,7 +1026,7 @@ drawgymtable("/ES/comp1/vault/_search","vault_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/paralellBars/_search","paralellBars_table");
+drawgymtable("/ES/comp1/parallelBars/_search","parallelBars_table");
 </script>
   </section>
     </script>
@@ -1051,7 +1050,7 @@ drawgymtable("/ES/comp1/paralellBars/_search","paralellBars_table");
 <th>Number</th>
 <th>Gymnast</th>
 <th>Born</th>
-<th>Club</th>
+<th>Team</th>
 <th>Pen</th>
 <th>D</th>
 <th>E1</th>
