@@ -13,9 +13,8 @@ https://www.dynatable.com/
 ####Stacktable.js:
 https://github.com/johnpolacek/stacktable.js/
 
-####editable-table.js:
-https://github.com/mindmup/editable-table/blob/master/mindmup-editabletable.js
-http://mindmup.github.io/editable-table/
+#### easyautocomplete
+http://easyautocomplete.com/examples
 
 ### Config
 #### Install 
