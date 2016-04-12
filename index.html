@@ -43,6 +43,13 @@ function sortJSON(tosort, key, way) {
         if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
     });
 }
+function camelize(str) {
+  str = str.replace(/[^a-zA-Z0-9 ]+/g, "");
+  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+    return index == 0 ? match.toLowerCase() : match.toUpperCase();
+  });
+}
 function processingComplete(table,type) {
 	$(table + " td:contains('undefined')").html('');
 	$(table + "-stacktable-small-only").remove();
@@ -56,6 +63,55 @@ function isNumber(value) {
         return true;
     }
     return !isNaN(value - 0);
+}
+function agupdate(part,index,agtable) {
+    var post = data[index];
+    if ( $(window).width() > 900 ) {
+        table = agtable;
+        hidetable = agtable + '-stacktable-small-only';
+    } else {
+        table = agtable + '-stacktable-small-only';
+        hidetable = agtable;
+    }
+	var gymnast = $("#" + table + " :input[id='gymnast_"+index+"']").val();
+	var number = $("#" + table + " :input[id='number_"+index+"']").val();
+	var born = $("#" + table + " :input[id='born_"+index+"']").val();
+	var team = $("#" + table + " :input[id='team_"+index+"']").val();
+	var klass = $("#" + table + " :input[id='class_"+index+"']").val();
+	var rules = $("#" + table + " :input[id='rules_"+index+"']").val();
+	var pool = $("#" + table + " :input[id='pool_"+index+"']").val();
+	var about = $("#" + table + " :input[id='about_"+index+"']").val();
+	var currvalue = $("#" + table + " :input[id='"+part+"_"+index+"']").val();
+	var id = camelize(gymnast + " " + team);
+	if (isNumber(number) && (id.length > 6) && (camelize(team).length > 1) && (klass.length > 1) && (pool.length > 0)) {
+		post.gymnast = gymnast;
+		post.number = number;
+		post.born = born;
+		post.team = team;
+		post.class = klass;
+		post.rules = rules;
+		post.pool = pool;
+		post.about = about;
+    		var notify;
+    		var notifytype;
+    		$.ajax({
+		        'async': false,
+		        type: "POST",
+		        url: "/ES/comp1/startList/" + id,
+		        data: JSON.stringify(post),
+		        contentType: "application/json; charset=utf-8",
+		        dataType: "json",
+		        success: function(s){
+		                notify = "Gymnast " + gymnast + " updated!";
+		                notifytype = "success";
+                	},
+        		error: function(xhr, ajaxOptions, thrownError) {
+                		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + gymnast;
+                		notifytype = "error";
+        		}
+    		});
+		$.mobility.notify(notify,notifytype);	
+	}
 }
 function agcalculate(part,number,agtable,index) {
     var post=data[index];
@@ -162,14 +218,13 @@ function agcalculate(part,number,agtable,index) {
 			notify = notify + " but an abnormally high or low point registered!";
 			notifytype = "warning";
         	}
-	console.log("1" + notify + notifytype);
+	//console.log("1" + notify + notifytype);
 	},
         error: function(xhr, ajaxOptions, thrownError) {
 		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + app[0] + " for " + post.number;
 		notifytype = "error";
     	}
     });
-	console.log("2" + notify + notifytype);
   $.ajax({
 	'async': false,
         url: "/ES/comp1/allaround/" + post.number,
@@ -227,10 +282,20 @@ function inputreg (index,part,agnumber,agvalue,agtable) {
 function startlistedit (index,part,agvalue,agtable) {
 	 if (agvalue === undefined) {
 	 	var value="";
+		agvalue="";
 	} else {
 	 	var value='value="' + agvalue + '"';
 	}
-	return '<input id="' + part + '_' + index + '"type="text" class="form-control" placeholder="Type.." ' + value + ' autocomplete="off" />';
+	if (part == "gymnast") {
+		var placeholder='placeholder="New.."';
+	} else if ((part == "team") || (part == "class") || (part == "rules")){
+		var placeholder='placeholder="Start typing.."';
+	} 
+	if (part == "about") {
+		return '<textarea onchange="agupdate(\'' + part + '\',\'' + index + '\',\'' + agtable + '\');" id="' + part + '_' + index + '" class="form-control" rows="2" placeholder="Enter Text">' + agvalue + '</textarea>';
+	} else {
+		return '<input onchange="agupdate(\'' + part + '\',\'' + index + '\',\'' + agtable + '\');" id="' + part + '_' + index + '" type="text" class="form-control" ' + placeholder + '" ' + value + ' autocomplete="off" />';
+	}
 }
 
 function drawdynatable(table,type) {
@@ -331,6 +396,7 @@ $.ajax({
      } else if (type == "edit") {
     	data = sortJSON(data,'number', '123');
      	data = sortJSON(data,'pool', '123');
+        data.push(JSON.parse('{"number": "","gymnast": "", "pool": "" }'));
 	for (var n = 0; n < data.length; n++) {
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
@@ -342,7 +408,7 @@ $.ajax({
 		data[n].pool = startlistedit(n,"pool",data[n].pool,table);
 		data[n].born = startlistedit(n,"born",data[n].born,table);
 		data[n].class = startlistedit(n,"class",data[n].class,table);
-		data[n].rules = startlistedit(n,"class",data[n].rules,table);
+		data[n].rules = startlistedit(n,"rules",data[n].rules,table);
 		data[n].about = startlistedit(n,"about",data[n].about,table);
 	}
        var $el = $("#" + table + "-search-class");
@@ -579,45 +645,44 @@ $.ajax({
 </div>
 <table id="startList_table" class="table table-condensed">
 <thead>
-<th>Gymnast</th>
-<th data-dynatable-column="number">Startnumber</th>
+<th data-dynatable-column="gymnast">Gymnast*</th>
+<th data-dynatable-column="number">Start number</th>
 <th>Born</th>
-<th>Team</th>
-<th>Class</th>
+<th data-dynatable-column="team">Team*</th>
+<th data-dynatable-column="class">Class*</th>
 <th>Rules</th>
-<th>Pool</th>
+<th data-dynatable-column="pool">Pool*</th>
 <th>About</th>
 </thead>
  <tbody>
  </tbody>
 </table>
+<div class="focus">
+<p>
+* Manadory, gymnast will not be updated until filled in.
+</p>
+</div>
 <script>
-drawgymtable("/ES/comp1/allaround/_search","startList_table","edit");
-
-var options = {
-    url: "people.json",
-
-    getValue: "name",
-
-    template: {
-        type: "description",
-        fields: {
-            description: "email"
-        }
-    },
-
-    list: {
-        match: {
-            enabled: true
-        }
-    },
-
-    theme: "plate-dark"
-};
-$('#startList_table [id^="gymnast_"]').easyAutocomplete(options);
-$('#startList_table-stacktable-small-only [id^="gymnast_"]').easyAutocomplete(options);
-$("div.easy-autocomplete").removeAttr("width");
-//$("#gymnast_0").easyAutocomplete(options);
+drawgymtable("/ES/comp1/startList/_search","startList_table","edit");
+//var options = {
+//    url: "people.json",
+//    getValue: "name",
+//    template: {
+//        type: "description",
+//        fields: {
+//            description: "email"
+//        }
+//    },
+//    list: {
+//        match: {
+//            enabled: true
+//        }
+//    },
+//    theme: "plate-dark"
+//};
+//$('#startList_table [id^="gymnast_"]').easyAutocomplete(options);
+//$('#startList_table-stacktable-small-only [id^="gymnast_"]').easyAutocomplete(options);
+//$("div.easy-autocomplete").removeAttr("width");
 
 </script>
      </section>
