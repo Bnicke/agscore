@@ -44,6 +44,9 @@ for start lists and competition settings `/<competition>/startlist/<startnumber>
 
 for global settings `/global/startlist/<id>` , `/global/competition/<id>` , `/global/team/<id>` , `/global/class/<id>`, `/global/rules/<id>`
 
+####
+Startup curl -XPUT http://localhost:9200/<competition>/startList/none -d'{}'
+
 #### Ex. storing a score:
 curl -XPUT http://localhost:9200/comp1/allaround/18 -d'{"number": 18, "gymnast": "Albin Bergström","born": 1999,"team": "KFUM Gymnastikavdelningar","class": "COP", "rules": "Öppet Pr.","floor": 10.00,"pommelHorse": 9.20,"rings": 8.10,"vault": 13.25,"parallelBars": 8.00,"highBar": 8.50,"total": 57.05}'
 

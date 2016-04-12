@@ -65,7 +65,9 @@ function isNumber(value) {
     return !isNaN(value - 0);
 }
 function agupdate(part,index,agtable) {
-    var post = data[index];
+    //var post = data[index];
+    var post = JSON.parse("{}");
+    post.id = data[index].id;
     if ( $(window).width() > 900 ) {
         table = agtable;
         hidetable = agtable + '-stacktable-small-only';
@@ -92,6 +94,7 @@ function agupdate(part,index,agtable) {
 		post.rules = rules;
 		post.pool = pool;
 		post.about = about;
+		post.id = id;
     		var notify;
     		var notifytype;
     		$.ajax({
@@ -114,7 +117,17 @@ function agupdate(part,index,agtable) {
 	}
 }
 function agcalculate(part,number,agtable,index) {
-    var post=data[index];
+    //var post=data[index];
+    var post = JSON.parse("{}");
+    post.id = data[index].id;
+    post.gymnast = data[index].gymnast;
+    post.pool = data[index].pool;
+    post.number = data[index].number;
+    post.born = data[index].born;
+    post.class = data[index].class;
+    post.rules = data[index].rules;
+    post.about = data[index].about;
+    post.team = data[index].team;
     if ( $(window).width() > 900 ) {
 	table = agtable;
 	hidetable = agtable + '-stacktable-small-only';
@@ -136,20 +149,20 @@ function agcalculate(part,number,agtable,index) {
     E3 = E3.replace(",",".");
     E4 = E4.replace(",",".");
     D = D.replace(",",".");
+    post.base="&nbsp;";
+    post.pen="&nbsp;";
+    post.e1="&nbsp;";
+    post.e2="&nbsp;"
+    post.e3="&nbsp;";
+    post.e4="&nbsp;";
+    post.d="&nbsp;";
     data[index].base = inputreg(index,"base",number,Base,agtable);
-    post.base=Base;
     data[index].pen = inputreg(index,"pen",number,Pen,agtable);
-    post.pen = Pen;
     data[index].e1 = inputreg(index,"e1",number,E1,agtable);
-    post.e1 = E1;
     data[index].e2 = inputreg(index,"e2",number,E2,agtable);
-    post.e2 = E2;
     data[index].e3 = inputreg(index,"e3",number,E3,agtable);
-    post.e3 = E3;
     data[index].e4 = inputreg(index,"e4",number,E4,agtable);
-    post.e4 = E4;
     data[index].d = inputreg(index,"d",number,D,agtable);
-    post.d = D;
     $("#" + hidetable + " :input[name='base_"+number+"']").val(Base);
     $("#" + hidetable + " :input[name='pen_"+number+"']").val(Pen);
     $("#" + hidetable + " :input[name='e1_"+number+"']").val(E1);
@@ -158,26 +171,40 @@ function agcalculate(part,number,agtable,index) {
     $("#" + hidetable + " :input[name='e4_"+number+"']").val(E4);
     $("#" + hidetable + " :input[name='d_"+number+"']").val(D);
     if (!isNumber(Base)) {
-        Base="0";
+        Base="10";
+    } else {
+	post.base = parseFloat(Base).toFixed(0);
     }
     if (!isNumber(Pen)) {
         Pen="0";
+    } else {
+    	post.pen = parseFloat(Pen).toFixed(0);
     }
     if (!isNumber(D)) {
         D="0";
+    } else {
+    	post.d = parseFloat(D).toFixed(2);
     }
     if (!isNumber(E1)) {
         E1="0";
+    } else {
+    	post.e1 = parseFloat(E1).toFixed(2);
     }
     if (!isNumber(E2)) {
         E2=E1;
+    } else {
+        post.e2 = parseFloat(E2).toFixed(2);
     }
     if (!isNumber(E3)) {
 	E3=(parseFloat(E1) + parseFloat(E2))/2;
 	E4=E3;
+    } else {
+        post.e3 = parseFloat(E3).toFixed(2);
     }
     if (!isNumber(E4)) {
 	E4=(parseFloat(E1) + parseFloat(E2) + parseFloat(E3))/3;	
+    } else {
+        post.e4 = parseFloat(E4).toFixed(2);
     }
     var avgE = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4) - parseFloat(Math.max(E1,E2,E3,E4)) - parseFloat(Math.min(E1,E2,E3,E4)))/2;
     $("#" + hidetable + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
@@ -207,7 +234,7 @@ function agcalculate(part,number,agtable,index) {
     $.ajax({
 	'async': false,
         type: "POST",
-        url: "/ES/comp1/" + app[0] + "/" + post.number,
+        url: "/ES/comp1/" + app[0] + "/" + post.id,
         data: JSON.stringify(post),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -218,7 +245,6 @@ function agcalculate(part,number,agtable,index) {
 			notify = notify + " but an abnormally high or low point registered!";
 			notifytype = "warning";
         	}
-	//console.log("1" + notify + notifytype);
 	},
         error: function(xhr, ajaxOptions, thrownError) {
 		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + app[0] + " for " + post.number;
@@ -227,29 +253,49 @@ function agcalculate(part,number,agtable,index) {
     });
   $.ajax({
 	'async': false,
-        url: "/ES/comp1/allaround/" + post.number,
-  	error: function(xhr, ajaxOptions, thrownError) {
-		notify = notify + " and \"" + xhr.status + " " + thrownError + "\" when fetching allaround scores!";
-		notifytype = "error";
-  	},
+        url: "/ES/comp1/allaround/" + post.id,
+	error: function(){
+		 $.ajax({
+        		'async': false,
+        		type: "POST",
+			url: "/ES/comp1/allaround/" + post.id,
+			data: "{}",
+        		contentType: "application/json; charset=utf-8",
+        		dataType: "json"
+		});
+	},
   	success: function(localdata){
 		var js = localdata._source;
-		var localscore=js[app[0]];
-		if (!isNumber(localscore)) {
-                        localscore=0;
-                }
-		var localtotal=js.total;
-		if (!isNumber(localtotal)) {
-			localtotal=0;
+	    	js.id = data[index].id;
+    		js.gymnast = data[index].gymnast;
+    		js.pool = data[index].pool;
+    		js.number = data[index].number;
+    		js.born = data[index].born;
+    		js.class = data[index].class;
+    		js.rules = data[index].rules;
+    		js.about = data[index].about;
+    		js.team = data[index].team;
+		var currappscore = 0;
+		var lastappscore = 0;
+		var currtotal = 0;
+		var lasttotal = 0;
+		currappscore = total;
+		lastappscore = js[app[0]];
+		lasttotal = js["total"];
+		if ((lasttotal === null) || (lasttotal === undefined) || (!isNumber(lasttotal))) {
+			lasttotal = 0;
 		}
-		localtotal=parseFloat(localtotal)+parseFloat(total)-parseFloat(js[app[0]]);
-		js[app[0]]=parseFloat(total.toFixed(2));
-		js["total"]=parseFloat(localtotal.toFixed(2));
+		if ((lastappscore === null) || (lastappscore === undefined)) {
+			lastappscore = 0;
+		}
+		currtotal=(parseFloat(lasttotal)-parseFloat(lastappscore)+parseFloat(currappscore.toFixed(2)));
+		js[app[0]]=currappscore.toFixed(2);
+		js["total"]=currtotal.toFixed(2);
 		
 	        $.ajax({
 		    'async': false,
 	            type: "POST",
-        	    url: "/ES/comp1/allaround/" + post.number,
+        	    url: "/ES/comp1/allaround/" + post.id,
 	            data: JSON.stringify(js),
 	            contentType: "application/json; charset=utf-8",
 	            dataType: "json",
@@ -269,6 +315,9 @@ function agcalculate(part,number,agtable,index) {
 function inputreg (index,part,agnumber,agvalue,agtable) {
 	if (!isNumber(agvalue)) {
 		agvalue = "";
+	}
+	if ((part == 'base') && (agvalue.length < 1)) {
+		agvalue = "10";
 	}
 	if (( part == 'avgE' ) || (part == 'e' )) {
 		return '<input class="form-control" min="0" max="15" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
@@ -357,8 +406,8 @@ function drawgymtable(ESurl,table,type) {
 $.ajax({
   url: ESurl,
   'async': false,
-  error: function(xhr, ajaxOptions, thrownError) {
-                $.mobility.notify("\"" + xhr.status + " " + thrownError + "\" when fetching scores!","error");
+  error: function(){
+	$.mobility.notify("No competition or is database down??","error");
   },
   success: function(data_tmp){
      data = [];
@@ -388,15 +437,16 @@ $.ajax({
 		data[n].avgE = inputreg(n,"avgE",data[n].number,data[n].avgE,table);
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
-		data[n].club = data[n].club.substring(0,8)
+		//data[n].club = data[n].club.substring(0,8)
 		pool = data[n].pool;
 	}
+	data.pop();
        var $el = $("#" + table + "-search-pool");
        $('#' + table + '-search-pool option:gt(0)').remove();
      } else if (type == "edit") {
     	data = sortJSON(data,'number', '123');
      	data = sortJSON(data,'pool', '123');
-        data.push(JSON.parse('{"number": "","gymnast": "", "pool": "" }'));
+        //data.push(JSON.parse('{"number": "","gymnast": "", "pool": "" }'));
 	for (var n = 0; n < data.length; n++) {
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
@@ -1078,7 +1128,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table","reg");
+drawgymtable("/ES/comp1/startList/_search","pommelHorse_table","reg");
 </script>
         </section>
  </script>
