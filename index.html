@@ -646,10 +646,8 @@ $.ajax({
             <p class="pad">
 			<div class="focus">
   <label class="top">Select Competition</label>
-  <select class="form-control">
-    <option>KFUM KM 2015</option>
-    <option>Någon tävling</option>
-    <option>Tävling förra året</option>
+    <select id="select-competition" class="form-control">
+    <option>None</option>
   </select>
 </div>
 <h4 class="pad upper">Themes</h4>
@@ -664,6 +662,7 @@ $.ajax({
 
 			</p>
         </section>
+
     </div>
     
     <div id="favorites" class="modal hide">
@@ -1601,6 +1600,27 @@ drawgymtable("/ES/comp1/startList/_search","unevenBars_table","reg");
 			href: 'vendor/mobility/mobility-'+color+'.css' })
 		.appendTo('head');
 	});
+	$.ajax({
+                'async': false,
+                url: "/ES//global/competition/_search",
+                success: function(s){
+                        var competitions = new Array();
+                        for (var i = 0; i < s.hits.hits.length; i++) {
+                                competitions.push(s.hits.hits[i]._source)
+                        }
+			competitions.reverse();
+                        var $el = $("#select-competition");
+                        $('#select-competition option').remove();
+                        for (var i = 0; i < competitions.length; i++) {
+                                console.log(competitions[i].name);
+                                $el.append($("<option></option>")
+                                .attr("value", camelize(competitions[i].name) ).text(competitions[i].name));
+                        }
+                },  
+                error: function(xhr, ajaxOptions, thrownError) { 
+                }
+         });
+
     </script>
 </body>
 </html>
