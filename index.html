@@ -195,16 +195,16 @@ function agcalculate(part,number,agtable,index) {
     } else {
         post.e2 = parseFloat(E2).toFixed(2);
     }
+    if (!isNumber(E4)) {
+	E4=(parseFloat(E1) + parseFloat(E2) + parseFloat(E3))/3;	
+    } else {
+        post.e4 = parseFloat(E4).toFixed(2);
+    }
     if (!isNumber(E3)) {
 	E3=(parseFloat(E1) + parseFloat(E2))/2;
 	E4=E3;
     } else {
         post.e3 = parseFloat(E3).toFixed(2);
-    }
-    if (!isNumber(E4)) {
-	E4=(parseFloat(E1) + parseFloat(E2) + parseFloat(E3))/3;	
-    } else {
-        post.e4 = parseFloat(E4).toFixed(2);
     }
     var avgE = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4) - parseFloat(Math.max(E1,E2,E3,E4)) - parseFloat(Math.min(E1,E2,E3,E4)))/2;
     $("#" + hidetable + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
@@ -212,6 +212,9 @@ function agcalculate(part,number,agtable,index) {
     data[index].avgE = inputreg(index,"avgE",number,avgE.toFixed(2),agtable);
     post.avgE = avgE.toFixed(2);
     var E = Base-avgE;
+    if (D <= 0) {
+	E = 0;
+    }
     if ( E < 0) {
 	E = 0;
 	avgE=Base;
@@ -220,7 +223,7 @@ function agcalculate(part,number,agtable,index) {
     $("#" + table + " :input[name='e_"+number+"']").val(E.toFixed(2));
     data[index].e = inputreg(index,"e",number,E.toFixed(2),agtable);
     post.e = E.toFixed(2);
-    var total=parseFloat(Base)+parseFloat(D)-parseFloat(Pen)-parseFloat(avgE);
+    var total=parseFloat(E)+parseFloat(D)-parseFloat(Pen);
     if (total < 0) {
 	total = 0;
     }
@@ -241,7 +244,7 @@ function agcalculate(part,number,agtable,index) {
         success: function(s){
 		notify = "Gymnast #" + post.number + " " + app[0] + " updated";
 		notifytype = "success";
-    		if ((E1 > 10) || (E1 < 0) || (E2 > 10) || (E2 < 0) || (E3 > 10) || (E3 < 0) || (E4 > 10) || (E4 < 0) || (D > 8) || (D <= 0) || (Pen > 5) || (Pen < 0) || ( Base > 10 ) || (Base < 3)) {
+    		if ((E1 > 10) || (E1 < 0) || (E2 > 10) || (E2 < 0) || (E3 > 10) || (E3 < 0) || (E4 > 10) || (E4 < 0) || (D > 8) || (D < 0) || (Pen > 5) || (Pen < 0) || ( Base > 10 ) || (Base < 3)) {
 			notify = notify + " but an abnormally high or low point registered!";
 			notifytype = "warning";
         	}
@@ -380,29 +383,81 @@ features: {
         dynatable.process();
     });
 
-if (type = "reg") {
-    var option="class";
-} else if (type = "edit") {
-    var option= "team" ;
-} else {
-    var option= "pool";
-}
-
-$('#' + table + '-search-' + option).change( function(e) {
+$('#' + table + '-search-pool').change( function(e) {
   var value = $(this).val();
   if (value === "") {
-    dynatable.queries.remove(option);
+    dynatable.queries.remove("pool");
   } else {
-    dynatable.queries.add(option,value);
+    dynatable.queries.add("pool",value);
   }
   setTimeout(function() {processingComplete("#" + table,type);}, 100);
   dynatable.records.updateFromJson({records: datalocal});
   dynatable.records.init();
   dynatable.process();
 });
-  }
 
+$('#' + table + '-search-class').change( function(e) {
+  var value = $(this).val();
+  if (value === "") {
+    dynatable.queries.remove("class");
+  } else {
+    dynatable.queries.add("class",value);
+  }
+  setTimeout(function() {processingComplete("#" + table,type);}, 100);
+  dynatable.records.updateFromJson({records: datalocal});
+  dynatable.records.init();
+  dynatable.process();
+});
+
+$('#' + table + '-search-team').change( function(e) {
+  var value = $(this).val();
+  if (value === "") {
+    dynatable.queries.remove("team");
+  } else {
+    dynatable.queries.add("team",value);
+  }
+  setTimeout(function() {processingComplete("#" + table,type);}, 100);
+  dynatable.records.updateFromJson({records: datalocal});
+  dynatable.records.init();
+  dynatable.process();
+});
+
+
+  }
+function clearscore(index,number,agtable) {
+    if ( $(window).width() > 900 ) {
+        table = agtable;
+        hidetable = agtable + '-stacktable-small-only';
+    } else {
+        table = agtable + '-stacktable-small-only';
+        hidetable = agtable;
+    }
+
+	$("#" + hidetable + " :input[name='pen_"+number+"']").val("-");
+	$("#" + table + " :input[name='pen_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='d_"+number+"']").val("-");
+	$("#" + table + " :input[name='d_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='e_"+number+"']").val("-");
+	$("#" + table + " :input[name='e_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='e1_"+number+"']").val("-");
+	$("#" + table + " :input[name='e1_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='e2_"+number+"']").val("-");
+	$("#" + table + " :input[name='e2_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='e3_"+number+"']").val("-");
+	$("#" + table + " :input[name='e3_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='e4_"+number+"']").val("-");
+	$("#" + table + " :input[name='e4_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='avgE_"+number+"']").val("-");
+	$("#" + table + " :input[name='avgE_"+number+"']").val("-");
+	$("#" + hidetable + " :input[name='base_"+number+"']").val("10");
+	$("#" + table + " :input[name='base_"+number+"']").val("10");
+	$("#" + hidetable + " :input[name='total_"+number+"']").val("-");
+	$("#" + table + " :input[name='total_"+number+"']").val("-");
+	agcalculate("all",number,agtable,index);
+	$("#check_"+index).prop('checked', false);
+}
 function drawgymtable(ESurl,table,type) {
+var app = table.split("_");
 $.ajax({
   url: ESurl,
   'async': false,
@@ -411,6 +466,7 @@ $.ajax({
   },
   success: function(data_tmp){
      data = [];
+     var data_pre = new Array();
      for (var i = 0; i < data_tmp.hits.hits.length; i++) {
 	data.push(data_tmp.hits.hits[i]._source)
      }
@@ -421,9 +477,34 @@ $.ajax({
      var pool = 'NONE';
      var Options = new Array();
      if (type == "reg") {
+         $.ajax({
+         	'async': false,
+         	url: "/ES/comp1/" + app[0] + "/_search",
+         	success: function(s){
+			for (var i = 0; i < s.hits.hits.length; i++) {
+        			data_pre.push(s.hits.hits[i]._source)
+     			}
+         	},
+         	error: function(xhr, ajaxOptions, thrownError) {
+         	}
+         });
      	data = sortJSON(data,'number', '123');
+	data.shift();
      	data = sortJSON(data,'pool', '123');
 	for (var n = 0; n < data.length; n++) {
+		for (var m = 0; m < data_pre.length; m++) {
+			if ( data_pre[m].id == data[n].id) {
+				data[n].d = data_pre[m].d;
+				data[n].e1 = data_pre[m].e1;
+				data[n].e2 = data_pre[m].e2;
+				data[n].e3 = data_pre[m].e3;
+				data[n].e4 = data_pre[m].e4;
+				data[n].base = data_pre[m].base;
+				data[n].avgE = data_pre[m].avgE;
+				data[n].e = data_pre[m].e;
+				data[n].total = data_pre[m].total;
+			}
+		}
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
 		}
@@ -438,15 +519,14 @@ $.ajax({
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
 		//data[n].club = data[n].club.substring(0,8)
+		data[n].clear = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
 		pool = data[n].pool;
 	}
-	data.pop();
        var $el = $("#" + table + "-search-pool");
        $('#' + table + '-search-pool option:gt(0)').remove();
      } else if (type == "edit") {
     	data = sortJSON(data,'number', '123');
      	data = sortJSON(data,'pool', '123');
-        //data.push(JSON.parse('{"number": "","gymnast": "", "pool": "" }'));
 	for (var n = 0; n < data.length; n++) {
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
@@ -744,6 +824,15 @@ drawgymtable("/ES/comp1/startList/_search","startList_table","edit");
             <h1 class="title">Nothing yet.</h1>
         </header>
         <section class="body with-foot with-head pad">
+<div class="focus focus-group" data-do="focus-input-group">
+  <label>
+    <span>Choice 2</span>
+    <span class="switch switch-2">
+      <input type="checkbox" name="check" checked="checked" value="HP" />
+      <span></span>
+    </span>
+  </label>
+</div>
 <input id="example-mail"/>
 <script>
 var options = {
@@ -1052,23 +1141,25 @@ drawgymtable("/ES/comp1/highBar/_search","highBar_table");
 </script>
   </section>
     </script>
-      <script id="REGfloor" type="text/html">
+       
+<script id="REGfloor" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-  <label class="top">Select class:</label>
-  <select id="floor_table-search-class" class="form-control">
+  <label class="top">Select pool:</label>
+  <select id="floor_table-search-pool" class="form-control">
     <option></option>
   </select>
 </div>
+<form action="" id="floor_table_form">
 <table id="floor_table" class="table table-condensed">
 <thead>
 <th>Class</th>
-<th>Rank</th>
-<th>Number</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
 <th>Gymnast</th>
 <th>Born</th>
 <th>Team</th>
@@ -1082,17 +1173,19 @@ drawgymtable("/ES/comp1/highBar/_search","highBar_table");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
+<th>Clear</th>
 </thead>
  <tbody>
  </tbody>
 </table>
-
+</form>
 <script>
-drawgymtable("/ES/comp1/floor/_search","floor_table");
+drawgymtable("/ES/comp1/startList/_search","floor_table","reg");
 </script>
         </section>
-    </script>
-       <script id="REGpommelHorse" type="text/html">
+ </script>
+
+<script id="REGpommelHorse" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
@@ -1109,6 +1202,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
 <thead>
 <th>Class</th>
 <th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
 <th>Gymnast</th>
 <th>Born</th>
 <th>Team</th>
@@ -1132,24 +1226,26 @@ drawgymtable("/ES/comp1/startList/_search","pommelHorse_table","reg");
 </script>
         </section>
  </script>
-    
-      <script id="REGrings" type="text/html">
+
+
+<script id="REGrings" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
+            <h1 class="title"><img src="images/rings.png" \>&nbsp;Still rings</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-  <label class="top">Select class:</label>
-  <select id="rings_table-search-class" class="form-control">
+  <label class="top">Select pool:</label>
+  <select id="rings_table-search-pool" class="form-control">
     <option></option>
   </select>
 </div>
+<form action="" id="rings_table_form">
 <table id="rings_table" class="table table-condensed">
 <thead>
 <th>Class</th>
-<th>Rank</th>
-<th>Number</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
 <th>Gymnast</th>
 <th>Born</th>
 <th>Team</th>
@@ -1167,29 +1263,31 @@ drawgymtable("/ES/comp1/startList/_search","pommelHorse_table","reg");
  <tbody>
  </tbody>
 </table>
-
+</form>
 <script>
-drawgymtable("/ES/comp1/rings/_search","rings_table");
+drawgymtable("/ES/comp1/startList/_search","rings_table","reg");
 </script>
         </section>
-    </script>
-      <script id="REGvault" type="text/html">
+ </script>
+
+<script id="REGvault" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-  <label class="top">Select class:</label>
-  <select id="vault_table-search-class" class="form-control">
+  <label class="top">Select pool:</label>
+  <select id="vault_table-search-pool" class="form-control">
     <option></option>
   </select>
 </div>
+<form action="" id="vault_table_form">
 <table id="vault_table" class="table table-condensed">
 <thead>
 <th>Class</th>
-<th>Rank</th>
-<th>Number</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
 <th>Gymnast</th>
 <th>Born</th>
 <th>Team</th>
@@ -1207,30 +1305,31 @@ drawgymtable("/ES/comp1/rings/_search","rings_table");
  <tbody>
  </tbody>
 </table>
-
+</form>
 <script>
-drawgymtable("/ES/comp1/vault/_search","vault_table");
+drawgymtable("/ES/comp1/startList/_search","vault_table","reg");
 </script>
-  </section>
-    </script>
+        </section>
+ </script>
 
-      <script id="REGparallelBars" type="text/html">
+<script id="REGparallelBars" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
+            <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel bars</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-  <label class="top">Select class:</label>
-  <select id="parallelBars_table-search-class" class="form-control">
+  <label class="top">Select pool:</label>
+  <select id="parallelBars_table-search-pool" class="form-control">
     <option></option>
   </select>
 </div>
+<form action="" id="parallelBars_table_form">
 <table id="parallelBars_table" class="table table-condensed">
 <thead>
 <th>Class</th>
-<th>Rank</th>
-<th>Number</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
 <th>Gymnast</th>
 <th>Born</th>
 <th>Team</th>
@@ -1248,30 +1347,31 @@ drawgymtable("/ES/comp1/vault/_search","vault_table");
  <tbody>
  </tbody>
 </table>
-
+</form>
 <script>
-drawgymtable("/ES/comp1/parallelBars/_search","parallelBars_table");
+drawgymtable("/ES/comp1/startList/_search","parallelBars_table","reg");
 </script>
-  </section>
-    </script>
+        </section>
+ </script>
 
-      <script id="REGhighBar" type="text/html">
+<script id="REGhighBar" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-  <label class="top">Select class:</label>
-  <select id="highBar_table-search-class" class="form-control">
+  <label class="top">Select pool:</label>
+  <select id="highBar_table-search-pool" class="form-control">
     <option></option>
   </select>
 </div>
+<form action="" id="highBar_table_form">
 <table id="highBar_table" class="table table-condensed">
 <thead>
 <th>Class</th>
-<th>Rank</th>
-<th>Number</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
 <th>Gymnast</th>
 <th>Born</th>
 <th>Team</th>
@@ -1289,12 +1389,98 @@ drawgymtable("/ES/comp1/parallelBars/_search","parallelBars_table");
  <tbody>
  </tbody>
 </table>
-
+</form>
 <script>
-drawgymtable("/ES/comp1/highBar/_search","highBar_table");
+drawgymtable("/ES/comp1/startList/_search","highBar_table","reg");
 </script>
-  </section>
-    </script>
+        </section>
+ </script>
+
+<script id="REGbeam" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/beam.png" \>&nbsp;Beam</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select pool:</label>
+  <select id="beam_table-search-pool" class="form-control">
+    <option></option>
+  </select>
+</div>
+<form action="" id="beam_table_form">
+<table id="beam_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Team</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+</form>
+<script>
+drawgymtable("/ES/comp1/startList/_search","beam_table","reg");
+</script>
+        </section>
+ </script>
+
+<script id="REGunevenBars" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven bars</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select pool:</label>
+  <select id="unevenBars_table-search-pool" class="form-control">
+    <option></option>
+  </select>
+</div>
+<form action="" id="unevenBars_table_form">
+<table id="unevenBars_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th data-dynatable-column="number">#</th>
+<th style="display: none">Pool</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Team</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+</form>
+<script>
+drawgymtable("/ES/comp1/startList/_search","unevenBars_table","reg");
+</script>
+        </section>
+ </script>
+
+    
     <script type="text/javascript">
 	//initialize
 	jQuery.mobility.start();
