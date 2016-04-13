@@ -1603,6 +1603,9 @@ drawgymtable("/ES/comp1/startList/_search","unevenBars_table","reg");
 	$.ajax({
                 'async': false,
                 url: "/ES//global/competition/_search",
+		error: function(){
+        		$.mobility.notify("No competitions or is database down??","error");
+  		},
                 success: function(s){
                         var competitions = new Array();
                         for (var i = 0; i < s.hits.hits.length; i++) {
