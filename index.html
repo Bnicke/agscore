@@ -37,6 +37,9 @@
 <script type="text/javascript">
 var data = new Array();
 var dynatable;
+var apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
+//var apps = new Array( "vault", "unevenBars", "beam", "floor");
+
 function sortJSON(tosort, key, way) {
     return tosort.sort(function(a, b) {
         var x = a[key]; var y = b[key];
@@ -277,65 +280,65 @@ function agcalculate(part,number,agtable,index) {
 		notifytype = "error";
     	}
     });
-  $.ajax({
-	'async': false,
-        url: "/ES/comp1/allaround/" + post.id,
-	error: function(){
-		 $.ajax({
-        		'async': false,
-        		type: "POST",
-			url: "/ES/comp1/allaround/" + post.id,
-			data: "{}",
-        		contentType: "application/json; charset=utf-8",
-        		dataType: "json"
-		});
-	},
-  	success: function(localdata){
-		var js = localdata._source;
-	    	js.id = data[index].id;
-    		js.gymnast = data[index].gymnast;
-    		js.pool = data[index].pool;
-    		js.number = data[index].number;
-    		js.born = data[index].born;
-    		js.class = data[index].class;
-    		js.rules = data[index].rules;
-    		js.about = data[index].about;
-    		js.team = data[index].team;
-		var currappscore = 0;
-		var lastappscore = 0;
-		var currtotal = 0;
-		var lasttotal = 0;
-		currappscore = total;
-		lastappscore = js[app[0]];
-		lasttotal = js["total"];
-		if ((lasttotal === null) || (lasttotal === undefined) || (!isNumber(lasttotal))) {
-			lasttotal = 0;
-		}
-		if ((lastappscore === null) || (lastappscore === undefined)) {
-			lastappscore = 0;
-		}
-		currtotal=(parseFloat(lasttotal)-parseFloat(lastappscore)+parseFloat(currappscore.toFixed(2)));
-		js[app[0]]=currappscore.toFixed(2);
-		js["total"]=currtotal.toFixed(2);
-		
-	        $.ajax({
-		    'async': false,
-	            type: "POST",
-        	    url: "/ES/comp1/allaround/" + post.id,
-	            data: JSON.stringify(js),
-	            contentType: "application/json; charset=utf-8",
-	            dataType: "json",
-	            success: function(s){
-			notify = notify  + " and  allaround  updated";
-	            },
-	            error: function(xhr, ajaxOptions, thrownError) {
-				notify = "Gymnast #" + post.number + " allaround updated.";
-				notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.number;
-				notifytype = "error";
-	            }
-	        });
-	}
-     });
+//  $.ajax({
+//	'async': false,
+ //       url: "/ES/comp1/allaround/" + post.id,
+//	error: function(){
+//		 $.ajax({
+ //       		'async': false,
+  //      		type: "POST",
+//			url: "/ES/comp1/allaround/" + post.id,
+//			data: "{}",
+ //       		contentType: "application/json; charset=utf-8",
+  //      		dataType: "json"
+//		});
+//	},
+//  	success: function(localdata){
+//		var js = localdata._source;
+//	    	js.id = data[index].id;
+//    		js.gymnast = data[index].gymnast;
+//    		js.pool = data[index].pool;
+//    		js.number = data[index].number;
+//    		js.born = data[index].born;
+//    		js.class = data[index].class;
+//    		js.rules = data[index].rules;
+//    		js.about = data[index].about;
+//    		js.team = data[index].team;
+//		var currappscore = 0;
+//		var lastappscore = 0;
+//		var currtotal = 0;
+//		var lasttotal = 0;
+//		currappscore = total;
+//		lastappscore = js[app[0]];
+//		lasttotal = js["total"];
+//		if ((lasttotal === null) || (lasttotal === undefined) || (!isNumber(lasttotal))) {
+//			lasttotal = 0;
+//		}
+//		if ((lastappscore === null) || (lastappscore === undefined)) {
+//			lastappscore = 0;
+//		}
+//		currtotal=(parseFloat(lasttotal)-parseFloat(lastappscore)+parseFloat(currappscore.toFixed(2)));
+//		js[app[0]]=currappscore.toFixed(2);
+//		js["total"]=currtotal.toFixed(2);
+//		
+//	        $.ajax({
+//		    'async': false,
+//	            type: "POST",
+//        	    url: "/ES/comp1/allaround/" + post.id,
+//	            data: JSON.stringify(js),
+//	            contentType: "application/json; charset=utf-8",
+//	            dataType: "json",
+//	            success: function(s){
+//			notify = notify  + " and  allaround  updated";
+//	            },
+//	            error: function(xhr, ajaxOptions, thrownError) {
+//				notify = "Gymnast #" + post.number + " allaround updated.";
+//				notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.number;
+//				notifytype = "error";
+//	            }
+//	        });
+//	}
+//    });
     	    $.mobility.notify(notify,notifytype);
 }
 function inputreg (index,part,agnumber,agvalue,agtable) {
@@ -583,6 +586,36 @@ $.ajax({
        var $el = $("#" + table + "-search-team");
        $('#' + table + '-search-team option:gt(0)').remove();
      } else {
+	if (app[0] == "allaround") {
+     		data = sortJSON(data,'number', '321');
+		data.pop();
+		for (var n = 0; n < apps.length; n++) {
+		         $.ajax({
+                		'async': false,
+                		url: "/ES/comp1/" + apps[n] + "/_search",
+                		success: function(s){
+                        		for (var i = 0; i < s.hits.hits.length; i++) {
+                                		data_pre.push(s.hits.hits[i]._source)
+//						console.log( apps[n] + "=" + s.hits.hits[i]._source.total);
+                        		}
+                		},
+                		error: function(xhr, ajaxOptions, thrownError) {
+                		}
+         		});
+		}
+		for (var n = 0; n < data.length; n++) {
+			//	console.log(data[n].id);
+			for (var m = 0; m < data_pre.length; m++) {
+//				console.log(data_pre[n].id);
+                       		if ( data_pre[m].id == data[n].id) {
+					console.log("Hej");
+//					for (var o = 0; o < apps.length; n++) {
+ //                               		//data[n][o] = data_pre[m][o];
+//					}
+                       		}
+                	}
+		}
+	}
      	data = sortJSON(data,'total', '321');
      	data = sortJSON(data,'class', '123');
      	for (var n = 0; n < data.length; n++) {
@@ -933,7 +966,7 @@ $("#example-mail").easyAutocomplete(options);
 </table>
 
 <script>
-drawgymtable("/ES/comp1/allaround/_search","allaround_table");
+drawgymtable("/ES/comp1/startList/_search","allaround_table");
 </script>
         </section>
     </script> 
