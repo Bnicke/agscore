@@ -19,7 +19,6 @@
 	<link rel="stylesheet" type="text/css" href="vendor/stacktable/stacktable.css" />
 <link rel="stylesheet" href="vendor/easy-autocomplete/easy-autocomplete.min.css" /> 
 	<link rel="stylesheet" type="text/css" href="vendor/agscore/agscore.css" />
-	<link rel="stylesheet" type="text/css" href="vendor/editablegrid/editablegrid.css" />
     
     <!--<script type="text/javascript" src="cordova.js"></script>-->
 	<script type="text/javascript" src="vendor/jquery/jquery-1.12.3.min.js"></script>
@@ -35,9 +34,7 @@
 	<script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
 	<script src="vendor/stacktable/stacktable.js" type="text/javascript"></script>
     <script src="vendor/easy-autocomplete/jquery.easy-autocomplete.js"></script>
-    <script src="vendor/editablegrid/editablegrid.js"></script>
 <script type="text/javascript">
-
 var data = new Array();
 var dynatable;
 var apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
@@ -497,24 +494,6 @@ function clearscore(index,number,agtable,id) {
 		$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', true);
 	}
 }
-function draweditable(ESurl) {
-$.ajax({
-  url: ESurl,
-  'async': false,
-  error: function(){
-        $.mobility.notify("No competition or is database down??","error");
-  },
-  success: function(data_tmp){
-     data = [];
-     var data_pre = new Array();
-     for (var i = 0; i < data_tmp.hits.hits.length; i++) {
-        data.push(data_tmp.hits.hits[i]._source)
-     }
-  }
-});
-     	data = sortJSON(data,'number', '123');
-	data.shift();
-}
 function drawgymtable(ESurl,table,type) {
 var app = table.split("_");
 $.ajax({
@@ -584,6 +563,28 @@ $.ajax({
 	}
        var $el = $("#" + table + "-search-pool");
        $('#' + table + '-search-pool option:gt(0)').remove();
+     } else if (type == "edit") {
+    	data = sortJSON(data,'number', '123');
+     	data = sortJSON(data,'pool', '123');
+	for (var n = 0; n < data.length; n++) {
+		if ( team != data[n].team ) {
+			if (data[n].team !== undefined)
+			Options.push(data[n].team);
+		}
+		team = data[n].team;
+		data[n].teamhidden = data[n].team;
+		data[n].gymnast = startlistedit(n,"gymnast",data[n].gymnast,table);
+		data[n].number = startlistedit(n,"number",data[n].number,table);
+		data[n].team = startlistedit(n,"team",data[n].team,table);
+		data[n].pool = startlistedit(n,"pool",data[n].pool,table);
+		data[n].born = startlistedit(n,"born",data[n].born,table);
+		data[n].class = startlistedit(n,"class",data[n].class,table);
+		data[n].rules = startlistedit(n,"rules",data[n].rules,table);
+		data[n].about = startlistedit(n,"about",data[n].about,table);
+		data[n].delete = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + n + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
+	}
+       var $el = $("#" + table + "-search-team");
+       $('#' + table + '-search-team option:gt(0)').remove();
      } else {
 	if (app[0] == "allaround") {
      		data = sortJSON(data,'number', '321');
@@ -850,25 +851,55 @@ $.ajax({
             <h1 class="title">Start list.</h1>
         </header>
         <section class="body with-foot with-head pad">
-<div id="tablecontent"></div>
+<div class="focus">
+  <label class="top">Select team:</label>
+  <select id="startList_table-search-team" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="startList_table" class="table table-condensed">
+<thead>
+<th data-dynatable-column="gymnast">Gymnast*</th>
+<th data-dynatable-column="number">Start number</th>
+<th>Born</th>
+<th data-dynatable-column="team">Team*</th>
+<th style="display: none">Teamhidden</th>
+<th data-dynatable-column="class">Class*</th>
+<th>Rules</th>
+<th data-dynatable-column="pool">Pool*</th>
+<th>About</th>
+<th>Delete</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+<div class="focus">
+<p>
+* Manadory, gymnast will not be updated until filled in.
+</p>
+</div>
 <script>
-var metadata = [];
-metadata.push({ name: "gymnast", label: "Gymnast", datatype: "string", editable: true});
-metadata.push({ name: "number", label:"Start number", datatype: "integer", editable: true});
-metadata.push({ name: "born", label: "Born", datatype: "integer", editable: true});
-metadata.push({ name: "team", label: "Team", datatype: "string", editable: true});
-metadata.push({ name: "class", label: "Team", datatype: "string", editable: true});
-metadata.push({ name: "rules", label: "Team", datatype: "string", editable: true});
-metadata.push({ name: "pool", label: "Team", datatype: "string", editable: true});
-metadata.push({ name: "about", label: "Team", datatype: "string", editable: true});
-draweditable("/ES/comp1/startList/_search");
-var griddata = [];
-for (var n = 0; n < data.length; n++) {
-	griddata.push(JSON.parse('{id: ' + n + ', values: ' + JSON.stringify(data[n]) + '}'));
-}
-editableGrid = new EditableGrid("DemoGridJsData");
-editableGrid.load({"metadata": metadata, "data": griddata});
-editableGrid.renderGrid("tablecontent", "testgrid");
+drawgymtable("/ES/comp1/startList/_search","startList_table","edit");
+//var options = {
+//    url: "people.json",
+//    getValue: "name",
+//    template: {
+//        type: "description",
+//        fields: {
+//            description: "email"
+//        }
+//    },
+//    list: {
+//        match: {
+//            enabled: true
+//        }
+//    },
+//    theme: "plate-dark"
+//};
+//$('#startList_table [id^="gymnast_"]').easyAutocomplete(options);
+//$('#startList_table-stacktable-small-only [id^="gymnast_"]').easyAutocomplete(options);
+//$("div.easy-autocomplete").removeAttr("width");
+
 </script>
      </section>
     </script>
@@ -1637,6 +1668,7 @@ drawgymtable("/ES/comp1/startList/_search","unevenBars_table","reg");
                 error: function(xhr, ajaxOptions, thrownError) { 
                 }
          });
+
     </script>
 </body>
 </html>
