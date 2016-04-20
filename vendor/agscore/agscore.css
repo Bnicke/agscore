@@ -41,3 +41,16 @@ th a:hover {
 .form-control {
     padding: 0px 0px 0px 2px;
 }
+.part1, .part2 {
+        display: flex;
+}
+.part1:after { 
+	content:"1"; 
+	font-size: smaller;
+        position: absolute;
+}
+.part2:after { 
+	content:"2"; 
+	font-size: smaller;
+        position: absolute;
+}

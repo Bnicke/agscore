@@ -305,7 +305,7 @@ function agcalculate(part,number,agtable,index) {
     	    $.mobility.notify(notify,notifytype);
 }
 function inputregD (index,part,agnumber,agvalue1,agvalue2,agtable) {
-	return inputreg (index + "_2",part, agnumber + "_2",agvalue1,agtable) + " " + inputreg (index + "_2",part, agnumber + "_2",agvalue2,agtable);
+	return "<div class=\"part1\">" + inputreg (index + "_2",part, agnumber + "_2",agvalue1,agtable) + "</div><div class=\"part2\">" + inputreg (index + "_2",part, agnumber + "_2",agvalue2,agtable) + "</div>";
 }
 function inputreg (index,part,agnumber,agvalue,agtable) {
 	if (!isNumber(agvalue)) {
