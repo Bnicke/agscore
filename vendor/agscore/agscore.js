@@ -88,7 +88,7 @@ function agupdate(part,index,agtable) {
                 post.class = startlistedit(post.id,"class",post.class,table);
                 post.rules = startlistedit(post.id,"rules",post.rules,table);
                 post.about = startlistedit(post.id,"about",post.about,table);
-                post.delete = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + post.id + '\',\'' + post.id + '\',\'' + table + '\',\'' + post.id + '\');" type="checkbox" id="check_' + post.id + '" name="check_' + post.id + '" value="PH" /><span></span></span></label>';
+                post.stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + post.id + '\',\'' + post.id + '\',\'' + table + '\',\'' + post.id + '\');" type="checkbox" id="check_' + post.id + '" name="check_' + post.id + '" value="PH" /><span></span></span></label>';
 
 		data.unshift(post);
 		var tmp=data[0];
@@ -121,8 +121,8 @@ function agcalculate(part,number,agtable,index) {
 	hidetable = agtable;
     }
     if (part !="all" ) {
-    	$("#" + table + " :input[name='check_"+index+"']").prop('checked', false);
-    	$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', false);
+    	$("#" + table + " :input[name='check_"+index+"']").prop('checked', true);
+    	$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', true);
     }
     var Base = $("#" + table + " :input[name='base_"+number+"']").val();
     var Pen = $("#" + table + " :input[name='pen_"+number+"']").val();
@@ -423,7 +423,7 @@ function clearscore(index,number,agtable,id) {
         table = agtable + '-stacktable-small-only';
         hidetable = agtable;
     }
-	if (($("#" + table + " :input[name='check_"+index+"']").prop('checked')) || ($("#" + table + " :input[name='check_"+index+"']").prop('checked'))) {
+	if ((!$("#" + table + " :input[name='check_"+index+"']").prop('checked')) || (!$("#" + table + " :input[name='check_"+index+"']").prop('checked'))) {
 	var app = table.split("_");
 	$("#" + hidetable + " :input[name='pen_"+number+"']").val("");
 	$("#" + table + " :input[name='pen_"+number+"']").val("");
@@ -456,8 +456,8 @@ function clearscore(index,number,agtable,id) {
                 });
 
 	} else {
-		$("#" + table + " :input[name='check_"+index+"']").prop('checked', true);
-		$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', true);
+		$("#" + table + " :input[name='check_"+index+"']").prop('checked', false);
+		$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', false);
 	}
 }
 function draweditable(ESurl) {
@@ -554,9 +554,9 @@ $.ajax({
 		}
 		//data[n].club = data[n].club.substring(0,8)
 		if (isNumber(data[n].total)) {
-			data[n].delete = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
+			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
 		} else {
-			data[n].delete = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
+			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
 		}
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
 		pool = data[n].pool;
