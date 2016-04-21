@@ -103,7 +103,9 @@ function agupdate(part,index,agtable) {
 }
 function agcalculate(part,number,agtable,index) {
     //var post=data[index];
+    var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
     var post = JSON.parse("{}");
+    var post_tmp = JSON.parse("{}");
     post.id = data[index].id;
     post.gymnast = data[index].gymnast;
     post.pool = data[index].pool;
@@ -124,6 +126,7 @@ function agcalculate(part,number,agtable,index) {
     	$("#" + table + " :input[name='check_"+index+"']").prop('checked', true);
     	$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', true);
     }
+    var double = number.split("_");
     var Base = $("#" + table + " :input[name='base_"+number+"']").val();
     var Pen = $("#" + table + " :input[name='pen_"+number+"']").val();
     var E1 = $("#" + table + " :input[name='e1_"+number+"']").val();
@@ -223,6 +226,30 @@ function agcalculate(part,number,agtable,index) {
     var app = agtable.split("_");
     var notify;
     var notifytype;
+    if ( double[1] > 0 ) {
+	if (double[1] > 1 ) {
+		var double2 = 1;
+	} else {
+		var double2 = 2;
+	}
+	for (var i = 0; i < parts.length; i++) {
+		post[parts[i]+"_"+double[1]] = post[parts[i]];
+		post[parts[i]+"_"+double2] = $("#" + table + " :input[name='"+parts[i]+"_"+double[0]+"_"+double2+"']").val();
+		$("#" + hidetable + " :input[name='"+parts[i]+"_"+double[0]+"_"+double2+"']").val(post[parts[i]+"_"+double2]);
+		post[parts[i]] = null;
+       }
+       if (!isNumber(post.total_1)) {
+		post.total_1 = 0;
+	}
+       if (!isNumber(post.total_2)) {
+		post.total_2 = 0;
+	}
+       total= (parseFloat(post.total_1)+parseFloat(post.total_2))/2;
+       post.total = total.toFixed(2);
+       $("#" + table + " :input[name='total_"+double[0]+"']").val(total.toFixed(2));
+       $("#" + hidetable + " :input[name='total_"+double[0]+"']").val(total.toFixed(2));
+	
+    } 
     $.ajax({
 	'async': false,
         type: "POST",
@@ -243,69 +270,15 @@ function agcalculate(part,number,agtable,index) {
 		notifytype = "error";
     	}
     });
-//  $.ajax({
-//	'async': false,
- //       url: "/ES/comp1/allaround/" + post.id,
-//	error: function(){
-//		 $.ajax({
- //       		'async': false,
-  //      		type: "POST",
-//			url: "/ES/comp1/allaround/" + post.id,
-//			data: "{}",
- //       		contentType: "application/json; charset=utf-8",
-  //      		dataType: "json"
-//		});
-//	},
-//  	success: function(localdata){
-//		var js = localdata._source;
-//	    	js.id = data[index].id;
-//    		js.gymnast = data[index].gymnast;
-//    		js.pool = data[index].pool;
-//    		js.number = data[index].number;
-//    		js.born = data[index].born;
-//    		js.class = data[index].class;
-//    		js.rules = data[index].rules;
-//    		js.about = data[index].about;
-//    		js.team = data[index].team;
-//		var currappscore = 0;
-//		var lastappscore = 0;
-//		var currtotal = 0;
-//		var lasttotal = 0;
-//		currappscore = total;
-//		lastappscore = js[app[0]];
-//		lasttotal = js["total"];
-//		if ((lasttotal === null) || (lasttotal === undefined) || (!isNumber(lasttotal))) {
-//			lasttotal = 0;
-//		}
-//		if ((lastappscore === null) || (lastappscore === undefined)) {
-//			lastappscore = 0;
-//		}
-//		currtotal=(parseFloat(lasttotal)-parseFloat(lastappscore)+parseFloat(currappscore.toFixed(2)));
-//		js[app[0]]=currappscore.toFixed(2);
-//		js["total"]=currtotal.toFixed(2);
-//		
-//	        $.ajax({
-//		    'async': false,
-//	            type: "POST",
-//        	    url: "/ES/comp1/allaround/" + post.id,
-//	            data: JSON.stringify(js),
-//	            contentType: "application/json; charset=utf-8",
-//	            dataType: "json",
-//	            success: function(s){
-//			notify = notify  + " and  allaround  updated";
-//	            },
-//	            error: function(xhr, ajaxOptions, thrownError) {
-//				notify = "Gymnast #" + post.number + " allaround updated.";
-//				notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.number;
-//				notifytype = "error";
-//	            }
-//	        });
-//	}
-//    });
     	    $.mobility.notify(notify,notifytype);
 }
 function inputregD (index,part,agnumber,agvalue1,agvalue2,agtable) {
-	return "<div class=\"part1\">" + inputreg (index + "_2",part, agnumber + "_2",agvalue1,agtable) + "</div><div class=\"part2\">" + inputreg (index + "_2",part, agnumber + "_2",agvalue2,agtable) + "</div>";
+	var cell = "<div class=\"part1\">" + inputreg (index,part, agnumber + "_1",agvalue1,agtable) + "</div><div class=\"part2\">" + inputreg (index,part, agnumber + "_2",agvalue2,agtable) + "</div>";
+	if ( part == 'total' ) { 
+		var totalD = (parseFloat(agvalue1)+parseFloat(agvalue2))/2;
+		cell = cell + inputreg (index,part, agnumber,totalD.toFixed(2),agtable)	
+	} 
+	return cell;
 }
 function inputreg (index,part,agnumber,agvalue,agtable) {
 	if (!isNumber(agvalue)) {
@@ -514,9 +487,30 @@ $.ajax({
      	data = sortJSON(data,'number', '123');
 	data.shift();
      	data = sortJSON(data,'pool', '123');
+//	console.log(JSON.stringify(data));
 	for (var n = 0; n < data.length; n++) {
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
+				if (app[0] == "vault" ){
+				data[n].d_1 = data_pre[m].d_1;
+                                data[n].e1_1 = data_pre[m].e1_1;
+                                data[n].e2_1 = data_pre[m].e2_1;
+                                data[n].e3_1 = data_pre[m].e3_1;
+                                data[n].e4_1 = data_pre[m].e4_1;
+                                data[n].base_1 = data_pre[m].base_1;
+                                data[n].avgE_1 = data_pre[m].avgE_1;
+                                data[n].e_1 = data_pre[m].e_1;
+                                data[n].total_1 = data_pre[m].total_1;
+				data[n].d_2 = data_pre[m].d_2;
+                                data[n].e1_2 = data_pre[m].e1_2;
+                                data[n].e2_2 = data_pre[m].e2_2;
+                                data[n].e3_2 = data_pre[m].e3_2;
+                                data[n].e4_2 = data_pre[m].e4_2;
+                                data[n].base_2 = data_pre[m].base_2;
+                                data[n].avgE_2 = data_pre[m].avgE_2;
+                                data[n].e_2 = data_pre[m].e_2;
+                                data[n].total_2 = data_pre[m].total_2;
+				} else {
 				data[n].d = data_pre[m].d;
 				data[n].e1 = data_pre[m].e1;
 				data[n].e2 = data_pre[m].e2;
@@ -525,22 +519,29 @@ $.ajax({
 				data[n].base = data_pre[m].base;
 				data[n].avgE = data_pre[m].avgE;
 				data[n].e = data_pre[m].e;
+				}
 				data[n].total = data_pre[m].total;
 			}
 		}
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
 		}
+		if (isNumber(data[n].total)) {
+			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
+		} else {
+			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
+		}
 		if (app[0] == "vault" ){
-		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen,data[n].pen,table);
-                data[n].d = inputregD(n,"d",data[n].number,data[n].d,data[n].d,table);
-                data[n].e1 = inputregD(n,"e1",data[n].number,data[n].e1,data[n].e1,table);
-                data[n].e2 = inputregD(n,"e2",data[n].number,data[n].e2,data[n].e2,table);
-                data[n].e3 = inputregD(n,"e3",data[n].number,data[n].e3,data[n].e3,table);
-                data[n].e4 = inputregD(n,"e4",data[n].number,data[n].e4,data[n].e4,table);
-                data[n].base = inputregD(n,"base",data[n].number,data[n].base,data[n].base,table);
-                data[n].avgE = inputregD(n,"avgE",data[n].number,data[n].avgE,data[n].avgE,table);
-                data[n].e = inputregD(n,"e",data[n].number,data[n].e,data[n].e,table);
+		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table);
+                data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table);
+                data[n].e1 = inputregD(n,"e1",data[n].number,data[n].e1_1,data[n].e1_2,table);
+                data[n].e2 = inputregD(n,"e2",data[n].number,data[n].e2_1,data[n].e2_2,table);
+                data[n].e3 = inputregD(n,"e3",data[n].number,data[n].e3_1,data[n].e3_2,table);
+                data[n].e4 = inputregD(n,"e4",data[n].number,data[n].e4_1,data[n].e4_2,table);
+                data[n].base = inputregD(n,"base",data[n].number,data[n].base_1,data[n].base_2,table);
+                data[n].avgE = inputregD(n,"avgE",data[n].number,data[n].avgE_1,data[n].avgE_2,table);
+                data[n].e = inputregD(n,"e",data[n].number,data[n].e_1,data[n].e_2,table);
+		data[n].total = inputregD(n,"total",data[n].number,data[n].total_1,data[n].total_2,table);
 		} else {
 		data[n].pen = inputreg(n,"pen",data[n].number,data[n].pen,table);
 		data[n].d = inputreg(n,"d",data[n].number,data[n].d,table);
@@ -551,14 +552,8 @@ $.ajax({
 		data[n].base = inputreg(n,"base",data[n].number,data[n].base,table);
 		data[n].avgE = inputreg(n,"avgE",data[n].number,data[n].avgE,table);
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
-		}
-		//data[n].club = data[n].club.substring(0,8)
-		if (isNumber(data[n].total)) {
-			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
-		} else {
-			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
-		}
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
+		}
 		pool = data[n].pool;
 	}
        var $el = $("#" + table + "-search-pool");
