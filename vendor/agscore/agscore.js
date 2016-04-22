@@ -1,6 +1,7 @@
 var data = new Array();
 var dynatable;
 var apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
+var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 //var apps = new Array( "vault", "unevenBars", "beam", "floor");
 
 function sortJSON(tosort, key, way) {
@@ -103,7 +104,6 @@ function agupdate(part,index,agtable) {
 }
 function agcalculate(part,number,agtable,index) {
     //var post=data[index];
-    var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
     var post = JSON.parse("{}");
     var post_tmp = JSON.parse("{}");
     post.id = data[index].id;
@@ -222,7 +222,7 @@ function agcalculate(part,number,agtable,index) {
     $("#" + hidetable + " :input[name='total_"+number+"']").val(total.toFixed(2));
     $("#" + table + " :input[name='total_"+number+"']").val(total.toFixed(2));
     data[index].total = inputreg(index,"total",number,total.toFixed(2),agtable);
-    post.total = total.toFixed(2);
+    post.total = parseFloat(total.toFixed(2));
     var app = agtable.split("_");
     var notify;
     var notifytype;
@@ -244,8 +244,11 @@ function agcalculate(part,number,agtable,index) {
        if (!isNumber(post.total_2)) {
 		post.total_2 = 0;
 	}
+	post.total_1=parseFloat(post.total_1);
+	post.total_2=parseFloat(post.total_2);
        total= (parseFloat(post.total_1)+parseFloat(post.total_2))/2;
-       post.total = total.toFixed(2);
+       post.total = parseFloat(total.toFixed(2));
+	
        $("#" + table + " :input[name='total_"+double[0]+"']").val(total.toFixed(2));
        $("#" + hidetable + " :input[name='total_"+double[0]+"']").val(total.toFixed(2));
 	
@@ -397,28 +400,15 @@ function clearscore(index,number,agtable,id) {
         hidetable = agtable;
     }
 	if ((!$("#" + table + " :input[name='check_"+index+"']").prop('checked')) || (!$("#" + table + " :input[name='check_"+index+"']").prop('checked'))) {
-	var app = table.split("_");
-	$("#" + hidetable + " :input[name='pen_"+number+"']").val("");
-	$("#" + table + " :input[name='pen_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='d_"+number+"']").val("");
-	$("#" + table + " :input[name='d_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='e_"+number+"']").val("");
-	$("#" + table + " :input[name='e_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='e1_"+number+"']").val("");
-	$("#" + table + " :input[name='e1_"+number+"']").val("-");
-	$("#" + hidetable + " :input[name='e2_"+number+"']").val("");
-	$("#" + table + " :input[name='e2_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='e3_"+number+"']").val("");
-	$("#" + table + " :input[name='e3_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='e4_"+number+"']").val("");
-	$("#" + table + " :input[name='e4_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='avgE_"+number+"']").val("");
-	$("#" + table + " :input[name='avgE_"+number+"']").val("");
-	$("#" + hidetable + " :input[name='base_"+number+"']").val("10");
-	$("#" + table + " :input[name='base_"+number+"']").val("10");
-	$("#" + hidetable + " :input[name='total_"+number+"']").val("");
-	$("#" + table + " :input[name='total_"+number+"']").val("");
-//	agcalculate("all",number,agtable,index);
+	var app = table.split("_");    
+	for (var i = 0; i < parts.length; i++) {
+		$("#" + hidetable + " :input[name='"+parts[i]+"_"+number+"']").val("");
+		$("#" + table + " :input[name='"+parts[i]+"_"+number+"']").val("");
+		$("#" + hidetable + " :input[name='"+parts[i]+"_"+number+"_1']").val("");
+		$("#" + table + " :input[name='"+parts[i]+"_"+number+"_1']").val("");
+		$("#" + hidetable + " :input[name='"+parts[i]+"_"+number+"_2']").val("");
+		$("#" + table + " :input[name='"+parts[i]+"_"+number+"_2']").val("");
+       }
                 $.ajax({
                     'async': false,
                     type: "DELETE",
@@ -487,7 +477,6 @@ $.ajax({
      	data = sortJSON(data,'number', '123');
 	data.shift();
      	data = sortJSON(data,'pool', '123');
-//	console.log(JSON.stringify(data));
 	for (var n = 0; n < data.length; n++) {
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
@@ -609,6 +598,17 @@ $.ajax({
                 data[n].pen = "";
 	  }
  	  total = data[n].total;
+	if (app[0] == "vault" ){				
+		for (var i = 0; i < parts.length; i++) {
+			if ( parts[i] == "total" ) {
+				data[n][parts[i]] = data[n][parts[i]+"_1"] + "<br>" + data[n][parts[i]+"_2"] + "<br><b>" + data[n][parts[i]] + "</b>";
+			} else {
+				data[n][parts[i]] = data[n][parts[i]+"_1"] + "<br>" + data[n][parts[i]+"_2"] ;
+			} 
+		}
+	} else {
+		data[n].total = "<b>" + data[n].total + "</b>";
+	}
           data[n].rank = rank;
 	  klass = data[n].class;
 	  last_rank = last_rank + 1;
