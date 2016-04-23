@@ -290,6 +290,10 @@ $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
 	editableGrid.filter($("#startList_table-search").val());
 });
+editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, row) {
+                        console.log("Value for '" + this.getColumnName(columnIndex) + "' in row " + this.getRowId(rowIndex) + " has changed from '" + oldValue + "' to '" + newValue + "'");
+                };
+
 $(function() {
       $("#delete").click( function()
            {
@@ -359,7 +363,14 @@ $(function() {
 		var d = new Date();
 		var n = d.getTime();
 		var new_id = n + "_" + Math.floor((Math.random() * 10000) + 1);
-		editableGrid.insertAfter(editableGrid.getRowCount(), editableGrid.getRowCount(), JSON.parse('{ "number" : "' + editableGrid.getRowCount() + '","id":"'+ new_id + '"}'));
+		var new_index=editableGrid.getRowCount() + 1;
+		var new_startnr = 0;
+		for (var i = 0; i < editableGrid.getRowCount(); i++) {
+			if (editableGrid.getRowValues(i).number >= new_startnr) {
+				new_startnr = editableGrid.getRowValues(i).number + 1;
+			}
+		}
+		editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ new_id + '"}'));
            }
       );
 });
