@@ -317,7 +317,32 @@ function startlistedit (index,part,agvalue,agtable) {
 		return '<input onchange="agupdate(\'' + part + '\',\'' + index + '\',\'' + agtable + '\');" id="' + part + '_' + index + '" type="text" class="form-control" ' + placeholder + '" ' + value + ' autocomplete="off" />';
 	}
 }
+function draweditable(table,type) {
+	var datalocal = [];
+	for (var n = 0; n < data.length; n++) {
+		data[n].checked = false;
+		datalocal.push(JSON.parse('{"id":' + n + ', "values":' + JSON.stringify(data[n]) + '}'));
+	}
+				var metadata = [];
+				metadata.push({ name: "number", label: "#*", datatype: "integer", editable: true});
+				metadata.push({ name: "gymnast", label: "Gymnast*", datatype: "string", editable: true});
+				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
+				metadata.push({ name: "born", label: "Born", datatype: "string", editable: true});
+				metadata.push({ name: "team", label: "Team*", datatype: "string", editable: true});
+				metadata.push({ name: "class", label: "Class*", datatype: "string", editable: true});
+				metadata.push({ name: "rules", label: "Rules", datatype: "string", editable: true});
+				metadata.push({ name: "pool", label: "Pool", datatype: "string", editable: true});
+				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: true});
+				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
+				editableGrid = new EditableGrid("DemoGridFull", {
+	enableSort: true, 
+	editmode: "absolute", // change this to "fixed" to test out editorzone, and to "static" to get the old-school mode
+	pageSize: 1000
+});
+				editableGrid.load({"metadata": metadata, "data": datalocal});
+				editableGrid.renderGrid(table, "table table-condensed");
 
+}
 function drawdynatable(table,type) {
       var datalocal = data;
       dynatable = $('#' + table).dynatable({
@@ -423,24 +448,25 @@ function clearscore(index,number,agtable,id) {
 		$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', false);
 	}
 }
-function draweditable(ESurl) {
-$.ajax({
-  url: ESurl,
-  'async': false,
-  error: function(){
-        $.mobility.notify("No competition or is database down??","error");
-  },
-  success: function(data_tmp){
-     data = [];
-     var data_pre = new Array();
-     for (var i = 0; i < data_tmp.hits.hits.length; i++) {
-        data.push(data_tmp.hits.hits[i]._source)
-     }
-  }
-});
-     	data = sortJSON(data,'number', '123');
-	data.shift();
-}
+//function draweditable(ESurl) {
+//$.ajax({
+//  url: ESurl,
+//  'async': false,
+//  error: function(){
+//        $.mobility.notify("No competition or is database down??","error");
+//  },
+//  success: function(data_tmp){
+//     data = [];
+//     var data_pre = new Array();
+//     for (var i = 0; i < data_tmp.hits.hits.length; i++) {
+//        data.push(data_tmp.hits.hits[i]._source)
+//     }
+//  }
+//});
+//     	data = sortJSON(data,'number', '123');
+//	data.shift();
+//}
+
 function drawgymtable(ESurl,table,type) {
 var app = table.split("_");
 $.ajax({
@@ -475,7 +501,7 @@ $.ajax({
          	}
          });
      	data = sortJSON(data,'number', '123');
-	data.shift();
+	//data.shift();
      	data = sortJSON(data,'pool', '123');
 	for (var n = 0; n < data.length; n++) {
 		for (var m = 0; m < data_pre.length; m++) {
@@ -550,7 +576,7 @@ $.ajax({
      } else {
 	if (app[0] == "allaround") {
      		data = sortJSON(data,'number', '321');
-		data.pop();
+		//data.pop();
      		data = sortJSON(data,'id', '123');
 		for (var m = 0; m < data.length; m++) {
 			data[m]["total"]=0;
@@ -625,9 +651,15 @@ $.ajax({
  	$el.append($("<option></option>")
         .attr("value", Options[i] ).text(Options[i]));
       }
+     if (type == "edit") {
+     (function() {
+      draweditable(table,type);
+  })();
+	} else {
      (function() {
       drawdynatable(table,type);
   })();
+	}
   }
 });
 }

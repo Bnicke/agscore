@@ -54,3 +54,51 @@ th a:hover {
 	font-size: smaller;
         position: absolute;
 }
+
+.switch-6 input:checked + span::before {
+    content: "\f00c";
+    text-indent: 6px;
+    color: #FFF;
+    border-color: #b7d3e5;
+    background-color: #ff893c;
+}
+
+.switch input:checked + span::before {
+    text-indent: 9px;
+    color: #FFF;
+    background-color: #8ab2c9;
+    border-color: #468fcc;
+}
+input, button, select, textarea {
+    line-height: normal;
+}
+.editablegrid-id {
+	visibility: hidden;
+	 display: none;
+}
+.checked {
+    float: right!important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 44px;
+    text-align: center;
+    padding: 0 5px 0 20px;
+}
+.checked_i {
+    float: right!important;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 44px;
+    text-align: center;
+    padding: 0 5px 0 20px;
+}
+.input_i {
+    float: right!important;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    width: 65px;
+    position: relative;
+    top: 13px;
+}
+

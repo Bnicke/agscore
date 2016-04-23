@@ -13,8 +13,8 @@ https://www.dynatable.com/
 ####Stacktable.js:
 https://github.com/johnpolacek/stacktable.js/
 
-#### easyautocomplete
-http://easyautocomplete.com/examples
+#### editablegrid
+https://github.com/webismymind/editablegrid
 
 ### Config
 #### Install 
