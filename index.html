@@ -291,7 +291,31 @@ $( "#startList_table-search" ).change(function() {
 	editableGrid.filter($("#startList_table-search").val());
 });
 editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, row) {
-                        console.log("Value for '" + this.getColumnName(columnIndex) + "' in row " + this.getRowId(rowIndex) + " has changed from '" + oldValue + "' to '" + newValue + "'");
+		var post = this.getRowValues(rowIndex);
+                var notify;
+                var notifytype;
+
+		
+//                        console.log("Value for '" + this.getColumnName(columnIndex) + "' in row " + this.getRowId(rowIndex) + " has changed from '" + oldValue + "' to '" + newValue + "'");
+		if ((this.getColumnName(columnIndex) != "checked") & (post.gymnast != "") & (post.pool != "") & (post.team != "") & (post.class != "") & (post.number != "")) {
+                $.ajax({
+                        'async': false,
+                        type: "POST",
+                        url: "/ES/comp1/startList/" + post.id,
+                        data: JSON.stringify(post),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(s){
+                                notify = "Gymnast " + post.gymnast + " updated!";
+                                notifytype = "success";
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                                notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.gymnast;
+                                notifytype = "error";
+                        }
+                });
+		$.mobility.notify(notify,notifytype);
+		}
                 };
 
 $(function() {
