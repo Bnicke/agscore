@@ -309,7 +309,6 @@ $(function() {
 		for (var i = 0; i < editableGrid.getRowCount(); i++) { 
 			if (editableGrid.getRowValues(i).checked) {
 				post = editableGrid.getRowValues(i);
-				console.log(post);
 				startlistedit("DELETE",post,true);
 				editableGrid.removeRow(editableGrid.getRowId(i));
 				i = -1;
@@ -319,11 +318,14 @@ $(function() {
       );
 });
 $(function() {
+	var post = new Array();
       $("#uncheck").click( function()
            {
                 for (var i = 0; i < editableGrid.getRowCount(); i++) {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,9,"false",true);
+				post = editableGrid.getRowValues(i);
+				startlistedit("POST",post,true);
                         }
                 }
            }
@@ -331,24 +333,30 @@ $(function() {
 });
 
 $(function() {
+	var post = new Array();
       $("#class").click( function()
            {
 	   	var newKlass=$("#startList_table-class").val();
                 for (var i = 0; i < editableGrid.getRowCount(); i++) { 
                         if (editableGrid.getRowValues(i).checked) {
 				editableGrid.setValueAt(i,5,newKlass,true);
+				post = editableGrid.getRowValues(i);
+				startlistedit("POST",post,true);
                         }
                 }
            }
       );
 });
 $(function() {
+	var post = new Array();
       $("#rules").click( function()
            {
                 var newRules=$("#startList_table-rules").val();
                 for (var i = 0; i < editableGrid.getRowCount(); i++) {
                         if (editableGrid.getRowValues(i).checked) {
-                                editableGrid.setValueAt(i,7,newRules,true);
+                                editableGrid.setValueAt(i,6,newRules,true);
+				post = editableGrid.getRowValues(i);
+				startlistedit("POST",post,true);
                         }
                 }
            }
@@ -356,12 +364,15 @@ $(function() {
 });
 
 $(function() {
+	var post = new Array();
       $("#pool").click( function()
            { 
 	   	var newPool=$("#startList_table-pool").val();
                 for (var i = 0; i < editableGrid.getRowCount(); i++) {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,7,newPool,true);
+				post = editableGrid.getRowValues(i);
+				startlistedit("POST",post,true);
                         }
                 }
            }

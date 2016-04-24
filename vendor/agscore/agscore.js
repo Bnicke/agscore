@@ -281,7 +281,7 @@ function draweditable(table,type) {
 				metadata.push({ name: "team", label: "Team*", datatype: "string", editable: true});
 				metadata.push({ name: "class", label: "Class*", datatype: "string", editable: true});
 				metadata.push({ name: "rules", label: "Rules", datatype: "string", editable: true});
-				metadata.push({ name: "pool", label: "Pool", datatype: "string", editable: true});
+				metadata.push({ name: "pool", label: "Pool*", datatype: "string", editable: true});
 				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: true});
 				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
 				editableGrid = new EditableGrid("DemoGridFull", {
