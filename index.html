@@ -298,31 +298,19 @@ editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, 
 		
 //                        console.log("Value for '" + this.getColumnName(columnIndex) + "' in row " + this.getRowId(rowIndex) + " has changed from '" + oldValue + "' to '" + newValue + "'");
 		if ((this.getColumnName(columnIndex) != "checked") & (post.gymnast != "") & (post.pool != "") & (post.team != "") & (post.class != "") & (post.number != "")) {
-                $.ajax({
-                        'async': false,
-                        type: "POST",
-                        url: "/ES/comp1/startList/" + post.id,
-                        data: JSON.stringify(post),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(s){
-                                notify = "Gymnast " + post.gymnast + " updated!";
-                                notifytype = "success";
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                                notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.gymnast;
-                                notifytype = "error";
-                        }
-                });
-		$.mobility.notify(notify,notifytype);
+	startlistedit("POST",post,true);
 		}
                 };
 
 $(function() {
+	var post = new Array();
       $("#delete").click( function()
            {
 		for (var i = 0; i < editableGrid.getRowCount(); i++) { 
 			if (editableGrid.getRowValues(i).checked) {
+				post = editableGrid.getRowValues(i);
+				console.log(post);
+				startlistedit("DELETE",post,true);
 				editableGrid.removeRow(editableGrid.getRowId(i));
 				i = -1;
 			}
