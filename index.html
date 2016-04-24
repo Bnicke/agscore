@@ -318,14 +318,11 @@ $(function() {
       );
 });
 $(function() {
-	var post = new Array();
       $("#uncheck").click( function()
            {
                 for (var i = 0; i < editableGrid.getRowCount(); i++) {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,9,"false",true);
-				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,true);
                         }
                 }
            }
