@@ -18,6 +18,18 @@ https://github.com/webismymind/editablegrid
 
 ### Config
 #### Install 
+## Docker
+Install docker: https://docs.docker.com/engine/installation/linux/
+Create a network so the containers can talk with each other:
+	docker network create -d bridge agscore
+Run a elasticsearch container on that net, put datadir in home
+	docker run --name eshost --net=agscore -d -v "$HOME/esdata":/usr/share/elasticsearch/data elasticsearch
+Pull the agscore from github:
+	git clone https://github.com/Bnicke/agscore
+Use fex. a nginx to serve static files.
+	docker run --name nginx --net=agscore -v $HOME/agscore/docker/nginx.conf:/etc/nginx/nginx.conf:ro -v $HOME/agscore:/usr/share/nginx/html:ro -d nginx
+
+## Local
 Download Elastic search from https://www.elastic.co/downloads/elasticsearch
 ```
   unzip  elasticsearch-2.2.1.zip 
