@@ -159,6 +159,48 @@
             <a data-do="go-forward" data-on="click" href="#refresh">Refresh <i class="fa fa-chevron-right"></i></a>
         </nav>
     </div>
+<aside id="aside-startlist" class="aside aside-right">
+<a class="btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-startlist"><i class="fa fa-chevron-right"></i></a>
+        <h2 class="pad">Start List functions</h2>
+<h4 class="pad upper">With checked:</h4>
+<div class="focus">
+<a class="btn btn-default" id="uncheck" data-role="uncheck" href="#">Uncheck all</a>
+</div>
+<div class="focus">
+<a class="btn btn-default" id="check" data-role="check" href="#">Check all</a>
+</div>
+<div class="focus">
+  <label>to rule:</label>
+  <input 
+    type="text" 
+    id="startList_table-rules"
+    class="form-control" 
+    placeholder="Rule..." />
+<a class="btn btn-default" id="rules" data-role="rules" href="#">OK</a>
+</div>
+<div class="focus">
+  <label>to class:</label>
+  <input
+    type="text" 
+    id="startList_table-class"
+    class="form-control"
+    placeholder="Class..." />
+<a class="btn btn-default" id="class" data-role="class" href="#">OK</a>
+</div>
+<div class="focus">
+  <label>to pool:</label>
+  <input
+    type="text" 
+    id="startList_table-pool"
+    class="form-control"
+    placeholder="Pool..." />
+<a class="btn btn-default" id="pool" data-role="pool" href="#">OK</a>
+</div>
+<div class="focus">
+<a class="btn btn-default" id="delete" data-role="delete" href="#">Delete</a>
+</div>
+</aside>
+
     
     <aside id="aside-left" class="aside aside-left">
     	<a class="btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-chevron-left"></i></a>
@@ -235,20 +277,9 @@
 
        <script id="startList" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-<a class="head-btn btn btn-default pull-right" id="rules" data-role="rules" href="#">OK</a>
-<input id="startList_table-rules" type="text" class="input_i" placeholder="rules...">
-<h5 class="checked_i">&nbsp;</h5>
-<a class="head-btn btn btn-default pull-right" id="class" data-role="class" href="#">OK</a>
-<input id="startList_table-class" type="text" class="input_i" placeholder="class...">
-<h5 class="checked_i">&nbsp;</h5>
-<a class="head-btn btn btn-default pull-right" id="pool" data-role="pool" href="#">OK</a>
-<input id="startList_table-pool" type="text" class="input_i" placeholder="pool...">
-<h5 class="checked_i">&nbsp;</h5>
-<a class="head-btn btn btn-default pull-right" id="delete" data-role="delete" href="#">Del</a>
-<a class="head-btn btn btn-default pull-right" id="uncheck" data-role="uncheck" href="#">Uncheck</a>
-<h5 class="checked">Checked:</h5>
-<a class="head-btn btn btn-default pull-right" id="new" data-role="new" href="#">New</a>
+<a class="head-btn btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-startlist"><i class="fa fa-bars"></i></a>
+<a class="head-btn btn btn-default pull-right" id="new" data-role="new" href="#">New gymnast</a>
+<a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
 <h1 class="title">Start list</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -331,6 +362,17 @@ $(function() {
            }
       );
 });
+$(function() {
+      $("#check").click( function()
+           {
+                for (var i = 0; i < editableGrid.getRowCount(); i++) {
+                        if (!editableGrid.getRowValues(i).checked) {
+                                editableGrid.setValueAt(i,9,"true",true);
+                        }
+                }
+           }
+      );
+});
 
 $(function() {
 	var post = new Array();
@@ -341,7 +383,7 @@ $(function() {
                         if (editableGrid.getRowValues(i).checked) {
 				editableGrid.setValueAt(i,5,newKlass,true);
 				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,true);
+				startlistedit("POST",post,false);
                         }
                 }
            }
@@ -356,7 +398,7 @@ $(function() {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,6,newRules,true);
 				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,true);
+				startlistedit("POST",post,false);
                         }
                 }
            }
@@ -372,7 +414,7 @@ $(function() {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,7,newPool,true);
 				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,true);
+				startlistedit("POST",post,false);
                         }
                 }
            }
