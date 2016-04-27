@@ -17,6 +17,13 @@ https://github.com/johnpolacek/stacktable.js/
 https://github.com/webismymind/editablegrid
 
 ### Config
+Note, you must have at least one index in ES, otherwise it responds with 404.
+
+Tips:
+```
+curl -X POST http://localhost:9200/global/competition/new -d '{"name":"none"}'
+curl -X DELETE http://localhost:9200/global/competition/new 
+```
 #### Install 
 ## Docker
 Install docker: https://docs.docker.com/engine/installation/linux/
