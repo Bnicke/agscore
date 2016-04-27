@@ -19,10 +19,10 @@ https://github.com/webismymind/editablegrid
 ### Config
 Note, you must have at least one index in ES, otherwise it responds with 404.
 
-Tips:
+Tips for the dummy competition.:
 ```
-curl -X POST http://localhost:9200/global/competition/new -d '{"name":"none"}'
-curl -X DELETE http://localhost:9200/global/competition/new 
+curl -XPOST http://localhost:9200/comp1/competition/new -d '{"name":"none"}'
+curl -XDELETE http://localhost:9200/comp1/competition/new 
 ```
 #### Install 
 ## Docker
