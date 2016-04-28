@@ -651,6 +651,19 @@ function changecompetition(id) {
                 success: function(s){
 		console.log(s._source.name);
 		$( "div.compname" ).replaceWith('<div class="compname">' + s._source.name + '</div>');
+		if (s._source.css) {
+		jQuery('<link />').attr({
+			rel: 'stylesheet', 
+			type: 'text/css',
+			href: 'vendor/mobility/mobility-'+s._source.css+'.css' })
+		.appendTo('head');
+		} else {
+		jQuery('<link />').attr({
+                        rel: 'stylesheet',
+                        type: 'text/css',
+                        href: 'vendor/mobility/mobility.css' })
+                .appendTo('head');
+		}
 	}
          });
 }
