@@ -229,6 +229,7 @@
         <nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#newCompetition">New Competition<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>
     </aside>
@@ -274,6 +275,7 @@
 	<nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
+	    <a data-do="go-forward" data-on="click" href="#newCompetition">New Competition<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>	
         </section>
@@ -1104,6 +1106,85 @@ drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 </form>
 <script>
 drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg");
+</script>
+        </section>
+ </script>
+<script id="newCompetition" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title">Create Competition</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<form id="newCompetition-form">
+
+<div class="focus">
+  <label>Name:</label>
+  <input 
+    type="text" 
+    id="name"
+    class="form-control" 
+    placeholder="Text input" />
+</div>
+<div class="focus">
+  <label>Organizer:</label>
+  <input
+    type="text"
+    id="organizer"
+    class="form-control"
+    placeholder="Text input" />
+</div>
+<div class="focus">
+  <label>Start date:</label>
+  <input 
+    type="date" 
+    id="date" 
+    class="form-control"
+    placeholder="Date" />
+</div>
+<div class="focus">
+  <label>End date:</label>
+  <input
+    type="date"
+    id="date2"
+    class="form-control"
+    placeholder="Date" />
+</div>
+<div class="focus">
+  <label class="top">Type</label>
+  <select id="type" class="form-control">
+    <option value="WAG">Women's artistic gymnastics</option>
+    <option value="MAG">Men's artistic gymnastics</option>
+  </select>
+</div>
+<div class="focus">
+  <textarea 
+    class="form-control"
+    id="description"
+    rows="3" 
+    placeholder="Enter Text"></textarea>
+</div>
+<div class="focus">
+            <input class="btn btn-default" type="submit" value="Create">
+</div>
+</form>
+<script>
+ (function($){
+        function processForm( e ){
+	    var post = {};
+	    post.name = $('#name').val();
+	    post.id = camelize($('#name').val());
+	    post.date = $('#date').val();
+	    post.date2 = $('#date2').val();
+	    post.organizer = $('#organizer').val();
+	    post.type = $('#type').val();
+	    post.description = $('#description').val();
+	    if (post.date2 < post.date ) {
+		 $.mobility.notify("End date can not be before start date!","error");
+	    }
+            e.preventDefault();
+        }
+        $('#newCompetition-form').submit( processForm );
+    })(jQuery);
 </script>
         </section>
  </script>

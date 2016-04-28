@@ -649,7 +649,6 @@ function changecompetition(id) {
                         $.mobility.notify("No competitions or is database down??","error");
                 },
                 success: function(s){
-		console.log(s._source.name);
 //		$( "div.compname" ).replaceWith('<div class="compname">' + s._source.name + '</div>');
 		if (s._source.css) {
 		jQuery('<link />').attr({
