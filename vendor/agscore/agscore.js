@@ -1,9 +1,36 @@
 var data = new Array();
 var dynatable;
+var competition = "";
 var apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 //var apps = new Array( "vault", "unevenBars", "beam", "floor");
+function createCookie(name, value, days) {
+    var expires;
 
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString();
+    } else {
+        expires = "";
+    }
+    document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = encodeURIComponent(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name, "", -1);
+}
 function sortJSON(tosort, key, way) {
     return tosort.sort(function(a, b) {
         var x = a[key]; var y = b[key];
@@ -186,7 +213,7 @@ function agcalculate(part,number,agtable,index) {
     $.ajax({
 	'async': false,
         type: "POST",
-        url: "/ES/comp1/" + app[0] + "/" + post.id,
+        url: "/ES/" + competition + "/" + app[0] + "/" + post.id,
         data: JSON.stringify(post),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -233,7 +260,7 @@ if (action == "POST" ) {
                 $.ajax({
                         'async': false,
                         type: "POST",
-                        url: "/ES/comp1/startList/" + post.id,
+                        url: "/ES/" + competition + "/startList/" + post.id,
                         data: JSON.stringify(post),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -250,7 +277,7 @@ if (action == "POST" ) {
                 $.ajax({
                     'async': false,
                     type: "DELETE",
-                    url: "/ES/comp1/startList/" + post.id,
+                    url: "/ES/" + competition + "/startList/" + post.id,
                     success: function(s){
                                 notifytxt = "Gymnast " + post.gymnast + " deleted!";
                                 notifytype = "success";
@@ -338,7 +365,6 @@ $('#' + table + '-search-pool').change( function(e) {
   dynatable.records.init();
   dynatable.process();
 });
-
 $('#' + table + '-search-class').change( function(e) {
   var value = $(this).val();
   if (value === "") {
@@ -387,7 +413,7 @@ function clearscore(index,number,agtable,id) {
                 $.ajax({
                     'async': false,
                     type: "DELETE",
-                    url: "/ES/comp1/" + app[0] +"/" + id,
+                    url: "/ES/" + competition + "/" + app[0] +"/" + id,
                     success: function(s){
 			$.mobility.notify(id + " deleted!","success");
                     }
@@ -441,7 +467,7 @@ $.ajax({
      if (type == "reg") {
          $.ajax({
          	'async': false,
-         	url: "/ES/comp1/" + app[0] + "/_search",
+         	url: "/ES/" + competition + "/" + app[0] + "/_search",
          	success: function(s){
 			for (var i = 0; i < s.hits.hits.length; i++) {
         			data_pre.push(s.hits.hits[i]._source)
@@ -534,7 +560,7 @@ $.ajax({
 		for (var n = 0; n < apps.length; n++) {
 		         $.ajax({
                 		'async': false,
-                		url: "/ES/comp1/" + apps[n] + "/_search",
+                		url: "/ES/" + competition + "/" + apps[n] + "/_search",
                 		success: function(s){
                         		for (var i = 0; i < s.hits.hits.length; i++) {
 						for (var m = 0; m < data.length; m++) {
@@ -613,10 +639,26 @@ $.ajax({
   }
 });
 }
+function changecompetition(id) {
+	createCookie("competition", id,"30");
+	competition = id;
+	$.ajax({
+                'async': false,
+                url: "/ES/global/competition/" + id,
+                error: function(){
+                        $.mobility.notify("No competitions or is database down??","error");
+                },
+                success: function(s){
+		console.log(s._source.name);
+		$( "div.compname" ).replaceWith('<div class="compname">' + s._source.name + '</div>');
+	}
+         });
+}
+
 function initcompetition() {
        $.ajax({
                 'async': false,
-                url: "/ES//global/competition/_search",
+                url: "/ES/global/competition/_search",
                 error: function(){
                         $.mobility.notify("No competitions or is database down??","error");
                 },
@@ -628,10 +670,24 @@ function initcompetition() {
                         competitions.reverse();
                         var $el = $("#select-competition");
                         $('#select-competition option').remove();
+			selectedcompetition=readCookie("competition");
                         for (var i = 0; i < competitions.length; i++) {
+				if (selectedcompetition == competitions[i].id ) {
+                                $el.append($("<option selected></option>")
+                                .attr("value", competitions[i].id ).text(competitions[i].name));
+				changecompetition(competitions[i].id);	
+				} else {
                                 $el.append($("<option></option>")
-                                .attr("value", camelize(competitions[i].name) ).text(competitions[i].name));
+                                .attr("value", competitions[i].id ).text(competitions[i].name));
+				}
                         }
+			if (!selectedcompetition) {
+				changecompetition(competitions[competitions.length-1].id);	
+			}
+			$('#select-competition').change( function(e) {
+				var value = $(this).val();
+        			changecompetition(value);
+			});
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                 }

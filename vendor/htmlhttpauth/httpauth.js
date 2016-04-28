@@ -29,7 +29,6 @@ function createForm(httpauth)
     usernameInput.id = httpauth.id + "-username";
     username.appendChild(document.createTextNode("Username:"));
     username.appendChild(usernameInput);
-    console.log(username);
     userdiv.appendChild(username);
     var password = document.createElement("label");
     var passwordInput = document.createElement("input");

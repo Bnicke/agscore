@@ -242,9 +242,7 @@
         <section class="body with-head with-foot">
 			<h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
-            	<p> Competition: KFUM KM 2015
-                </p>
-                
+		<div class="compname">AGscore.se</div>
             </div>
             <h4 class="pad upper">Results</h4>
 		<nav class="nav-list">
@@ -273,6 +271,9 @@
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>	
         </section>
+	<script>
+	initcompetition();
+	</script>
     </script>
 
        <script id="startList" type="text/html">
@@ -319,7 +320,7 @@
 * Manadory, gymnast will not be updated until filled in.
 </div>
 <script>
-drawgymtable("/ES/comp1/startList/_search","startList_table","edit");
+drawgymtable("/ES/" + competition + "/startList/_search","startList_table","edit");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
 	editableGrid.filter($("#startList_table-search").val());
@@ -507,7 +508,7 @@ Hej
 </table>
 
 <script>
-drawgymtable("/ES/comp1/startList/_search","allaround_table");
+drawgymtable("/ES/" + competition + "/startList/_search","allaround_table");
 </script>
         </section>
     </script> 
@@ -548,7 +549,7 @@ drawgymtable("/ES/comp1/startList/_search","allaround_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/floor/_search","floor_table");
+drawgymtable("/ES/" + competition + "/floor/_search","floor_table");
 </script>
         </section>
     </script>
@@ -588,7 +589,7 @@ drawgymtable("/ES/comp1/floor/_search","floor_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table");
+drawgymtable("/ES/" + competition + "/pommelHorse/_search","pommelHorse_table");
 </script>
         </section>
  </script>
@@ -629,7 +630,7 @@ drawgymtable("/ES/comp1/pommelHorse/_search","pommelHorse_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/rings/_search","rings_table");
+drawgymtable("/ES/" + competition + "/rings/_search","rings_table");
 </script>
         </section>
     </script>
@@ -669,7 +670,7 @@ drawgymtable("/ES/comp1/rings/_search","rings_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/vault/_search","vault_table");
+drawgymtable("/ES/" + competition + "/vault/_search","vault_table");
 </script>
   </section>
     </script>
@@ -710,7 +711,7 @@ drawgymtable("/ES/comp1/vault/_search","vault_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/parallelBars/_search","parallelBars_table");
+drawgymtable("/ES/" + competition + "/parallelBars/_search","parallelBars_table");
 </script>
   </section>
     </script>
@@ -751,7 +752,7 @@ drawgymtable("/ES/comp1/parallelBars/_search","parallelBars_table");
 </table>
 
 <script>
-drawgymtable("/ES/comp1/highBar/_search","highBar_table");
+drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
 </script>
   </section>
     </script>
@@ -794,7 +795,7 @@ drawgymtable("/ES/comp1/highBar/_search","highBar_table");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","floor_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
 </script>
         </section>
  </script>
@@ -837,7 +838,7 @@ drawgymtable("/ES/comp1/startList/_search","floor_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","pommelHorse_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","reg");
 </script>
         </section>
  </script>
@@ -881,7 +882,7 @@ drawgymtable("/ES/comp1/startList/_search","pommelHorse_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","rings_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
 </script>
         </section>
  </script>
@@ -924,7 +925,7 @@ drawgymtable("/ES/comp1/startList/_search","rings_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","vault_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
 </script>
         </section>
  </script>
@@ -967,7 +968,7 @@ drawgymtable("/ES/comp1/startList/_search","vault_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","parallelBars_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","reg");
 </script>
         </section>
  </script>
@@ -1010,7 +1011,7 @@ drawgymtable("/ES/comp1/startList/_search","parallelBars_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","highBar_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
 </script>
         </section>
  </script>
@@ -1053,7 +1054,7 @@ drawgymtable("/ES/comp1/startList/_search","highBar_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","beam_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 </script>
         </section>
  </script>
@@ -1096,7 +1097,7 @@ drawgymtable("/ES/comp1/startList/_search","beam_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/comp1/startList/_search","unevenBars_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg");
 </script>
         </section>
  </script>
@@ -1174,7 +1175,6 @@ drawgymtable("/ES/comp1/startList/_search","unevenBars_table","reg");
 			href: 'vendor/mobility/mobility-'+color+'.css' })
 		.appendTo('head');
 	});
-    initcompetition();
     </script>
 </body>
 </html>
