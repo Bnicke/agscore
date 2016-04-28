@@ -1123,7 +1123,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
     type="text" 
     id="name"
     class="form-control" 
-    placeholder="Text input" />
+    placeholder="Competition name..." />
 </div>
 <div class="focus">
   <label>Organizer:</label>
@@ -1131,7 +1131,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
     type="text"
     id="organizer"
     class="form-control"
-    placeholder="Text input" />
+    placeholder="Organizing team..." />
 </div>
 <div class="focus">
   <label>Start date:</label>
@@ -1157,11 +1157,24 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
   </select>
 </div>
 <div class="focus">
+  <label class="top">Colour</label>
+  <select id="css" class="form-control">
+	    <option value="default">Grey</option>
+	    <option value="blue">Blue</option>
+	    <option value="green">Green</option>
+	    <option value="orange">Orange</option>
+	    <option value="pink">Pink</option>
+	    <option value="purple">Purple</option>
+	    <option value="red">Red</option>
+  </select>
+</div>
+
+<div class="focus">
   <textarea 
     class="form-control"
     id="description"
     rows="3" 
-    placeholder="Enter Text"></textarea>
+    placeholder="Enter description..."></textarea>
 </div>
 <div class="focus">
             <input class="btn btn-default" type="submit" value="Create">
@@ -1170,18 +1183,65 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 <script>
  (function($){
         function processForm( e ){
+            e.preventDefault();
 	    var post = {};
 	    post.name = $('#name').val();
-	    post.id = camelize($('#name').val());
 	    post.date = $('#date').val();
 	    post.date2 = $('#date2').val();
 	    post.organizer = $('#organizer').val();
 	    post.type = $('#type').val();
+	    post.id = camelize(post.organizer) + "-" + camelize($('#name').val());
+	    post.id = post.id.toLowerCase();
+	    post.css = $('#css').val();
 	    post.description = $('#description').val();
+	    post.created = Math.floor(new Date()/1000);
 	    if (post.date2 < post.date ) {
-		 $.mobility.notify("End date can not be before start date!","error");
+		$.mobility.notify("End date can not be before start date!","error");
+		return false;
 	    }
-            e.preventDefault();
+	    if (post.name.length < 5) {
+		$.mobility.notify("Name to short!","error");
+		return false;
+	    }
+	    if (post.organizer.length < 2) {
+		$.mobility.notify("Organizer name to short!","error");
+		return false;
+	    }
+	    if ((post.type == "WAG") || (post.type == "MAG")) {
+		$.ajax({
+			'async': false,
+			url: "/ES/global/competition/" + post.id, 
+			success: function(result){
+				$.mobility.notify("Competition name already used!","error");
+			},
+			error: function(result){
+				    $.ajax({
+        				'async': false,
+        				type: "POST",
+				        url: "/ES/global/competition/" + post.id,
+				        data: JSON.stringify(post),
+				        contentType: "application/json; charset=utf-8",
+				        dataType: "json",
+				        success: function(s){
+                                    		$.ajax({
+                                        		'async': false,
+                                        		type: "POST",
+                                        		url: "/ES/"+  post.id + "/competition/" + post.id,
+                                        		data: '{"name":"dummy"}',
+                                        		contentType: "application/json; charset=utf-8",
+                                        		dataType: "json",
+                                        		success: function(s){	
+								$.mobility.notify("Competition " + post.name + " created!" ,"success");
+                                        		}
+                                    		}); 
+					}
+				    });
+			}
+    		});
+	    } else {
+		$.mobility.notify("AGScore.se does only handle WAG or MAG competitions!","error");
+		return false;
+	    }
         }
         $('#newCompetition-form').submit( processForm );
     })(jQuery);

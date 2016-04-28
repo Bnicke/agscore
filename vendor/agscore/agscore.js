@@ -679,11 +679,14 @@ function initcompetition() {
                         for (var i = 0; i < s.hits.hits.length; i++) {
                                 competitions.push(s.hits.hits[i]._source)
                         }
-                        competitions.reverse();
+//                        competitions.reverse();
+			competitions = sortJSON(competitions,'id', '123');
+			competitions = sortJSON(competitions,'created', '123');
                         var $el = $("#select-competition");
                         $('#select-competition option').remove();
 			selectedcompetition=readCookie("competition");
                         for (var i = 0; i < competitions.length; i++) {
+				console.log(competitions[i].id);
 				if ((selectedcompetition == competitions[i].id ) || ((!selectedcompetition) && ( i == competitions.length-1))) {
                                 $el.append($("<option selected></option>")
                                 .attr("value", competitions[i].id ).text(competitions[i].name));
