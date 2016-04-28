@@ -650,7 +650,7 @@ function changecompetition(id) {
                 },
                 success: function(s){
 		console.log(s._source.name);
-		$( "div.compname" ).replaceWith('<div class="compname">' + s._source.name + '</div>');
+//		$( "div.compname" ).replaceWith('<div class="compname">' + s._source.name + '</div>');
 		if (s._source.css) {
 		jQuery('<link />').attr({
 			rel: 'stylesheet', 
@@ -661,7 +661,7 @@ function changecompetition(id) {
 		jQuery('<link />').attr({
                         rel: 'stylesheet',
                         type: 'text/css',
-                        href: 'vendor/mobility/mobility.css' })
+                        href: 'vendor/mobility/mobility-default.css' })
                 .appendTo('head');
 		}
 	}
@@ -685,7 +685,7 @@ function initcompetition() {
                         $('#select-competition option').remove();
 			selectedcompetition=readCookie("competition");
                         for (var i = 0; i < competitions.length; i++) {
-				if (selectedcompetition == competitions[i].id ) {
+				if ((selectedcompetition == competitions[i].id ) || ((!selectedcompetition) && ( i == competitions.length-1))) {
                                 $el.append($("<option selected></option>")
                                 .attr("value", competitions[i].id ).text(competitions[i].name));
 				changecompetition(competitions[i].id);	
@@ -694,9 +694,6 @@ function initcompetition() {
                                 .attr("value", competitions[i].id ).text(competitions[i].name));
 				}
                         }
-			if (!selectedcompetition) {
-				changecompetition(competitions[competitions.length-1].id);	
-			}
 			$('#select-competition').change( function(e) {
 				var value = $(this).val();
         			changecompetition(value);
