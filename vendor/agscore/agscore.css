@@ -101,4 +101,18 @@ input, button, select, textarea {
     position: relative;
     top: 13px;
 }
-
+* {
+  box-sizing: border-box;
+}
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+td {
+  overflow: hidden;
+}
+tr td:first-child {
+  overflow: hidden;
+  width: 100px;
+}
