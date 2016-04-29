@@ -133,7 +133,13 @@ input, button, select, textarea {
   width: 100%;
   white-space: normal;
 }
+.stacktable>thead>tr>th {
+    overflow: hidden;
+}
 .stacktable>tbody>tr>td:nth-child(6) {
 	overflow: hidden;
+}
+.stacktable>tbody>tr>td:nth-child(4) {
+	overflow: visable;
 }
 
