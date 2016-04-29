@@ -128,4 +128,12 @@ input, button, select, textarea {
   width: 8%;
 }
 
+.stacktable  {
+  table-layout: fixed;
+  width: 100%;
+  white-space: normal;
+}
+.stacktable>tbody>tr>td:nth-child(6) {
+	overflow: hidden;
+}
 
