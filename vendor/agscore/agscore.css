@@ -101,18 +101,31 @@ input, button, select, textarea {
     position: relative;
     top: 13px;
 }
-* {
-  box-sizing: border-box;
-}
-table {
+.table-fixed {
   table-layout: fixed;
-  border-collapse: collapse;
   width: 100%;
+  white-space: nowrap;
 }
-td {
+.table-fixed td {
+#  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
-tr td:first-child {
-  overflow: hidden;
-  width: 100px;
+.table-fixed>thead>tr>th {
+    overflow: hidden;
 }
+
+.editablegrid-number {
+  width: 40px;
+}
+.editablegrid-gymnast {
+  width: 30%;
+}
+#.editablegrid-born {
+#  width: 50px;
+#}
+.editablegrid-about {
+  width: 8%;
+}
+
+

@@ -317,7 +317,7 @@ function draweditable(table,type) {
 	pageSize: 1000
 });
 				editableGrid.load({"metadata": metadata, "data": datalocal});
-				editableGrid.renderGrid(table, "table table-condensed");
+				editableGrid.renderGrid(table, "table table-condensed table-fixed");
 
 }
 function drawdynatable(table,type) {
