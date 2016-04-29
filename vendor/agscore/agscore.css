@@ -140,5 +140,11 @@ input, button, select, textarea {
 	overflow: visable;
 }
 .stacktable>thead>tr>th:nth-child(4) {
-    width: 8%;
+    width: 9%;
+}
+.stacktable>thead>tr>th:nth-child(3) {
+    width: 40px;
+}
+.stacktable>thead>tr>th:nth-child(2) {
+    width: 50px;
 }
