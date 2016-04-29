@@ -171,6 +171,9 @@
 <a class="btn btn-default" id="check" data-role="check" href="#">Check all</a>
 </div>
 <div class="focus">
+<a class="btn btn-default" id="recheck" data-role="recheck" href="#">Reverse all</a>
+</div>
+<div class="focus">
   <label>to rule:</label>
   <input 
     type="text" 
@@ -378,6 +381,19 @@ $(function() {
                         if (!editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,9,"true",true);
                         }
+                }
+           }
+      );
+});
+$(function() {
+      $("#recheck").click( function()
+           {
+                for (var i = 0; i < editableGrid.getRowCount(); i++) {
+                        if (editableGrid.getRowValues(i).checked) {
+                                editableGrid.setValueAt(i,9,"false",true);
+                        } else {
+                                editableGrid.setValueAt(i,9,"true",true);
+			}
                 }
            }
       );
