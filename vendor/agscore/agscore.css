@@ -121,9 +121,6 @@ input, button, select, textarea {
 .editablegrid-gymnast {
   width: 30%;
 }
-#.editablegrid-born {
-#  width: 50px;
-#}
 .editablegrid-about {
   width: 8%;
 }
@@ -142,4 +139,6 @@ input, button, select, textarea {
 .stacktable>tbody>tr>td:nth-child(4) {
 	overflow: visable;
 }
-
+.stacktable>thead>tr>th:nth-child(4) {
+    width: 8%;
+}
