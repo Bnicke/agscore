@@ -251,7 +251,7 @@
     <option>None</option>
   </select>
 <a id="delCompetition" data-on="click" href="#">
-                <i class="fa fa-minus fa-2x"></i>
+                <i class="fa fa-times fa-2x"></i>
             </a>
 <a data-do="modal-open" data-on="click" href="#newCompetition">
                 <i class="fa fa-plus fa-2x"></i>
@@ -297,29 +297,6 @@
 <h1 class="title">Start list</h1>
         </header>
         <section class="body with-foot with-head pad">
-<!--
-<div class="focus">
-  <label class="top">Select team:</label>
-  <select id="startList_table-search-team" class="form-control">
-    <option></option>
-  </select>
-</div>
-<table id="startList_table" class="testgrid table table-condensed">
-<thead>
-<th data-dynatable-column="gymnast">Gymnast</th>
-<th data-dynatable-column="number">Start number</th>
-<th>Born</th>
-<th data-dynatable-column="team">Team</th>
-<th data-dynatable-column="class">Class</th>
-<th>Rules</th>
-<th data-dynatable-column="pool">Pool</th>
-<th>About</th>
-<th>Stored</th>
-</thead>
- <tbody>
- </tbody>
-</table>
--->
 <div class="focus">
   <label class="top">Search:</label>
   <input id="startList_table-search"
@@ -820,7 +797,7 @@ drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -863,7 +840,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -907,7 +884,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","re
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -950,7 +927,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -993,7 +970,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -1036,7 +1013,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","r
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -1079,7 +1056,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>
@@ -1122,7 +1099,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 <th>Base</th>
 <th>E</th>
 <th>Total</th>
-<th>Stored</th>
+<th data-dynatable-column="delete">&nbsp;</th>
 </thead>
  <tbody>
  </tbody>

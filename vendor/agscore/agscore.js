@@ -80,10 +80,10 @@ function agcalculate(part,number,agtable,index) {
 	table = agtable + '-stacktable-small-only';
 	hidetable = agtable;
     }
-    if (part !="all" ) {
-    	$("#" + table + " :input[name='check_"+index+"']").prop('checked', true);
-    	$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', true);
-    }
+//    if (part !="all" ) {
+//    	$("#" + table + " :input[name='check_"+index+"']").prop('checked', true);
+//    	$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', true);
+//    }
     var double = number.split("_");
     var Base = $("#" + table + " :input[name='base_"+number+"']").val();
     var Pen = $("#" + table + " :input[name='pen_"+number+"']").val();
@@ -401,7 +401,7 @@ function clearscore(index,number,agtable,id) {
         table = agtable + '-stacktable-small-only';
         hidetable = agtable;
     }
-	if ((!$("#" + table + " :input[name='check_"+index+"']").prop('checked')) || (!$("#" + table + " :input[name='check_"+index+"']").prop('checked'))) {
+//	if ((!$("#" + table + " :input[name='check_"+index+"']").prop('checked')) || (!$("#" + table + " :input[name='check_"+index+"']").prop('checked'))) {
 	var app = table.split("_");    
 	for (var i = 0; i < parts.length; i++) {
 		$("#" + hidetable + " :input[name='"+parts[i]+"_"+number+"']").val("");
@@ -420,10 +420,10 @@ function clearscore(index,number,agtable,id) {
                     }
                 });
 
-	} else {
-		$("#" + table + " :input[name='check_"+index+"']").prop('checked', false);
-		$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', false);
-	}
+//	} else {
+//		$("#" + table + " :input[name='check_"+index+"']").prop('checked', false);
+//		$("#" + hidetable + " :input[name='check_"+index+"']").prop('checked', false);
+//	}
 }
 //function draweditable(ESurl) {
 //$.ajax({
@@ -518,11 +518,12 @@ $.ajax({
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
 		}
-		if (isNumber(data[n].total)) {
-			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
-		} else {
-			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
-		}
+//		if (isNumber(data[n].total)) {
+//			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
+//		} else {
+//			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
+//		}
+		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
 		if (app[0] == "vault" ){
 		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table);
                 data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table);
