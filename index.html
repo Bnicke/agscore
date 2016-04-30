@@ -250,7 +250,7 @@
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
-<a id="delCompetition" data-on="click" href="#">
+<a id="delCompetition" onclick="return confirm('Are you sure??, this will clear all scores for the current competition!')" href="javascript:deletecompetition($('#select-competition').val());">
                 <i class="fa fa-times fa-2x"></i>
             </a>
 <a data-do="modal-open" data-on="click" href="#newCompetition">
@@ -1243,10 +1243,11 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
                                         		contentType: "application/json; charset=utf-8",
                                         		dataType: "json",
                                         		success: function(s){	
-								                    $.mobility.notify("Competition " + post.name + " created!" ,"success");
-                                                    changecompetition(ipost.id);
-                                                    $.mobility.modalClose('#newCompetition');
-
+								$.mobility.notify("Competition " + post.name + " created!" ,"success");
+								console.log("Hej");
+                                                    		changecompetition(post.id);
+                                                    		$.mobility.modalClose('#newCompetition');
+								initcompetition();
                                         		}
                                     		});
 					}

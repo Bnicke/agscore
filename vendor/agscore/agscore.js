@@ -642,6 +642,34 @@ $.ajax({
   }
 });
 }
+function deletecompetition(id) {
+	eraseCookie("competition");
+	console.log(id);
+        competition = id;
+        $.ajax({
+                'async': false,
+		type: "DELETE",
+                url: "/ES/global/competition/" + id,
+                error: function(){
+                        $.mobility.notify("No competitions or is database down??","error");
+                },
+                success: function(s){
+			$.ajax({
+                		'async': false,
+                		type: "DELETE",
+                		url: "/ES/" + id + "/",
+                		error: function(){
+                        		$.mobility.notify("No competitions or is database down??","error");
+                		},
+                		success: function(s){
+                        		$.mobility.notify("Deleted!","success");
+					initcompetition(id);
+                		}
+        		});
+
+		}
+	});
+}
 function changecompetition(id) {
 	createCookie("competition", id,"30");
 	competition = id;
@@ -652,7 +680,6 @@ function changecompetition(id) {
                         $.mobility.notify("No competitions or is database down??","error");
                 },
                 success: function(s){
-//		$( "div.compname" ).replaceWith('<div class="compname">' + s._source.name + '</div>');
 		if (s._source.css) {
 		jQuery('<link />').attr({
 			rel: 'stylesheet', 
@@ -670,7 +697,7 @@ function changecompetition(id) {
          });
 }
 
-function initcompetition() {
+function initcompetition(id) {
        $.ajax({
                 'async': false,
                 url: "/ES/global/competition/_search",
@@ -688,16 +715,27 @@ function initcompetition() {
                         var $el = $("#select-competition");
                         $('#select-competition option').remove();
 			selectedcompetition=readCookie("competition");
+			var selected = "false";
                         for (var i = 0; i < competitions.length; i++) {
+			   if (competitions[i].id != id ) {
 				if ((selectedcompetition == competitions[i].id ) || ((!selectedcompetition) && ( i == competitions.length-1))) {
                                 $el.append($("<option selected></option>")
                                 .attr("value", competitions[i].id ).text(competitions[i].name));
 				changecompetition(competitions[i].id);	
+				selected = "true";
 				} else {
                                 $el.append($("<option></option>")
                                 .attr("value", competitions[i].id ).text(competitions[i].name));
 				}
+			   }
                         }
+			if ((competitions[competitions.length-1].id == id) && (competitions.length > 1)) {
+				changecompetition(competitions[competitions.length-2].id);
+				selected = "true";
+			}
+			if (selected == "false") {
+				changecompetition(competitions[competitions.length-1].id);	
+			}
 			$('#select-competition').change( function(e) {
 				var value = $(this).val();
         			changecompetition(value);
