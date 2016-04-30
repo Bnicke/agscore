@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="utf-8" />
     <!-- Sets initial viewport load and disables zooming  -->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, height=device-height, width=device-width">
@@ -232,7 +231,6 @@
         <nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#newCompetition">New Competition<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>
     </aside>
@@ -248,12 +246,17 @@
 			<h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
 <!--		<div class="compname">AGscore.se</div> -->
-  <label class="top">Select Competition</label>
+  <label class="top">Select<br>Competition</label>
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
-
-            </div>
+<a id="delCompetition" data-on="click" href="#">
+                <i class="fa fa-minus fa-2x"></i>
+            </a>
+<a data-do="modal-open" data-on="click" href="#newCompetition">
+                <i class="fa fa-plus fa-2x"></i>
+            </a>
+</div>
             <h4 class="pad upper">Results</h4>
 		<nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#floor">Floor<i class="fa fa-chevron-right"></i></a>
@@ -278,7 +281,6 @@
 	<nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
-	    <a data-do="go-forward" data-on="click" href="#newCompetition">New Competition<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>	
         </section>
@@ -328,9 +330,15 @@
 <div id="startList_table"></div>
 <div class="focus">
 <p>
-* Manadory, gymnast will not be updated until filled in.
+* Mandatory, gymnast will not be updated until filled in.
 </div>
 <script>
+//alert($(window).width());
+if ( $(window).width() < 568 ) {
+	$.mobility.notify("Editing the start list on a small screen is not recommended!, at least tilt your device to landscape!","warning");
+} else if ( $(window).width() < 768 ) {
+	$.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
+}
 drawgymtable("/ES/" + competition + "/startList/_search","startList_table","edit");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
@@ -1125,12 +1133,23 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 </script>
         </section>
  </script>
-<script id="newCompetition" type="text/html">
+ <div id="newCompetition" class="modal hide">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
-            <h1 class="title">Create Competition</h1>
+            <a class="head-link pull-right" href="#newCompetition" data-do="modal-close" data-on="click">
+                <i class="fa fa-times"></i>
+            </a>
+            <h1 class="title">Create competition</h1>
         </header>
-        <section class="body with-foot with-head pad">
+    
+        <section class="body with-head">
+            <div class="row pad">
+                <div class="col-md-1 middle">
+                    <i class="fa fa-plus fa-5x"></i> 
+                </div>
+				<div class="newCompetition">
+                <div class="col-md-11">
+
+
 <form id="newCompetition-form">
 
 <div class="focus">
@@ -1247,9 +1266,12 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
                                         		contentType: "application/json; charset=utf-8",
                                         		dataType: "json",
                                         		success: function(s){	
-								$.mobility.notify("Competition " + post.name + " created!" ,"success");
+								                    $.mobility.notify("Competition " + post.name + " created!" ,"success");
+                                                    changecompetition(ipost.id);
+                                                    $.mobility.modalClose('#newCompetition');
+
                                         		}
-                                    		}); 
+                                    		});
 					}
 				    });
 			}
@@ -1262,8 +1284,11 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
         $('#newCompetition-form').submit( processForm );
     })(jQuery);
 </script>
+                </div>
+				<div>
+            </div>
         </section>
- </script>
+    </div>
 
     
     <script type="text/javascript">

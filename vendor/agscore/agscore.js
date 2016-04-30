@@ -33,7 +33,8 @@ function eraseCookie(name) {
 }
 function sortJSON(tosort, key, way) {
     return tosort.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
+        var x = a[key]; 
+        var y = b[key];
         if (way === '123' ) { return ((x < y) ? -1 : ((x > y) ? 1 : 0)); }
         if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
     });
@@ -566,7 +567,7 @@ $.ajax({
 						for (var m = 0; m < data.length; m++) {
 							if (data[m].id == s.hits.hits[i]._source.id) {
 								data[m][apps[n]]=s.hits.hits[i]._source.total;
-								data[m]["total"]=(parseFloat(data[m]["total"]) + parseFloat(data[m][apps[n]])).toFixed(2);
+								data[m]["total"]=parseFloat((parseFloat(data[m]["total"]) + parseFloat(data[m][apps[n]])).toFixed(2));
 							}
 						}
                         		}
@@ -575,6 +576,7 @@ $.ajax({
                 		}
          		});
 		}
+		console.log(data);
 	}
      	data = sortJSON(data,'total', '321');
      	data = sortJSON(data,'class', '123');
@@ -609,7 +611,7 @@ $.ajax({
 			} 
 		}
 	} else {
-		data[n].total = "<b>" + data[n].total + "</b>";
+		data[n].total =  data[n].total ;
 	}
           data[n].rank = rank;
 	  klass = data[n].class;
@@ -686,7 +688,6 @@ function initcompetition() {
                         $('#select-competition option').remove();
 			selectedcompetition=readCookie("competition");
                         for (var i = 0; i < competitions.length; i++) {
-				console.log(competitions[i].id);
 				if ((selectedcompetition == competitions[i].id ) || ((!selectedcompetition) && ( i == competitions.length-1))) {
                                 $el.append($("<option selected></option>")
                                 .attr("value", competitions[i].id ).text(competitions[i].name));
