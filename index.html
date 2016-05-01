@@ -208,44 +208,80 @@
     <aside id="aside-left" class="aside aside-left">
     	<a class="btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-chevron-left"></i></a>
         <h2 class="pad">AGScore.se</h2>
-		<h4 class="pad upper">Result</h4>
         <nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#floor">Floor<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#pommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#rings">Rings<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#vault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#parallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#highBar">High bar<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#allaround">All-around<i class="fa fa-chevron-right"></i></a>
+	<a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
+	<a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
+	<a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
         </nav>
-		<h4 class="pad upper">Register Points</h4>
+    </aside>
+
+    <script id="results" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title">Results</h1>
+        </header>
+        <section class="body with-head with-foot">
+                <h4 class="pad upper">Results</h4>
         <nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#REGfloor">Floor<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#REGpommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#REGrings">Still rings<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGvault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGparallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGhighBar">High bars<i class="fa fa-chevron-right"></i></a>
+	<div class="nav-results"></div>
         </nav>
-		<h4 class="pad upper">Administration</h4>
+        </section>
+	<script>
+	var divnavresults = "";
+	for (var n = 0; n < apps.length; n++) {
+		divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
+	}
+	divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaround' + agtype + '">' + appname[agtype] + '<i class="fa fa-chevron-right"></i></a>';
+	$( "div.nav-results" ).replaceWith(divnavresults);
+	</script>
+     </script>
+
+    <script id="register" type="text/html">
+        <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title">Register points</h1>
+        </header>
+        <section class="body with-head with-foot">
+                <h4 class="pad upper">Register Points</h4>
+        <nav class="nav-list">
+	<div class="nav-register"></div>
+        </nav>
+	</section>
+        <script>
+        var divnavregister = "";
+        for (var n = 0; n < apps.length; n++) {
+                divnavregister = divnavregister + '<a data-do="go-forward" data-on="click" href="#REG' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
+        }
+        $( "div.nav-register" ).replaceWith(divnavregister);
+        </script>
+
+     </script>
+   <script id="administration" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <h1 class="title">Administration</h1>
+        </header>
+        <section class="body with-head with-foot">
+                <h4 class="pad upper">Administration</h4>
         <nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#none">Competitions<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>
-    </aside>
-    
+        </section>
+     </script>
+
     <script id="home" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
-            <h1 class="title">
+            <h1 class="title">AGScore.se
             </h1>
         </header>
         
         <section class="body with-head with-foot">
 			<h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
-<!--		<div class="compname">AGscore.se</div> -->
   <label class="top">Select<br>Competition</label>
     <select id="select-competition" class="form-control">
     <option>None</option>
@@ -257,32 +293,11 @@
                 <i class="fa fa-plus fa-2x"></i>
             </a>
 </div>
-            <h4 class="pad upper">Results</h4>
-		<nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#floor">Floor<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#pommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#rings">Rings<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#vault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#parallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#highBar">High bar<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#allaround">All-around<i class="fa fa-chevron-right"></i></a>
-        </nav>
-			
-            <h4 class="pad upper">Register points</h4>
         <nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#REGfloor">Floor<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#REGpommelHorse">Pommel horse<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#REGrings">Still rings<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGvault">Vault<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGparallelBars">Parallel bars<i class="fa fa-chevron-right"></i></a>
-			<a data-do="go-forward" data-on="click" href="#REGhighBar">High bars<i class="fa fa-chevron-right"></i></a>
-        </nav>
-	<h4 class="pad upper">Administration</h4>	
-	<nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
-        </nav>	
+	<a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
+	<a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
+	<a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
+</nav>
         </section>
 	<script>
 	initcompetition();
@@ -293,7 +308,7 @@
         <header class="head">
 <a class="head-btn btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-startlist"><i class="fa fa-bars"></i></a>
 <a class="head-btn btn btn-default pull-right" id="new" data-role="new" href="#">New gymnast</a>
-<a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+<a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration">Back</a>
 <h1 class="title">Start list</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -332,7 +347,7 @@ if ( $(window).width() < 568 ) {
 	$.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
 }
 drawgymtable("/ES/" + competition + "/startList/_search","startList_table","edit");
-drawgymtable("/ES/global/startList/_search","startList_all_table","global");
+drawgymtable("/ES/global/startList/_search?q=agtype:" + agtype,"startList_all_table","global");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
 	editableGrid.filter($("#startList_table-search").val());
@@ -468,6 +483,7 @@ $(function() {
 		datalocal.number = new_startnr;
 		datalocal.id = new_id;
 		datalocal.checked = true;
+		datalocal.agtype = agtype;
 		datalocal.del = '<a href="javascript:delgymnast(\'' + new_id + '\');"><i class="fa fa-times"></i></a>';
 //		editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ new_id + '","del":"<a href=\"javascript:delgymnast(\'' + new_id + '\');\"><i class=\"fa fa-times\"></i></a>"}'));
 		editableGrid.insertAfter(new_index, new_index, datalocal);
@@ -504,24 +520,23 @@ $(function() {
             <h1 class="title">Nothing yet.</h1>
         </header>
         <section class="body with-foot with-head pad">
-Hej
-
+Placeholder
      </section>
     </script>
   
-      <script id="allaround" type="text/html">
+      <script id="allaroundMAG" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
   <label class="top">Select class:</label>
-  <select id="allaround_table-search-class" class="form-control">
+  <select id="allaround_tableMAG-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<table id="allaround_table" class="table table-condensed">
+<table id="allaround_tableMAG" class="table table-condensed">
 <thead>
 <th>Class</th>
 <th>Rank</th>
@@ -542,14 +557,50 @@ Hej
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","allaround_table");
+drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableMAG");
+</script>
+        </section>
+    </script> 
+
+      <script id="allaroundWAG" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
+            <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="allaround_tableWAG-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="allaround_tableWAG" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th data-dynatable-column="number">#</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Team</th>
+<th>Vault</th>
+<th>Uneven Bars</th>
+<th>Beam</th>
+<th>Floor</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
+<script>
+drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableWAG");
 </script>
         </section>
     </script> 
 
       <script id="floor" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -589,7 +640,7 @@ drawgymtable("/ES/" + competition + "/floor/_search","floor_table");
     </script>
        <script id="pommelHorse" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -630,7 +681,7 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search","pommelHorse_table");
     
       <script id="rings" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -670,7 +721,7 @@ drawgymtable("/ES/" + competition + "/rings/_search","rings_table");
     </script>
       <script id="vault" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -711,7 +762,7 @@ drawgymtable("/ES/" + competition + "/vault/_search","vault_table");
 
       <script id="parallelBars" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -752,7 +803,7 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search","parallelBars_table"
 
       <script id="highBar" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -790,10 +841,90 @@ drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
 </script>
   </section>
     </script>
+
+      <script id="beam" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
+            <h1 class="title"><img src="images/beam.png" \>&nbsp;Balance Beam</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="beam_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="beam_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th data-dynatable-column="number">#</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Team</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+<script>
+drawgymtable("/ES/" + competition + "/beam/_search","beam_table");
+</script>
+  </section>
+    </script>
+
+      <script id="unevenBars" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
+            <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven Bars</h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<div class="focus">
+  <label class="top">Select class:</label>
+  <select id="unevenBars_table-search-class" class="form-control">
+    <option></option>
+  </select>
+</div>
+<table id="unevenBars_table" class="table table-condensed">
+<thead>
+<th>Class</th>
+<th>Rank</th>
+<th data-dynatable-column="number">#</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Team</th>
+<th>Pen</th>
+<th>D</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>E4</th>
+<th>Avg E</th>
+<th>Base</th>
+<th>E</th>
+<th>Total</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+<script>
+drawgymtable("/ES/" + competition + "/unevenBars/_search","unevenBars_table");
+</script>
+  </section>
+    </script>
        
 <script id="REGfloor" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -836,7 +967,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
 
 <script id="REGpommelHorse" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -880,7 +1011,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","re
 
 <script id="REGrings" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Still rings</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -923,7 +1054,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
 
 <script id="REGvault" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -966,7 +1097,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
 
 <script id="REGparallelBars" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel bars</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -1009,7 +1140,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","r
 
 <script id="REGhighBar" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -1052,7 +1183,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
 
 <script id="REGbeam" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Beam</h1>
         </header>
         <section class="body with-foot with-head pad">
@@ -1095,7 +1226,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 
 <script id="REGunevenBars" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven bars</h1>
         </header>
         <section class="body with-foot with-head pad">

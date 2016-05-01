@@ -76,6 +76,10 @@ input, button, select, textarea {
 	visibility: hidden;
 	 display: none;
 }
+.editablegrid-agtype {
+        visibility: hidden;
+         display: none;
+}
 .checked {
     float: right!important;
     font-size: 14px;

@@ -1,9 +1,12 @@
+//globals
 var data = new Array();
 var dynatable;
 var competition = "";
-var apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
+var agtype = "";
+var apps = new Array();
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
-//var apps = new Array( "vault", "unevenBars", "beam", "floor");
+var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still Rings","vault":"Vault","parallelBars":"Parallel Bars","highBar":"High Bar","unevenBars":"Uneven Bars","beam":"Balance Beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
+
 function createCookie(name, value, days) {
     var expires;
 
@@ -321,6 +324,7 @@ function draweditable(table,type) {
 				var metadata = [];
 				metadata.push({ name: "number", label: "#*", datatype: "integer", editable: true});
 				metadata.push({ name: "gymnast", label: "Gymnast*", datatype: "string", editable: true});
+				metadata.push({ name: "agtype", label: "Type", datatype: "string", editable: false});
 				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
 				metadata.push({ name: "born", label: "Born", datatype: "string", editable: true});
 				metadata.push({ name: "team", label: "Team*", datatype: "string", editable: true});
@@ -767,6 +771,16 @@ function changecompetition(id) {
                         $.mobility.notify("No competitions or is database down??","error");
                 },
                 success: function(s){
+		if (s._source.type) {
+			agtype = s._source.type;
+		} else {
+			agtype = "MAG";
+		}
+		if (agtype == "WAG") {
+			apps = new Array( "vault", "unevenBars", "beam", "floor");
+		} else {
+			apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
+		}
 		if (s._source.css) {
 		jQuery('<link />').attr({
 			rel: 'stylesheet', 
