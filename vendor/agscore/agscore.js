@@ -313,30 +313,12 @@ if (notify) {
 }
 function draweditable(table,type) {
 	var datalocal = [];
-	var app = table.split("_");
 	for (var n = 0; n < data.length; n++) {
 		data[n].checked = false;
+		data[n].del = '<a href="javascript:delgymnast(\'' + data[n].id + '\');"><i class="fa fa-times"></i></a>';
 		datalocal.push(JSON.parse('{"id":' + n + ', "values":' + JSON.stringify(data[n]) + '}'));
 	}
 				var metadata = [];
-				if ( app[1] == "all" ) {
-				metadata.push({ name: "gymnast", label: "Gymnast", datatype: "string", editable: false});
-				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
-				metadata.push({ name: "born", label: "Born", datatype: "string", editable: false});
-				metadata.push({ name: "team", label: "Team", datatype: "string", editable: false});
-				metadata.push({ name: "class", label: "Class", datatype: "string", editable: false});
-				metadata.push({ name: "rules", label: "Rules", datatype: "string", editable: false});
-				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: false});
-				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
-                                editableGrid_all = new EditableGrid("DemoGridFull", {
-			        enableSort: true,
-        editmode: "absolute", // change this to "fixed" to test out editorzone, and to "static" to get the old-school mode
-        pageSize: 1000
-});
-                                editableGrid_all.load({"metadata": metadata, "data": datalocal});
-                                editableGrid_all.renderGrid(table, "table table-condensed table-fixed");
-
-				} else {
 				metadata.push({ name: "number", label: "#*", datatype: "integer", editable: true});
 				metadata.push({ name: "gymnast", label: "Gymnast*", datatype: "string", editable: true});
 				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
@@ -347,6 +329,7 @@ function draweditable(table,type) {
 				metadata.push({ name: "pool", label: "Pool*", datatype: "string", editable: true});
 				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: true});
 				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
+				metadata.push({ name: "del", label: "&nbsp;", datatype: "html", editable: false});
 				editableGrid = new EditableGrid("DemoGridFull", {
 	enableSort: true, 
 	editmode: "absolute", // change this to "fixed" to test out editorzone, and to "static" to get the old-school mode
@@ -354,11 +337,28 @@ function draweditable(table,type) {
 });
 				editableGrid.load({"metadata": metadata, "data": datalocal});
 				editableGrid.renderGrid(table, "table table-condensed table-fixed");
-				}
 
 }
 function drawdynatable(table,type) {
       var datalocal = data;
+      if (type == "global") {
+      dynatable = $('#' + table).dynatable({
+      dataset: {
+        records: datalocal
+      },
+      inputs: {
+         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      },
+features: {
+    paginate: false,
+    sort: true,
+    pushState: true,
+    perPageSelect: false
+  }
+    })
+   .bind('dynatable:afterUpdate', processingComplete("#" + table))
+   .data('dynatable');
+	} else {
       dynatable = $('#' + table).dynatable({
       dataset: {
         records: datalocal
@@ -375,6 +375,8 @@ features: {
     })
    .bind('dynatable:afterUpdate', processingComplete("#" + table))
    .data('dynatable');
+}
+
     $('#dynatable-query-search-' + table).keypress( function(e) {
 	if(e.which == 13) {
   	dynatable.records.updateFromJson({records: datalocal});
@@ -618,7 +620,7 @@ $.ajax({
      	data = sortJSON(data,'class', '123');
      	for (var n = 0; n < data.length; n++) {
 	  if (type == "global") {
-		data[n].add = '<a href="javascript:addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus fa-2x"></i></a>';
+		data[n].add = '<a href="javascript:addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
 	  }
 	  if ( klass != data[n].class ) {
 		rank = 1;
@@ -680,12 +682,20 @@ $.ajax({
   }
 });
 }
+function delgymnast(id) {
+	for (var i = 0; i < editableGrid.getRowCount(); i++) {
+		if (editableGrid.getRowValues(i).id == id) {
+        		post = editableGrid.getRowValues(i);
+        		startlistedit("DELETE",post,true);
+        		editableGrid.removeRow(editableGrid.getRowId(i));
+		}
+        }
+}
 function addgymnast(id) {
 	$.ajax({
                         'async': false,
                         url: "/ES/global/startList/" + id,
                         success: function(datalocal){
-			console.log(datalocal._source.gymnast);
          var new_index=editableGrid.getRowCount() + 1;
          var new_startnr = 0;
 	 var alreadyin = "false";
@@ -697,17 +707,21 @@ function addgymnast(id) {
          		new_startnr = editableGrid.getRowValues(i).number + 1;
          	}
          }
+	if (new_startnr < 1) {
+		new_startnr=1;
+	}
 	datalocal._source.number = new_startnr;
 	datalocal._source.pool = "";
-	datalocal._source.class = "";
+//	datalocal._source.class = "";
 	datalocal._source.checked = true;
+	datalocal._source.del = '<a href="javascript:delgymnast(\'' + datalocal._source.id + '\');"><i class="fa fa-times"></i></a>';
 //         editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ id + '"}'));
 //	console.log(datalocal._source);
 	 if (alreadyin == "true") {	
 		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
 	 } else {
          	editableGrid.insertAfter(new_index, new_index, datalocal._source);
-                $.mobility.notify("Added " + datalocal._source.gymnast,"success")
+                $.mobility.notify("Added " + datalocal._source.gymnast + ", " + datalocal._source.team ,"success")
 	 }
                         },
                         error: function(result){

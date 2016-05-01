@@ -173,6 +173,15 @@
 <a class="btn btn-default" id="recheck" data-role="recheck" href="#">Reverse all</a>
 </div>
 <div class="focus">
+  <label>to pool:</label>
+  <input
+    type="text" 
+    id="startList_table-pool"
+    class="form-control"
+    placeholder="Pool..." />
+<a class="btn btn-default" id="pool" data-role="pool" href="#">OK</a>
+</div>
+<div class="focus">
   <label>to rule:</label>
   <input 
     type="text" 
@@ -189,15 +198,6 @@
     class="form-control"
     placeholder="Class..." />
 <a class="btn btn-default" id="class" data-role="class" href="#">OK</a>
-</div>
-<div class="focus">
-  <label>to pool:</label>
-  <input
-    type="text" 
-    id="startList_table-pool"
-    class="form-control"
-    placeholder="Pool..." />
-<a class="btn btn-default" id="pool" data-role="pool" href="#">OK</a>
 </div>
 <div class="focus">
 <a class="btn btn-default" id="delete" data-role="delete" href="#">Delete</a>
@@ -297,6 +297,7 @@
 <h1 class="title">Start list</h1>
         </header>
         <section class="body with-foot with-head pad">
+<h3 class="pad">Start list</h3>
 <div class="focus">
   <label class="top">Search:</label>
   <input id="startList_table-search"
@@ -309,9 +310,7 @@
 <p>
 * Mandatory, gymnast will not be updated until filled in.
 </div>
-<div class="focus">
-<b>Add previous stored gymnasts from below:</b>
-</div>
+<h3 class="pad">Add previous stored gymnasts from below</h3>
 <table id="startList_all_table" class="startList_all_table table table-condensed">
 <thead>
 <th>Team</th>
@@ -457,12 +456,21 @@ $(function() {
 		var new_id = n + "_" + Math.floor((Math.random() * 10000) + 1);
 		var new_index=editableGrid.getRowCount() + 1;
 		var new_startnr = 0;
+		var datalocal=[];
 		for (var i = 0; i < editableGrid.getRowCount(); i++) {
 			if (editableGrid.getRowValues(i).number >= new_startnr) {
 				new_startnr = editableGrid.getRowValues(i).number + 1;
 			}
 		}
-		editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ new_id + '"}'));
+		if (new_startnr < 1) {
+			new_startnr = 1;
+		}
+		datalocal.number = new_startnr;
+		datalocal.id = new_id;
+		datalocal.checked = true;
+		datalocal.del = '<a href="javascript:delgymnast(\'' + new_id + '\');"><i class="fa fa-times"></i></a>';
+//		editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ new_id + '","del":"<a href=\"javascript:delgymnast(\'' + new_id + '\');\"><i class=\"fa fa-times\"></i></a>"}'));
+		editableGrid.insertAfter(new_index, new_index, datalocal);
            }
       );
 });
