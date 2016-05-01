@@ -75,11 +75,6 @@
         <section class="body with-head">
             <p class="pad">
 			<div class="focus">
-<!--  <label class="top">Select Competition</label>
-    <select id="select-competition" class="form-control">
-    <option>None</option>
-  </select>
--->
 </div>
 <h4 class="pad upper">Themes</h4>
 
@@ -217,6 +212,7 @@
 
     <script id="results" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title">Results</h1>
         </header>
@@ -238,6 +234,7 @@
 
     <script id="register" type="text/html">
         <header class="head">
+ 		<a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
 	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title">Register points</h1>
         </header>
@@ -258,6 +255,7 @@
      </script>
    <script id="administration" type="text/html">
         <header class="head">
+             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title">Administration</h1>
         </header>
@@ -266,7 +264,7 @@
         <nav class="nav-list">
             <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Competitions<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>
         </section>
@@ -282,16 +280,10 @@
         <section class="body with-head with-foot">
 			<h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
-  <label class="top">Select<br>Competition</label>
+  <label class="top">Select competition</label>
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
-<a id="delCompetition" onclick="return confirm('Are you sure?! This will clear all scores and the start list of the selected competition')" href="javascript:deletecompetition($('#select-competition').val());">
-                <i class="fa fa-times fa-2x"></i>
-            </a>
-<a data-do="modal-open" data-on="click" href="#newCompetition">
-                <i class="fa fa-plus fa-2x"></i>
-            </a>
 </div>
         <nav class="nav-list">
 	<a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
@@ -304,10 +296,39 @@
 	</script>
     </script>
 
+    <script id="competition" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration">Back</a>
+            <h1 class="title">Competitions</h1>
+        </header>
+
+        <section class="body with-head with-foot">
+                        <h4 class="pad upper">AGscore.se</h4>
+            <div class="focus">
+  <label class="top">Select competition</label>
+    <select id="select-competition" class="form-control">
+    <option>None</option>
+  </select>
+<a id="delCompetition" onclick="return confirm('Are you sure?! This will clear all scores and the start list of the selected competition')" href="javascript:deletecompetition($('#select-competition').val());">
+                <i class="fa fa-times fa-2x"></i>
+            </a>
+<a data-do="modal-open" data-on="click" href="#newCompetition">
+                <i class="fa fa-plus fa-2x"></i>
+            </a>
+</div>
+        </section>
+        <script>
+        initcompetition();
+        </script>
+    </script>
+
+
        <script id="startList" type="text/html">
         <header class="head">
 <a class="head-btn btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-startlist"><i class="fa fa-bars"></i></a>
 <a class="head-btn btn btn-default pull-right" id="new" data-role="new" href="#">New gymnast</a>
+             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
 <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration">Back</a>
 <h1 class="title">Start list</h1>
         </header>
@@ -516,6 +537,7 @@ $(function() {
 
        <script id="none" type="text/html">
         <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home">Back</a>
             <h1 class="title">Nothing yet.</h1>
         </header>
@@ -526,6 +548,7 @@ Placeholder
   
       <script id="allaroundMAG" type="text/html">
         <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
@@ -564,6 +587,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableMAG");
 
       <script id="allaroundWAG" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
@@ -600,6 +624,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableWAG");
 
       <script id="floor" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
@@ -640,6 +665,7 @@ drawgymtable("/ES/" + competition + "/floor/_search","floor_table");
     </script>
        <script id="pommelHorse" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
@@ -681,6 +707,7 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search","pommelHorse_table");
     
       <script id="rings" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
         </header>
@@ -721,6 +748,7 @@ drawgymtable("/ES/" + competition + "/rings/_search","rings_table");
     </script>
       <script id="vault" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
@@ -762,6 +790,7 @@ drawgymtable("/ES/" + competition + "/vault/_search","vault_table");
 
       <script id="parallelBars" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
@@ -803,6 +832,7 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search","parallelBars_table"
 
       <script id="highBar" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
@@ -844,6 +874,7 @@ drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
 
       <script id="beam" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Balance Beam</h1>
         </header>
@@ -884,6 +915,7 @@ drawgymtable("/ES/" + competition + "/beam/_search","beam_table");
 
       <script id="unevenBars" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results">Back</a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven Bars</h1>
         </header>
@@ -924,6 +956,7 @@ drawgymtable("/ES/" + competition + "/unevenBars/_search","unevenBars_table");
        
 <script id="REGfloor" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
@@ -967,6 +1000,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
 
 <script id="REGpommelHorse" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
@@ -1011,6 +1045,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","re
 
 <script id="REGrings" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Still rings</h1>
         </header>
@@ -1054,6 +1089,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
 
 <script id="REGvault" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
@@ -1097,6 +1133,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
 
 <script id="REGparallelBars" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel bars</h1>
         </header>
@@ -1140,6 +1177,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","r
 
 <script id="REGhighBar" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
@@ -1183,6 +1221,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
 
 <script id="REGbeam" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Beam</h1>
         </header>
@@ -1226,6 +1265,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 
 <script id="REGunevenBars" type="text/html">
         <header class="head">
+	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register">Back</a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven bars</h1>
         </header>
