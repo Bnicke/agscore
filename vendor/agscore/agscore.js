@@ -268,6 +268,22 @@ if (action == "POST" ) {
                         success: function(s){
                                 notifytxt = "Gymnast " + post.gymnast + " updated!";
                                 notifytype = "success";
+				$.ajax({
+                        		'async': false,
+                        		type: "POST",
+                        		url: "/ES/global/startList/" + post.id,
+                        		data: JSON.stringify(post),
+                        		contentType: "application/json; charset=utf-8",
+                        		dataType: "json",
+                        		success: function(t){
+                                		notifytxt = "Gymnast " + post.gymnast + " updated!";
+                                		notifytype = "success";
+                        		},
+                        		error: function(xhr, ajaxOptions, thrownError) {
+                                		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.gymnast;
+                                		notifytype = "error";
+                        		}
+		                });
                         },
                         error: function(xhr, ajaxOptions, thrownError) {
                                 notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.gymnast;
@@ -297,11 +313,30 @@ if (notify) {
 }
 function draweditable(table,type) {
 	var datalocal = [];
+	var app = table.split("_");
 	for (var n = 0; n < data.length; n++) {
 		data[n].checked = false;
 		datalocal.push(JSON.parse('{"id":' + n + ', "values":' + JSON.stringify(data[n]) + '}'));
 	}
 				var metadata = [];
+				if ( app[1] == "all" ) {
+				metadata.push({ name: "gymnast", label: "Gymnast", datatype: "string", editable: false});
+				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
+				metadata.push({ name: "born", label: "Born", datatype: "string", editable: false});
+				metadata.push({ name: "team", label: "Team", datatype: "string", editable: false});
+				metadata.push({ name: "class", label: "Class", datatype: "string", editable: false});
+				metadata.push({ name: "rules", label: "Rules", datatype: "string", editable: false});
+				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: false});
+				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
+                                editableGrid_all = new EditableGrid("DemoGridFull", {
+			        enableSort: true,
+        editmode: "absolute", // change this to "fixed" to test out editorzone, and to "static" to get the old-school mode
+        pageSize: 1000
+});
+                                editableGrid_all.load({"metadata": metadata, "data": datalocal});
+                                editableGrid_all.renderGrid(table, "table table-condensed table-fixed");
+
+				} else {
 				metadata.push({ name: "number", label: "#*", datatype: "integer", editable: true});
 				metadata.push({ name: "gymnast", label: "Gymnast*", datatype: "string", editable: true});
 				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
@@ -319,6 +354,7 @@ function draweditable(table,type) {
 });
 				editableGrid.load({"metadata": metadata, "data": datalocal});
 				editableGrid.renderGrid(table, "table table-condensed table-fixed");
+				}
 
 }
 function drawdynatable(table,type) {
@@ -577,11 +613,13 @@ $.ajax({
                 		}
          		});
 		}
-		console.log(data);
 	}
      	data = sortJSON(data,'total', '321');
      	data = sortJSON(data,'class', '123');
      	for (var n = 0; n < data.length; n++) {
+	  if (type == "global") {
+		data[n].add = '<a href="javascript:addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus fa-2x"></i></a>';
+	  }
 	  if ( klass != data[n].class ) {
 		rank = 1;
      		last_rank = 0;
@@ -642,6 +680,41 @@ $.ajax({
   }
 });
 }
+function addgymnast(id) {
+	$.ajax({
+                        'async': false,
+                        url: "/ES/global/startList/" + id,
+                        success: function(datalocal){
+			console.log(datalocal._source.gymnast);
+         var new_index=editableGrid.getRowCount() + 1;
+         var new_startnr = 0;
+	 var alreadyin = "false";
+         for (var i = 0; i < editableGrid.getRowCount(); i++) {
+		if (editableGrid.getRowValues(i).id == id) {
+	 		var alreadyin = "true";
+		}
+         	if (editableGrid.getRowValues(i).number >= new_startnr) {
+         		new_startnr = editableGrid.getRowValues(i).number + 1;
+         	}
+         }
+	datalocal._source.number = new_startnr;
+	datalocal._source.pool = "";
+	datalocal._source.class = "";
+	datalocal._source.checked = true;
+//         editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ id + '"}'));
+//	console.log(datalocal._source);
+	 if (alreadyin == "true") {	
+		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
+	 } else {
+         	editableGrid.insertAfter(new_index, new_index, datalocal._source);
+                $.mobility.notify("Added " + datalocal._source.gymnast,"success")
+	 }
+                        },
+                        error: function(result){
+                                $.mobility.notify("Error fetching history for " + id,"error");
+			}
+	 });
+}
 function deletecompetition(id) {
 	eraseCookie("competition");
 	console.log(id);
@@ -662,7 +735,7 @@ function deletecompetition(id) {
                         		$.mobility.notify("No competitions or is database down??","error");
                 		},
                 		success: function(s){
-                        		$.mobility.notify("Deleted!","success");
+                        		$.mobility.notify(id + " deleted!","success");
 					initcompetition(id);
                 		}
         		});

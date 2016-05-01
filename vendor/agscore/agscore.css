@@ -148,3 +148,15 @@ input, button, select, textarea {
 .stacktable>thead>tr>th:nth-child(2) {
     width: 50px;
 }
+.startList_all_table  {
+  table-layout: auto;
+  width: 100%;
+  white-space: normal;
+}
+.startList_all_table>thead>tr>th:nth-child(1) {
+    width: 10px;
+}
+.startList_all_table>thead>tr>th:nth-child(2) {
+    width: 20%;
+}
+

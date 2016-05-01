@@ -250,7 +250,7 @@
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
-<a id="delCompetition" onclick="return confirm('Are you sure??, this will clear all scores for the current competition!')" href="javascript:deletecompetition($('#select-competition').val());">
+<a id="delCompetition" onclick="return confirm('Are you sure?! This will clear all scores and the start list of the selected competition')" href="javascript:deletecompetition($('#select-competition').val());">
                 <i class="fa fa-times fa-2x"></i>
             </a>
 <a data-do="modal-open" data-on="click" href="#newCompetition">
@@ -309,14 +309,31 @@
 <p>
 * Mandatory, gymnast will not be updated until filled in.
 </div>
+<div class="focus">
+<b>Add previous stored gymnasts from below:</b>
+</div>
+<table id="startList_all_table" class="startList_all_table table table-condensed">
+<thead>
+<th>Team</th>
+<th>Gymnast</th>
+<th>Born</th>
+<th>Class</th>
+<th>Rules</th>
+<th>About</th>
+<th>Add</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+
 <script>
-//alert($(window).width());
 if ( $(window).width() < 568 ) {
 	$.mobility.notify("Editing the start list on a small screen is not recommended!, at least tilt your device to landscape!","warning");
 } else if ( $(window).width() < 768 ) {
 	$.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
 }
 drawgymtable("/ES/" + competition + "/startList/_search","startList_table","edit");
+drawgymtable("/ES/global/startList/_search","startList_all_table","global");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
 	editableGrid.filter($("#startList_table-search").val());
@@ -1244,7 +1261,6 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
                                         		dataType: "json",
                                         		success: function(s){	
 								$.mobility.notify("Competition " + post.name + " created!" ,"success");
-								console.log("Hej");
                                                     		changecompetition(post.id);
                                                     		$.mobility.modalClose('#newCompetition');
 								initcompetition();
