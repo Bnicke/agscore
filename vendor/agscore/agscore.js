@@ -324,7 +324,6 @@ function draweditable(table,type) {
 				var metadata = [];
 				metadata.push({ name: "number", label: "#*", datatype: "integer", editable: true});
 				metadata.push({ name: "gymnast", label: "Gymnast*", datatype: "string", editable: true});
-				metadata.push({ name: "agtype", label: "Type", datatype: "string", editable: false});
 				metadata.push({ name: "id", label: "id", datatype: "string", editable: false});
 				metadata.push({ name: "born", label: "Born", datatype: "string", editable: true});
 				metadata.push({ name: "team", label: "Team*", datatype: "string", editable: true});
@@ -334,6 +333,7 @@ function draweditable(table,type) {
 				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: true});
 				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
 				metadata.push({ name: "del", label: "&nbsp;", datatype: "html", editable: false});
+				metadata.push({ name: "agtype", label: "Type", datatype: "string", editable: false});
 				editableGrid = new EditableGrid("DemoGridFull", {
 	enableSort: true, 
 	editmode: "absolute", // change this to "fixed" to test out editorzone, and to "static" to get the old-school mode
