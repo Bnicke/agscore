@@ -49,7 +49,7 @@
     
     <footer class="foot">
         <nav class="foot-nav" data-do="foot-nav">
-            <a class="foot-nav-item" data-do="go-back" data-on="click" href="#home">
+            <a class="foot-nav-item" href=".">
                 <i class="foot-nav-icon fa fa-home"></i>
                 <span class="foot-nav-label">Home</span>
             </a>
@@ -262,8 +262,8 @@
         <section class="body with-head with-foot">
                 <h4 class="pad upper">Administration</h4>
         <nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#none">Register<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
+            <a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a>
             <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
         </nav>
@@ -280,7 +280,7 @@
         <section class="body with-head with-foot">
 			<h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
-  <label class="top">Select competition</label>
+  <label class="top">Select<br>competition</label>
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
@@ -299,6 +299,76 @@
 	</script>
     </script>
 
+    <script id="rule" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
+            <h1 class="title">Rules</h1>
+        </header>
+        <section class="body with-head with-foot">
+	<div id="comprules"></div>
+	<script>
+	     var divcomprules="";
+	     var comprules = new Array();
+             $.ajax({
+             	'async': false,
+             	url: "/ES/global/startList/_search?q=agtype:" + agtype,
+             	success: function(s){
+			for (var i = 0; i < s.hits.hits.length; i++) {
+				comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
+                        }
+			comprules = sortJSON(comprules,'id', '123');
+			var lastrule="";
+			divcomprules='<div class="focus focus-group">';
+			for (var i = 0; i < comprules.length; i++) {
+				if (lastrule != comprules[i].id) {
+					divcomprules = divcomprules + '<div class="row"><div class="col-xs-1 middle"><h1>' + comprules[i].id + '</h1></div><table id="rules_' + comprules[i].id +'"class="table table-condensed">';
+					var thead="<tr><th></th>";
+					var trows2="<tr><td><label>Extra Bonus</label></td>";
+					var trows1="<tr><td><label>Two exercises</label></td>";
+					if (agtype == "WAG") {
+						var trows3='<tr><td colspan=2><label>Only first vault to ' + appname[agtype] + '</label></td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					} else {
+						var trows3='<tr><td colspan=2><label>Only first vault to ' + appname[agtype] + '</label></td><td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
+					}
+					var trows4='<tr><td colspan=2><label>Results are public</label></td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					for (var n = 2; n < apps.length; n++) {
+						trows4=trows4 + '<td></td>';
+						trows3=trows3 + '<td></td>';
+					}
+					for (var n = 0; n < apps.length; n++) {
+						 thead = thead + '<th>' + appname[apps[n]] + '</th>';
+						 if (apps[n] == "vault") {
+						 	trows1 = trows1 + '<td><span class="switch switch-2"><input type="checkbox" checked="checked" name="check" value="PH" /><span></td>';
+						 } else {
+						 	trows1 = trows1 + '<td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
+						 }
+						 trows2 = trows2 + '<td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
+					}
+					divcomprules = divcomprules + trows4 + '</tr>';
+					divcomprules = divcomprules + trows3 + '</tr>';
+					divcomprules = divcomprules + thead + '</tr>';
+					divcomprules = divcomprules + trows1 + '</tr>';
+					divcomprules = divcomprules + trows2 + '</tr>';
+					divcomprules = divcomprules + '</table></div>';
+				}
+				lastrule=comprules[i].id;
+			}
+			divcomprules = divcomprules + '</div>';
+			$("#comprules").replaceWith('<div id="comprules">' + divcomprules + '</div>');
+			//lastrule="";
+			//for (var i = 0; i < comprules.length; i++) {
+                        //        if (lastrule != comprules[i].id) {
+		//			$('#rules_' + comprules[i].id).stacktable();
+			//	}
+		//		lastrule=comprules[i].id;
+		//	}
+             	}
+             });
+	</script>
+        </section>
+</script>
+
     <script id="competition" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
@@ -307,9 +377,8 @@
         </header>
 
         <section class="body with-head with-foot">
-                        <h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
-  <label class="top">Select competition</label>
+  <label class="top">Select<br>competition</label>
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
@@ -417,7 +486,6 @@ editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, 
 		var post = this.getRowValues(rowIndex);
                 var notify;
                 var notifytype;
-			console.log("Hej");
 		if ((this.getColumnName(columnIndex) != "checked") & (post.gymnast.length > 4 ) & (post.pool.length > 0) & (post.team.length > 1 ) & (post.class.length > 0 ) & (post.number > 0)) {
 			if (post.id.length < 5 ) {
 				post.id =  camelize(post.gymnast + post.team);

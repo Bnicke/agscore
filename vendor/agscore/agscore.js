@@ -780,7 +780,9 @@ function changecompetition(id) {
 		if (currcompetition.date2) {
 			description = description + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + currcompetition.date2
 	        }
-		 $( "#pdescription" ).replaceWith('<p id="pdescription">' + description + '</p>');
+		if (description) {
+		 	$( "#pdescription" ).replaceWith('<p id="pdescription">' + description + '</p>');
+		}
 		if (s._source.type) {
 			agtype = s._source.type;
 		} else {
