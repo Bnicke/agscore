@@ -285,6 +285,9 @@
     <option>None</option>
   </select>
 </div>
+<div class="focus">
+<p id="pdescription"></p>
+</div>
         <nav class="nav-list">
 	<a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
 	<a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
@@ -310,16 +313,53 @@
     <select id="select-competition" class="form-control">
     <option>None</option>
   </select>
+<a data-do="modal-open" id="editcomp" data-on="click" href="#newCompetition">
+                <i class="fa fa-pencil-square-o fa-2x"></i>
+            </a>
 <a id="delCompetition" onclick="return confirm('Are you sure?! This will clear all scores and the start list of the selected competition')" href="javascript:deletecompetition($('#select-competition').val());">
                 <i class="fa fa-times fa-2x"></i>
             </a>
-<a data-do="modal-open" data-on="click" href="#newCompetition">
+<a data-do="modal-open" id="newcomp" data-on="click" href="#newCompetition">
                 <i class="fa fa-plus fa-2x"></i>
             </a>
 </div>
         </section>
         <script>
         initcompetition();
+$(function() {
+      $("#editcomp").click( function()
+           {
+		$('#name').val(currcompetition.name);
+            	$('#date').val(currcompetition.date);
+            	$('#date2').val(currcompetition.date2);
+            	$('#organizer').val(currcompetition.organizer);
+            	$('#type').val(currcompetition.type);
+            	$('#cid').val(currcompetition.id);
+		$('#css').val(currcompetition.css);
+            	$('#description').val(currcompetition.description);
+            	$('#created').val(currcompetition.created);
+            	$('#create').val("Update");
+           }
+      );
+});
+$(function() {
+      $("#newcomp").click( function()
+           {
+                $('#name').val("");
+                $('#date').val("");
+                $('#date2').val("");
+                $('#organizer').val(currcompetition.organizer);
+                $('#type').val(currcompetition.type);
+                $('#cid').val("n");
+                $('#css').val("");
+                $('#description').val("");
+                $('#created').val("n");
+                $('#create').val("Create");
+           }
+      );
+});
+
+
         </script>
     </script>
 
@@ -1314,7 +1354,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
             <a class="head-link pull-right" href="#newCompetition" data-do="modal-close" data-on="click">
                 <i class="fa fa-times"></i>
             </a>
-            <h1 class="title">Create competition</h1>
+            <h1 class="title">Competition</h1>
         </header>
     
         <section class="body with-head">
@@ -1327,7 +1367,8 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 
 
 <form id="newCompetition-form">
-
+<input type="hidden" id="cid" name="cid" value="n">
+<input type="hidden" id="created" name="created" value="n">
 <div class="focus">
   <label>Name:</label>
   <input 
@@ -1388,7 +1429,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
     placeholder="Enter description..."></textarea>
 </div>
 <div class="focus">
-            <input class="btn btn-default" type="submit" value="Create">
+            <input class="btn btn-default" id="create" type="submit" value="Create">
 </div>
 </form>
 <script>
@@ -1401,11 +1442,21 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 	    post.date2 = $('#date2').val();
 	    post.organizer = $('#organizer').val();
 	    post.type = $('#type').val();
-	    post.id = camelize(post.organizer) + "-" + camelize($('#name').val());
-	    post.id = post.id.toLowerCase();
+	    post.id = $('#cid').val();
+	    var testC = "false";
+	    var mess = " updated!";
+	    if (post.id.length < 3) {
+	    	post.id = camelize(post.organizer) + "-" + camelize($('#name').val());
+	    	post.id = post.id.toLowerCase();
+	    	testC = post.id;
+	    	var mess = " created!";
+	    }
 	    post.css = $('#css').val();
 	    post.description = $('#description').val();
-	    post.created = Math.floor(new Date()/1000);
+	    post.created = $('#created').val();
+	    if (post.created.length < 3) {
+	    	post.created = Math.floor(new Date()/1000);
+	    }
 	    if (post.date2 < post.date ) {
 		$.mobility.notify("End date can not be before start date!","error");
 		return false;
@@ -1421,7 +1472,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 	    if ((post.type == "WAG") || (post.type == "MAG")) {
 		$.ajax({
 			'async': false,
-			url: "/ES/global/competition/" + post.id, 
+			url: "/ES/global/competition/" + testC,
 			success: function(result){
 				$.mobility.notify("Competition name already used!","error");
 			},
@@ -1442,7 +1493,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
                                         		contentType: "application/json; charset=utf-8",
                                         		dataType: "json",
                                         		success: function(s){	
-								$.mobility.notify("Competition " + post.name + " created!" ,"success");
+								$.mobility.notify("Competition " + post.name +  mess ,"success");
                                                     		changecompetition(post.id);
                                                     		$.mobility.modalClose('#newCompetition');
 								initcompetition();

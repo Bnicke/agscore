@@ -2,6 +2,7 @@
 var data = new Array();
 var dynatable;
 var competition = "";
+var currcompetition = [];
 var agtype = "";
 var apps = new Array();
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
@@ -771,6 +772,8 @@ function changecompetition(id) {
                         $.mobility.notify("No competitions or is database down??","error");
                 },
                 success: function(s){
+		currcompetition = s._source;
+		 $( "#pdescription" ).replaceWith('<p id="pdescription">' + currcompetition.description + '</p>');
 		if (s._source.type) {
 			agtype = s._source.type;
 		} else {
