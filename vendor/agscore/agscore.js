@@ -773,7 +773,14 @@ function changecompetition(id) {
                 },
                 success: function(s){
 		currcompetition = s._source;
-		 $( "#pdescription" ).replaceWith('<p id="pdescription">' + currcompetition.description + '</p>');
+		var description = currcompetition.description;
+		if (currcompetition.date) {
+			description = description + "<br>Date: " + currcompetition.date
+	        }
+		if (currcompetition.date2) {
+			description = description + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + currcompetition.date2
+	        }
+		 $( "#pdescription" ).replaceWith('<p id="pdescription">' + description + '</p>');
 		if (s._source.type) {
 			agtype = s._source.type;
 		} else {

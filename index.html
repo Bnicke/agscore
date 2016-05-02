@@ -1457,7 +1457,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 	    if (post.created.length < 3) {
 	    	post.created = Math.floor(new Date()/1000);
 	    }
-	    if (post.date2 < post.date ) {
+	    if ((post.date2 < post.date) && (post.date2)) {
 		$.mobility.notify("End date can not be before start date!","error");
 		return false;
 	    }
