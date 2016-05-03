@@ -746,10 +746,10 @@ function changerule(rule) {
 			var loopchecked = false;
 		}
 		if (looprules[1] == rules[1]) {
-      			return '{"' + looprules[0] + '":"' + loopchecked + '"}';
+      			return '"' + looprules[0] + '":"' + loopchecked + '"';
 		}
     	});
-	var rulejson = '{"id":"' + agtype + "-" + rules[1] + '","values":[' + searchIDs.get() + ']}';
+	var rulejson = '{"id":"' + agtype + "-" + rules[1] + '",' + searchIDs.get() + '}';
 	$.ajax({
                 'async': false,
 		type: "POST",
@@ -777,7 +777,6 @@ function changerule(rule) {
 }
 function deletecompetition(id) {
 	eraseCookie("competition");
-	console.log(id);
         competition = id;
         $.ajax({
                 'async': false,
@@ -835,6 +834,13 @@ function changecompetition(id) {
 		} else {
 			apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
 		}
+		$.ajax({
+                	'async': false,
+			url: "/ES/" + competition + "/rules/_search",
+			success: function(t){
+				console.log(JSON.stringify(t.hits.hits));
+			}
+		});
 		if (s._source.css) {
 		jQuery('<link />').attr({
 			rel: 'stylesheet', 
