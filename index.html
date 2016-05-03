@@ -308,6 +308,23 @@
         <section class="body with-head with-foot">
 	<div id="comprules"></div>
 	<script>
+	     var currules = new Array();
+	     $.ajax({
+                'async': false,
+                url: "/ES/" + competition + "/startList/_search",
+                success: function(s){
+			for (var i = 0; i < s.hits.hits.length; i++) {
+                                currules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
+                        }
+	        }
+             });
+	     var lastrule="";
+	     for (var n = 0; n < currules.length; n++) {
+			if (currules[n].id == lastrule) {
+				currules.splice(n,1);
+			}
+			lastrule=currules[n].id;
+	     }
 	     var divcomprules="";
 	     var comprules = new Array();
              $.ajax({
@@ -318,51 +335,47 @@
 				comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
                         }
 			comprules = sortJSON(comprules,'id', '123');
-			var lastrule="";
+			lastrule="";
+			var divclassrow = "";
 			divcomprules='<div class="focus focus-group">';
+			var localcomprules = new Array();
+		        var comprow = "";
 			for (var i = 0; i < comprules.length; i++) {
 				if (lastrule != comprules[i].id) {
-					divcomprules = divcomprules + '<div class="row"><div class="col-xs-1 middle"><h1>' + comprules[i].id + '</h1></div><table id="rules_' + comprules[i].id +'"class="table table-condensed">';
-					var thead="<tr><th></th>";
-					var trows2="<tr><td><label>Extra Bonus</label></td>";
-					var trows1="<tr><td><label>Two exercises</label></td>";
-					if (agtype == "WAG") {
-						var trows3='<tr><td colspan=2><label>Only first vault to ' + appname[agtype] + '</label></td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
-					} else {
-						var trows3='<tr><td colspan=2><label>Only first vault to ' + appname[agtype] + '</label></td><td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
+		        		comprow = "";
+					divclassrow = "zrulesirrelevant row"
+					for (var n = 0; n < currules.length; n++) {
+						if (comprules[i].id == currules[n].id) {
+							divclassrow = "row";
+						}
 					}
-					var trows4='<tr><td colspan=2><label>Results are public</label></td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
-					for (var n = 2; n < apps.length; n++) {
-						trows4=trows4 + '<td></td>';
-						trows3=trows3 + '<td></td>';
+					comprow = comprow + '<div class="' + divclassrow + '"><div class="col-xs-1 middle"><h1>' + comprules[i].id + '</h1></div><table id="rules_' + comprules[i].id +'"class="table table-condensed">';
+					var trows1='<tr><td>Results are public</td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					var trows2='<tr><td>Extra Bonus in Pommel horse</td><td><span class="switch switch-2"><input type="checkbox" name="check"  value="PH" /><span></td>';
+					var trows3='<tr><td>Second Pommel horse exercise</td><td><span class="switch switch-2"><input type="checkbox" name="check"  value="PH" /><span></td>';
+					var trows4='<tr><td>Second vault</td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					var trows5='<tr><td>Register only total</td><td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
+					var trows6='<tr><td>Count second vault in ' + appname[agtype] + '</td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					comprow = comprow + trows1 + '</tr>';
+					if (agtype == "MAG") {
+						comprow = comprow + trows2 + '</tr>';
+						comprow = comprow + trows3 + '</tr>';
+						comprow = comprow + trows4 + '</tr>';
+					} else { 
+						comprow = comprow + trows5 + '</tr>';
+						comprow = comprow + trows6 + '</tr>';
 					}
-					for (var n = 0; n < apps.length; n++) {
-						 thead = thead + '<th>' + appname[apps[n]] + '</th>';
-						 if (apps[n] == "vault") {
-						 	trows1 = trows1 + '<td><span class="switch switch-2"><input type="checkbox" checked="checked" name="check" value="PH" /><span></td>';
-						 } else {
-						 	trows1 = trows1 + '<td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
-						 }
-						 trows2 = trows2 + '<td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
-					}
-					divcomprules = divcomprules + trows4 + '</tr>';
-					divcomprules = divcomprules + trows3 + '</tr>';
-					divcomprules = divcomprules + thead + '</tr>';
-					divcomprules = divcomprules + trows1 + '</tr>';
-					divcomprules = divcomprules + trows2 + '</tr>';
-					divcomprules = divcomprules + '</table></div>';
+					comprow = comprow + '</table></div>';
+					localcomprules.push(comprow);
 				}
 				lastrule=comprules[i].id;
 			}
+			localcomprules.sort();
+			for (var i = 0; i < localcomprules.length; i++) {
+				divcomprules = divcomprules + localcomprules[i];
+			}
 			divcomprules = divcomprules + '</div>';
 			$("#comprules").replaceWith('<div id="comprules">' + divcomprules + '</div>');
-			//lastrule="";
-			//for (var i = 0; i < comprules.length; i++) {
-                        //        if (lastrule != comprules[i].id) {
-		//			$('#rules_' + comprules[i].id).stacktable();
-			//	}
-		//		lastrule=comprules[i].id;
-		//	}
              	}
              });
 	</script>
@@ -408,6 +421,8 @@ $(function() {
             	$('#description').val(currcompetition.description);
             	$('#created').val(currcompetition.created);
             	$('#create').val("Update");
+		$( "#compsymb" ).replaceWith('<div id="compsymb"><i class="fa fa-pencil-square-o fa-5x"></i></div>');
+
            }
       );
 });
@@ -424,6 +439,7 @@ $(function() {
                 $('#description').val("");
                 $('#created').val("n");
                 $('#create').val("Create");
+		$( "#compsymb" ).replaceWith('<div id="compsymb"><i class="fa fa-plus fa-5x"></i></div>');
            }
       );
 });
@@ -491,6 +507,21 @@ editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, 
 				post.id =  camelize(post.gymnast + post.team);
 				this.setValueAt(rowIndex, 2, post.id, true);
 			}
+				var klasssplit = new Array();
+                            	klasssplit = post.class.split(" ");
+    				if ((klasssplit[0].toLowerCase() == "steg") && (klasssplit[1] < 5)) {
+        				post.rules = "Steg4-";
+    				} 
+				if ((klasssplit[0].toLowerCase() == "steg") && (klasssplit[1] > 4)) {
+        				post.rules = "Steg5+";
+    				}
+    				if ((post.class.substring(0, 2) == "RM") && (post.class.substring(2, 3) < 9)) {
+        				post.rules = post.class;
+    				}
+    				if (klasssplit[0].toLowerCase() == "cop" ) {
+        				post.rules = "CoP";
+    				}
+                                editableGrid.setValueAt(rowIndex,6,post.rules,true);
 			startlistedit("POST",post,true);
 		}
                 };
@@ -1428,7 +1459,9 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
         <section class="body with-head">
             <div class="row pad">
                 <div class="col-md-1 middle">
+		    <div id="compsymb">
                     <i class="fa fa-plus fa-5x"></i> 
+		    </div>
                 </div>
 				<div class="newCompetition">
                 <div class="col-md-11">

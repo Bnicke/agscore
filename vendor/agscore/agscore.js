@@ -772,21 +772,22 @@ function changecompetition(id) {
                         $.mobility.notify("No competitions or is database down??","error");
                 },
                 success: function(s){
+		if (s._source.type) {
+			agtype = s._source.type;
+		} else {
+			agtype = "MAG";
+		}
 		currcompetition = s._source;
 		var description = currcompetition.description;
+		description = description + '<br>' + agtype + '&nbsp;';
 		if (currcompetition.date) {
-			description = description + "<br>Date: " + currcompetition.date
+			description = description + "Date: " + currcompetition.date
 	        }
 		if (currcompetition.date2) {
 			description = description + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + currcompetition.date2
 	        }
 		if (description) {
 		 	$( "#pdescription" ).replaceWith('<p id="pdescription">' + description + '</p>');
-		}
-		if (s._source.type) {
-			agtype = s._source.type;
-		} else {
-			agtype = "MAG";
 		}
 		if (agtype == "WAG") {
 			apps = new Array( "vault", "unevenBars", "beam", "floor");

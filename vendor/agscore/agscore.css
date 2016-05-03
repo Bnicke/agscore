@@ -163,4 +163,8 @@ input, button, select, textarea {
 .startList_all_table>thead>tr>th:nth-child(2) {
     width: 20%;
 }
-
+.zrulesirrelevant {
+    font-style: italic;
+    font-weight: lighter;
+    opacity: 0.5;
+}
