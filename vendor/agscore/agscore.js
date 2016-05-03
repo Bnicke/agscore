@@ -734,6 +734,47 @@ function addgymnast(id) {
 			}
 	 });
 }
+function changerule(rule) {
+	rules=rule.split("_");
+//	console.log($("#"+rule).prop('checked'));
+//	console.log(rules);
+	var searchIDs = $('#comprules').find('input').map(function(){
+		var looprules=$(this).prop('id').split("_");
+		if ($(this).prop('checked')) {
+			var loopchecked = true;
+		} else {
+			var loopchecked = false;
+		}
+		if (looprules[1] == rules[1]) {
+      			return '{"' + looprules[0] + '":"' + loopchecked + '"}';
+		}
+    	});
+	var rulejson = '{"id":"' + agtype + "-" + rules[1] + '","values":[' + searchIDs.get() + ']}';
+	$.ajax({
+                'async': false,
+		type: "POST",
+                url: "/ES/" + competition + "/rules/" + agtype + "-" + rules[1],
+		data: rulejson,
+                error: function(){
+                        $.mobility.notify("No competitions or is database down??","error");
+                },
+                success: function(s){
+		        $.ajax({
+                	'async': false,
+                	type: "POST",
+                	url: "/ES/global/rules/" + agtype + "-" + rules[1],
+                	data: rulejson,
+                	error: function(){
+                        	$.mobility.notify("No competitions or is database down??","error");
+                	},
+                	success: function(t){
+				$.mobility.notify("Rule " + rules[1] + " updated!","success");
+                	}
+        });
+
+		}
+	});
+}
 function deletecompetition(id) {
 	eraseCookie("competition");
 	console.log(id);

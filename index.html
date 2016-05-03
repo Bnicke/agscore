@@ -343,6 +343,7 @@
 			for (var i = 0; i < comprules.length; i++) {
 				if (lastrule != comprules[i].id) {
 		        		comprow = "";
+					var camelid=camelize(comprules[i].id);
 					divclassrow = "zrulesirrelevant row"
 					for (var n = 0; n < currules.length; n++) {
 						if (comprules[i].id == currules[n].id) {
@@ -350,12 +351,12 @@
 						}
 					}
 					comprow = comprow + '<div class="' + divclassrow + '"><div class="col-xs-1 middle"><h1>' + comprules[i].id + '</h1></div><table id="rules_' + comprules[i].id +'"class="table table-condensed">';
-					var trows1='<tr><td>Results are public</td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
-					var trows2='<tr><td>Extra Bonus in Pommel horse</td><td><span class="switch switch-2"><input type="checkbox" name="check"  value="PH" /><span></td>';
-					var trows3='<tr><td>Second Pommel horse exercise</td><td><span class="switch switch-2"><input type="checkbox" name="check"  value="PH" /><span></td>';
-					var trows4='<tr><td>Second vault</td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
-					var trows5='<tr><td>Register only total</td><td><span class="switch switch-2"><input type="checkbox" name="check" value="PH" /><span></td>';
-					var trows6='<tr><td>Count second vault in ' + appname[agtype] + '</td><td><span class="switch switch-2"><input type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					var trows1='<tr><td>Results are public</td><td><span class="switch switch-2"><input onchange="changerule(\'public_' + camelid + '\');" id="public_' + camelid + '" type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					var trows2='<tr><td>Extra Bonus in Pommel horse</td><td><span class="switch switch-2"><input onchange="changerule(\'bph_' + camelid + '\');" id="bph_' + camelid + '" type="checkbox" name="check"  value="PH" /><span></td>';
+					var trows3='<tr><td>Second Pommel horse exercise</td><td><span class="switch switch-2"><input onchange="changerule(\'2ph_' + camelid + '\');" id="2ph_' + camelid + '" type="checkbox" name="check"  value="PH" /><span></td>';
+					var trows4='<tr><td>Second vault</td><td><span class="switch switch-2"><input onchange="changerule(\'2v_' + camelid + '\');" id="2v_' + camelid + '" type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
+					var trows5='<tr><td>Register only total</td><td><span class="switch switch-2"><input onchange="changerule(\'total_' + camelid + '\');" id="total_' + camelid + '" type="checkbox" name="check" value="PH" /><span></td>';
+					var trows6='<tr><td>Count second vault in ' + appname[agtype] + '</td><td><span class="switch switch-2"><input onchange="changerule(\'2v2a_' + camelid + '\');" id="2v2a_' + camelid + '" type="checkbox" name="check" checked="checked" value="PH" /><span></td>';
 					comprow = comprow + trows1 + '</tr>';
 					if (agtype == "MAG") {
 						comprow = comprow + trows2 + '</tr>';
