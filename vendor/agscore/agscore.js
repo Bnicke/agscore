@@ -3,10 +3,11 @@ var data = new Array();
 var dynatable;
 var competition = "";
 var currcompetition = [];
+var currrules = new Array();
 var agtype = "";
 var apps = new Array();
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
-var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still Rings","vault":"Vault","parallelBars":"Parallel Bars","highBar":"High Bar","unevenBars":"Uneven Bars","beam":"Balance Beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
+var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
 
 function createCookie(name, value, days) {
     var expires;
@@ -526,7 +527,8 @@ $.ajax({
 	for (var n = 0; n < data.length; n++) {
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
-				if (app[0] == "vault" ){
+				if ((app[0] == "vault" ) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" ))) {
+				//if (app[0] == "vault" ) {
 				data[n].d_1 = data_pre[m].d_1;
                                 data[n].e1_1 = data_pre[m].e1_1;
                                 data[n].e2_1 = data_pre[m].e2_1;
@@ -567,7 +569,8 @@ $.ajax({
 //			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
 //		}
 		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
-		if (app[0] == "vault" ){
+		//if (app[0] == "vault" ){
+		if ((app[0] == "vault" ) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" ))) {
 		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table);
                 data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table);
                 data[n].e1 = inputregD(n,"e1",data[n].number,data[n].e1_1,data[n].e1_2,table);
@@ -648,7 +651,8 @@ $.ajax({
                 data[n].pen = "";
 	  }
  	  total = data[n].total;
-	if (app[0] == "vault" ){				
+	console.log("Hej");
+	if ((app[0] == "vault" ) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" ))) {
 		for (var i = 0; i < parts.length; i++) {
 			if ( parts[i] == "total" ) {
 				data[n][parts[i]] = data[n][parts[i]+"_1"] + "<br>" + data[n][parts[i]+"_2"] + "<br><b>" + data[n][parts[i]] + "</b>";
@@ -721,7 +725,6 @@ function addgymnast(id) {
 	datalocal._source.checked = true;
 	datalocal._source.del = '<a href="javascript:delgymnast(\'' + datalocal._source.id + '\');"><i class="fa fa-times"></i></a>';
 //         editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ id + '"}'));
-//	console.log(datalocal._source);
 	 if (alreadyin == "true") {	
 		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
 	 } else {
@@ -834,11 +837,14 @@ function changecompetition(id) {
 		} else {
 			apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
 		}
+		currrules = [];
 		$.ajax({
                 	'async': false,
 			url: "/ES/" + competition + "/rules/_search",
 			success: function(t){
-				console.log(JSON.stringify(t.hits.hits));
+				for (var i = 0; i < t.hits.hits.length; i++) {
+					currrules[t.hits.hits[i]._source.id.split("-")[1]] = t.hits.hits[i]._source;
+				}
 			}
 		});
 		if (s._source.css) {
