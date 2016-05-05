@@ -67,6 +67,7 @@ function isNumber(value) {
 }
 function agcalculate(part,number,agtable,index) {
     //var post=data[index];
+    console.log("Hej");
     var post = JSON.parse("{}");
     var post_tmp = JSON.parse("{}");
     post.id = data[index].id;
@@ -97,6 +98,11 @@ function agcalculate(part,number,agtable,index) {
     var E3 = $("#" + table + " :input[name='e3_"+number+"']").val();
     var E4 = $("#" + table + " :input[name='e4_"+number+"']").val();
     var D = $("#" + table + " :input[name='d_"+number+"']").val();
+    if (typeof $("#" + table + " :input[name='b_"+number+"']").val() === 'undefined') {
+	var B = "";
+    } else {
+    	var B = $("#" + table + " :input[name='b_"+number+"']").val();
+    }
     Base = Base.replace(",",".");
     Pen = Pen.replace(",",".");
     E1 = E1.replace(",",".");
@@ -104,6 +110,7 @@ function agcalculate(part,number,agtable,index) {
     E3 = E3.replace(",",".");
     E4 = E4.replace(",",".");
     D = D.replace(",",".");
+    B = B.replace(",",".");
     post.base="&nbsp;";
     post.pen="&nbsp;";
     post.e1="&nbsp;";
@@ -111,6 +118,7 @@ function agcalculate(part,number,agtable,index) {
     post.e3="&nbsp;";
     post.e4="&nbsp;";
     post.d="&nbsp;";
+    post.b="&nbsp;";
     data[index].base = inputreg(index,"base",number,Base,agtable);
     data[index].pen = inputreg(index,"pen",number,Pen,agtable);
     data[index].e1 = inputreg(index,"e1",number,E1,agtable);
@@ -118,6 +126,7 @@ function agcalculate(part,number,agtable,index) {
     data[index].e3 = inputreg(index,"e3",number,E3,agtable);
     data[index].e4 = inputreg(index,"e4",number,E4,agtable);
     data[index].d = inputreg(index,"d",number,D,agtable);
+    data[index].b = inputreg(index,"b",number,B,agtable);
     $("#" + hidetable + " :input[name='base_"+number+"']").val(Base);
     $("#" + hidetable + " :input[name='pen_"+number+"']").val(Pen);
     $("#" + hidetable + " :input[name='e1_"+number+"']").val(E1);
@@ -125,6 +134,9 @@ function agcalculate(part,number,agtable,index) {
     $("#" + hidetable + " :input[name='e3_"+number+"']").val(E3);
     $("#" + hidetable + " :input[name='e4_"+number+"']").val(E4);
     $("#" + hidetable + " :input[name='d_"+number+"']").val(D);
+    if (B > 0) {
+    	$("#" + hidetable + " :input[name='b_"+number+"']").val(B);
+    }
     if (!isNumber(Base)) {
         Base="10";
     } else {
@@ -209,7 +221,8 @@ function agcalculate(part,number,agtable,index) {
 	}
 	post.total_1=parseFloat(post.total_1);
 	post.total_2=parseFloat(post.total_2);
-       total= (parseFloat(post.total_1)+parseFloat(post.total_2))/2;
+       total= parseFloat(B)+(parseFloat(post.total_1)+parseFloat(post.total_2))/2;
+       post.b = B;
        post.total = parseFloat(total.toFixed(2));
 	
        $("#" + table + " :input[name='total_"+double[0]+"']").val(total.toFixed(2));
@@ -588,6 +601,7 @@ $.ajax({
 				data[n].avgE = data_pre[m].avgE;
 				data[n].e = data_pre[m].e;
 				}
+				data[n].b = data_pre[m].b;
 				data[n].total = data_pre[m].total;
 			}
 		}
@@ -624,8 +638,13 @@ $.ajax({
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
 		}
+		console.log("Hej");
 		if ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].bph == "true" )) {
-			data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number,data[n].b,table);
+			if (currrules[camelize(data[n].rules)].sph == "true" ) {
+				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number+"_1",data[n].b,table);
+			} else {
+				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number,data[n].b,table);
+			}
 		}
 		pool = data[n].pool;
 	}
@@ -692,6 +711,9 @@ $.ajax({
  	  total = data[n].total;
      	}
 	for (var n = 0; n < data.length; n++) {
+		if (data[n].b > 0) {
+			data[n].d = data[n].d + "<br>+" + data[n].b;
+		}
 		if (data[n].total == 0) {
 			data.splice(n, 1);
 			n--;
