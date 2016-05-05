@@ -527,7 +527,7 @@ $.ajax({
 	for (var n = 0; n < data.length; n++) {
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
-				if ((app[0] == "vault" ) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" ))) {
+				if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 				//if (app[0] == "vault" ) {
 				data[n].d_1 = data_pre[m].d_1;
                                 data[n].e1_1 = data_pre[m].e1_1;
@@ -570,7 +570,8 @@ $.ajax({
 //		}
 		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
 		//if (app[0] == "vault" ){
-		if ((app[0] == "vault" ) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" ))) {
+		console.log(currrules[camelize(data[n].rules)].sv);
+		if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table);
                 data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table);
                 data[n].e1 = inputregD(n,"e1",data[n].number,data[n].e1_1,data[n].e1_2,table);
@@ -592,6 +593,9 @@ $.ajax({
 		data[n].avgE = inputreg(n,"avgE",data[n].number,data[n].avgE,table);
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
+		}
+		if ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].bph == "true" )) {
+			data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number,data[n].b,table);
 		}
 		pool = data[n].pool;
 	}
@@ -650,9 +654,7 @@ $.ajax({
           case data[n].pen:
                 data[n].pen = "";
 	  }
- 	  total = data[n].total;
-	console.log("Hej");
-	if ((app[0] == "vault" ) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" ))) {
+	if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		for (var i = 0; i < parts.length; i++) {
 			if ( parts[i] == "total" ) {
 				data[n][parts[i]] = data[n][parts[i]+"_1"] + "<br>" + data[n][parts[i]+"_2"] + "<br><b>" + data[n][parts[i]] + "</b>";
@@ -660,16 +662,16 @@ $.ajax({
 				data[n][parts[i]] = data[n][parts[i]+"_1"] + "<br>" + data[n][parts[i]+"_2"] ;
 			} 
 		}
-	} else {
-		data[n].total =  data[n].total ;
-	}
+	} 
           data[n].rank = rank;
 	  klass = data[n].class;
 	  last_rank = last_rank + 1;
+ 	  total = data[n].total;
      	}
 	for (var n = 0; n < data.length; n++) {
 		if (data[n].total == 0) {
-			data.splice(n, 1);	
+			data.splice(n, 1);
+			n--;
 		}
   	}
        var $el = $("#" + table + "-search-class");
