@@ -246,10 +246,14 @@
 	</section>
         <script>
         var divnavregister = "";
+	if (username != "User" ) {
         for (var n = 0; n < apps.length; n++) {
                 divnavregister = divnavregister + '<a data-do="go-forward" data-on="click" href="#REG' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
         }
         $( "div.nav-register" ).replaceWith(divnavregister);
+	} else  {
+		$( "div.nav-register" ).replaceWith('<div class="focus"><p>Please log in to register points!</p></div>');
+	}
         </script>
 
      </script>
@@ -262,12 +266,16 @@
         <section class="body with-head with-foot">
                 <h4 class="pad upper">Administration</h4>
         <nav class="nav-list">
-            <a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a>
-            <a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>
+		<div class="nav-admin"></div>
         </nav>
         </section>
+	<script>
+	if (username != "User" ) {
+		$( "div.nav-admin" ).replaceWith('<a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>');
+	} else {
+		$( "div.nav-admin" ).replaceWith('<div class="focus"><p>Please log in to administer the competition!</p></div>');
+	}
+	</script>
      </script>
 
     <script id="home" type="text/html">

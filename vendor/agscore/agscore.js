@@ -282,7 +282,7 @@ function inputreg (index,part,agnumber,agvalue,agtable) {
 	if (( part == 'avgE' ) || (part == 'e' )) {
 		return '<input class="form-control" min="0" max="15" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	} else if ( part == 'total' ) {
-		return '<input class="form-control" min="0" max="20" readonly onchange="alert(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+		return '<input class="form-control" min="0" max="20" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	} else {
 		return '<input class="form-control" min="0" max="15" onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	}
@@ -651,7 +651,6 @@ $.ajax({
 		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
 		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
 		}
-		console.log("Hej");
 		if ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].bph == "true" )) {
 			if (currrules[camelize(data[n].rules)].sph == "true" ) {
 				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number+"_1",data[n].b,table);

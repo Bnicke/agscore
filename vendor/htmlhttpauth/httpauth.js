@@ -93,9 +93,11 @@ function login()
 		$.mobility.notify("Thank you, you are logged in as " + username + "." ,"success");
 		$.mobility.modalClose('#profile')
 		createCookie("username",username);
+		initcompetition();
 	} else {
 	$.mobility.notify("Incorrect username and/or password!","error");
 		eraseCookie("username");
+		username="User";
     }
     return false;
 }
@@ -103,8 +105,10 @@ function login()
 function logout()
 {
     var http = getHTTPObject();
+    username="User";
     http.open("get", this.parentNode.action, false, "null", "null");
     http.send("");
-    alert("You have been logged out.");
+    $.mobility.notify("You have been logged out.","success");
+    initcompetition();
     return false;
 }
