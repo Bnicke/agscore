@@ -92,8 +92,10 @@ function login()
 	if (http.status == 200) {
 		$.mobility.notify("Thank you, you are logged in as " + username + "." ,"success");
 		$.mobility.modalClose('#profile')
+		createCookie("username",username);
 	} else {
 	$.mobility.notify("Incorrect username and/or password!","error");
+		eraseCookie("username");
     }
     return false;
 }

@@ -6,6 +6,7 @@ var currcompetition = [];
 var currrules = new Array();
 var agtype = "";
 var apps = new Array();
+var username = "User";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
 
@@ -694,6 +695,7 @@ $.ajax({
 		}
 	}
      	data = sortJSON(data,'total', '321');
+	console.log("data");
      	data = sortJSON(data,'class', '123');
      	for (var n = 0; n < data.length; n++) {
 	  if (type == "global") {
@@ -707,6 +709,7 @@ $.ajax({
  	  if ( total > data[n].total ) {
  		rank = last_rank + 1; 
  	  }
+	  total = data[n].total;
 	  for (var o = 0; o < parts.length; o++) {
 		if (data[n][parts[o]] == "&nbsp;") {
 			data[n][parts[o]] = "";
@@ -724,9 +727,26 @@ $.ajax({
           data[n].rank = rank;
 	  klass = data[n].class;
 	  last_rank = last_rank + 1;
- 	  total = data[n].total;
+// 	  total = data[n].total;
      	}
+	hidden="false";
 	for (var n = 0; n < data.length; n++) {
+	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public == "false" )) {
+			hidden="true";
+			for (var i = 0; i < apps.length; i++) {
+				if (data[n][apps[i]]) {
+					data[n][apps[i]] = "#";
+				}
+			}
+			for (var i = 0; i < parts.length; i++) {
+				if (data[n][parts[i]]) {
+					data[n][parts[i]] = "#";
+				}
+			}
+			if (data[n].rank > 3) {
+				data[n].rank = 4
+			}
+	  	}
 		if (data[n].b > 0) {
 			data[n].d = data[n].d + "<br>+" + data[n].b;
 		}
@@ -735,6 +755,11 @@ $.ajax({
 			n--;
 		}
   	}
+	if (hidden=="true") {
+     		data = sortJSON(data,'number', '123');
+     		data = sortJSON(data,'rank', '123');
+     		data = sortJSON(data,'class', '123');
+	}
        var $el = $("#" + table + "-search-class");
        $('#' + table + '-search-class option:gt(0)').remove();
      }
@@ -934,6 +959,12 @@ function changecompetition(id) {
 }
 
 function initcompetition(id) {
+       if (readCookie("username")) {
+       	username=readCookie("username");
+       } else {
+	username="User";
+       }
+       $( "#user" ).replaceWith('<span id="user" class="foot-nav-label">' + username + '</span>');
        $.ajax({
                 'async': false,
                 url: "/ES/global/competition/_search",
