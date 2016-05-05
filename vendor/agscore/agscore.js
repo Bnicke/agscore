@@ -219,10 +219,22 @@ function agcalculate(part,number,agtable,index) {
        if (!isNumber(post.total_2)) {
 		post.total_2 = 0;
 	}
-	post.total_1=parseFloat(post.total_1);
-	post.total_2=parseFloat(post.total_2);
-       total= parseFloat(B)+(parseFloat(post.total_1)+parseFloat(post.total_2))/2;
-       post.b = B;
+	if (post.total_1) {
+		 post.total_1=parseFloat(post.total_1);
+	} else {
+		post.total_1=0;
+	}
+        if (post.total_2) {
+		post.total_2=parseFloat(post.total_2);
+	} else {
+		post.total_2=0;
+	}
+       if (B > 0) {
+       	total= parseFloat(B)+(parseFloat(post.total_1)+parseFloat(post.total_2))/2;
+       	post.b = B;
+       } else {
+       	total= (parseFloat(post.total_1)+parseFloat(post.total_2))/2;
+       }
        post.total = parseFloat(total.toFixed(2));
 	
        $("#" + table + " :input[name='total_"+double[0]+"']").val(total.toFixed(2));
@@ -666,7 +678,11 @@ $.ajax({
                         		for (var i = 0; i < s.hits.hits.length; i++) {
 						for (var m = 0; m < data.length; m++) {
 							if (data[m].id == s.hits.hits[i]._source.id) {
-								data[m][apps[n]]=s.hits.hits[i]._source.total;
+								if ((apps[n] == "vault" ) && (currrules[camelize(s.hits.hits[i]._source.rules)].v2a == "false" )) {
+									data[m][apps[n]]=s.hits.hits[i]._source.total_1
+								} else {
+									data[m][apps[n]]=s.hits.hits[i]._source.total;
+								}
 								data[m]["total"]=parseFloat((parseFloat(data[m]["total"]) + parseFloat(data[m][apps[n]])).toFixed(2));
 							}
 						}
