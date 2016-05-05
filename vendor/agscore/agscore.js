@@ -261,6 +261,33 @@ function inputreg (index,part,agnumber,agvalue,agtable) {
 		return '<input class="form-control" min="0" max="15" onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	}
 }
+function checkrule (rule) {
+	var rulejson = "";
+	$.ajax({
+		'async': false,
+		 url: "/ES/" + competition + "/rules/" + agtype + "-" + rule,
+		 success: function(s){
+		 },
+		 error: function(e){
+		 	        $.ajax({
+                			'async': false,
+                 			url: "/ES/global/rules/" + agtype + "-" + rule,
+                 			success: function(s){
+                        			rulejson = JSON.stringify(s._source);
+						changerule(rule,rulejson);
+                 			},     
+                 			error: function(f){
+						if (agtype == "WAG") {
+							rulejson = '{"id":"' + agtype + '-' + rule + '","public":"true","st":"false","v2a":"false"}';
+						} else {
+							rulejson = '{"id":"' + agtype + '-' + rule + '","public":"true","bph":"false","sph":"false","sv":"true"}';
+						}
+						changerule(rule,rulejson);
+                 			}
+        		});
+		 }
+	});
+}
 function startlistedit (action,post,notify) {
 if (action == "POST" ) {
                 $.ajax({
@@ -283,6 +310,7 @@ if (action == "POST" ) {
                         		success: function(t){
                                 		notifytxt = "Gymnast " + post.gymnast + " updated!";
                                 		notifytype = "success";
+						checkrule(camelize(post.rules));
                         		},
                         		error: function(xhr, ajaxOptions, thrownError) {
                                 		notify = "\"" + xhr.status + " " + thrownError + "\" when updating " + post.gymnast;
@@ -739,8 +767,9 @@ function addgymnast(id) {
 			}
 	 });
 }
-function changerule(rule) {
-	rules=rule.split("_");
+function changerule(rule,rulejson) {
+	if (typeof rulejson === 'undefined') {
+	var rules=rule.split("_");
 //	console.log($("#"+rule).prop('checked'));
 //	console.log(rules);
 	var searchIDs = $('#comprules').find('input').map(function(){
@@ -755,6 +784,11 @@ function changerule(rule) {
 		}
     	});
 	var rulejson = '{"id":"' + agtype + "-" + rules[1] + '",' + searchIDs.get() + '}';
+	} else {
+		rule = 'dummy_' + rule;
+		var rules=rule.split("_");
+	}
+	console.log(rulejson);
 	$.ajax({
                 'async': false,
 		type: "POST",
