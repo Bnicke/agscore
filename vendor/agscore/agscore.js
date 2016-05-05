@@ -557,6 +557,7 @@ $.ajax({
 			if ( data_pre[m].id == data[n].id) {
 				if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 				//if (app[0] == "vault" ) {
+				data[n].pen_1 = data_pre[m].pen_1;
 				data[n].d_1 = data_pre[m].d_1;
                                 data[n].e1_1 = data_pre[m].e1_1;
                                 data[n].e2_1 = data_pre[m].e2_1;
@@ -566,6 +567,7 @@ $.ajax({
                                 data[n].avgE_1 = data_pre[m].avgE_1;
                                 data[n].e_1 = data_pre[m].e_1;
                                 data[n].total_1 = data_pre[m].total_1;
+				data[n].pen_2 = data_pre[m].pen_2;
 				data[n].d_2 = data_pre[m].d_2;
                                 data[n].e1_2 = data_pre[m].e1_2;
                                 data[n].e2_2 = data_pre[m].e2_2;
@@ -576,6 +578,7 @@ $.ajax({
                                 data[n].e_2 = data_pre[m].e_2;
                                 data[n].total_2 = data_pre[m].total_2;
 				} else {
+				data[n].pen = data_pre[m].pen;
 				data[n].d = data_pre[m].d;
 				data[n].e1 = data_pre[m].e1;
 				data[n].e2 = data_pre[m].e2;
@@ -598,7 +601,6 @@ $.ajax({
 //		}
 		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
 		//if (app[0] == "vault" ){
-		console.log(currrules[camelize(data[n].rules)].sv);
 		if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table);
                 data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table);
@@ -670,17 +672,10 @@ $.ajax({
  	  if ( total > data[n].total ) {
  		rank = last_rank + 1; 
  	  }
-	  switch ("&nbsp;") {
-	  case data[n].e1:
-		data[n].e1 = "";
-	  case data[n].e2:
-                data[n].e2 = "";
-          case data[n].e3:
-                data[n].e3 = "";
-          case data[n].e4:
-                data[n].e4 = "";
-          case data[n].pen:
-                data[n].pen = "";
+	  for (var o = 0; o < parts.length; o++) {
+		if (data[n][parts[o]] == "&nbsp;") {
+			data[n][parts[o]] = "";
+		}
 	  }
 	if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		for (var i = 0; i < parts.length; i++) {
