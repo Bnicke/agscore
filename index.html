@@ -221,6 +221,10 @@
         <nav class="nav-list">
 	<div class="nav-results"></div>
         </nav>
+         <h4 class="pad upper">Start list</h4>
+         <nav class="nav-list">
+               <a data-do="go-forward" data-on="click" href="#pools">Start list<i class="fa fa-chevron-right"></i></a>
+         </nav>
         </section>
 	<script>
 	var divnavresults = "";
@@ -230,6 +234,56 @@
 	divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaround' + agtype + '">' + appname[agtype] + '<i class="fa fa-chevron-right"></i></a>';
 	$( "div.nav-results" ).replaceWith(divnavresults);
 	</script>
+     </script>
+    <script id="pools" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
+            <h1 class="title">Start list</h1>
+        </header>
+        <section class="body with-head with-foot">
+        <h4 class="pad upper">Start list</h4>
+        <div class="div-pools"></div>
+        </section>
+        <script>
+              var currpools = new Array();
+              $.ajax({
+                      'async': false,
+                      url: "/ES/" + competition + "/startList/_search",
+                      success: function(s){
+                              for (var i = 0; i < s.hits.hits.length; i++) {
+                                      currpools.push(s.hits.hits[i]._source.pool);
+                              }
+                     }
+              });
+	      currpools.sort();
+              var lastpool="";
+	      var divpools="";
+	      var localapps = apps;
+              for (var n = 0; n < currpools.length; n++) {
+                        if (currpools[n] != lastpool) {
+				localorder = "";
+				for (var o = 0; o < localapps.length; o++) {
+					if (localorder == "") {
+						localorder=appname[localapps[o]];
+					} else {
+						localorder=localorder + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + appname[localapps[o]];
+					}
+				}
+				localapps.push(localapps.shift());
+              			divpools=divpools + '<h4 class="pad upper">Pool ' + currpools[n] + '</h4>' + localorder + '<table id="pools_table' + currpools[n] + '" class="startList_all_table table table-condensed"><thead><th>Number</th><th>Gymnast</th><th>Team</th><th>Born</th><th>Class</th><th>About</th></thead> <tbody></tbody></table>';
+                        }
+                        lastpool=currpools[n];
+              }
+              $( "div.div-pools" ).replaceWith('<div class="div-pools">' + divpools + '</div>');
+	      var lastpool="";
+              for (var n = 0; n < currpools.length; n++) {
+                        if (currpools[n] != lastpool) {
+                                drawgymtable("/ES/" + competition + "/startList/_search?q=pool:"+currpools[n],"pools_table"+currpools[n],"pools");
+                        }
+                        lastpool=currpools[n];
+              }
+        </script>
      </script>
 
     <script id="register" type="text/html">

@@ -418,7 +418,25 @@ features: {
     })
    .bind('dynatable:afterUpdate', processingComplete("#" + table))
    .data('dynatable');
-	} else {
+	} else if (type == "pools") {
+      dynatable = $('#' + table).dynatable({
+      dataset: {
+        records: datalocal
+      },
+      inputs: {
+         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      },
+features: {
+    paginate: false,
+    sort: false,
+    search: false,
+    pushState: true,
+    perPageSelect: false
+  }
+    })
+   .bind('dynatable:afterUpdate', processingComplete("#" + table))
+   .data('dynatable');
+} else {
       dynatable = $('#' + table).dynatable({
       dataset: {
         records: datalocal
@@ -436,6 +454,7 @@ features: {
    .bind('dynatable:afterUpdate', processingComplete("#" + table))
    .data('dynatable');
 }
+
 
     $('#dynatable-query-search-' + table).keypress( function(e) {
 	if(e.which == 13) {
@@ -694,7 +713,6 @@ $.ajax({
 		}
 	}
      	data = sortJSON(data,'total', '321');
-	console.log("data");
      	data = sortJSON(data,'class', '123');
      	for (var n = 0; n < data.length; n++) {
 	  if (type == "global") {
@@ -758,6 +776,9 @@ $.ajax({
      		data = sortJSON(data,'number', '123');
      		data = sortJSON(data,'rank', '123');
      		data = sortJSON(data,'class', '123');
+	}
+	if (app[0] == "pools") {
+                data = sortJSON(data,'number', '123');
 	}
        var $el = $("#" + table + "-search-class");
        $('#' + table + '-search-class option:gt(0)').remove();
