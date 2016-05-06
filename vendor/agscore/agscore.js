@@ -5,11 +5,47 @@ var competition = "";
 var currcompetition = [];
 var currrules = new Array();
 var agtype = "";
+var organizer = "";
 var apps = new Array();
 var username = "User";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
-
+function gyminfo(id) {
+	var info = "";
+	var image ="";
+	var teamimg ="";
+	$.ajax({
+                'async': false,
+                 url: "/ES/" + competition + "/startList/" + id,
+                 success: function(s){
+			info=s;
+		 }
+        });
+	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
+        if (UrlExists("images/" + id + ".jpg") == "true")  {
+        	image = '<img src="images/' + id + '.jpg"><br>';
+        } else {
+		image = "";
+	}
+	if (UrlExists("images/" + info._source.team + ".png") == "true")  {
+		teamimg = '<img src="images/' + info._source.team + '.png">';
+	} else {
+		teamimg = "";
+	}
+	console.log(teamimg);
+	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + teamimg +  info._source.team + '<br>' + image + '<br>'+ info._source.about + '</div>');
+	$.mobility.modalOpen('#gymnastinfo');
+}
+function UrlExists(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    if (http.status != 404) {
+        return "true";
+    } else {
+        return "false";
+    }
+}
 function createCookie(name, value, days) {
     var expires;
 
@@ -598,6 +634,7 @@ $.ajax({
 	//data.shift();
      	data = sortJSON(data,'pool', '123');
 	for (var n = 0; n < data.length; n++) {
+		data[n].gymnast = '<a onclick="gyminfo(\'' + data[n].id + '\');" href="#">' + data[n].gymnast + '</a>';
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
 				if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
@@ -764,6 +801,9 @@ $.ajax({
 				data[n].rank = 4
 			}
 	  	}
+		if (app[0] != "startList") {
+			data[n].gymnast = '<a onclick="gyminfo(\'' + data[n].id + '\');" href="#">' + data[n].gymnast + '</a>';
+		}
 		if (data[n].b > 0) {
 			data[n].d = data[n].d + "<br>+" + data[n].b;
 		}
@@ -936,6 +976,12 @@ function changecompetition(id) {
 		}
 		currcompetition = s._source;
 		var description = currcompetition.description;
+		organizer = currcompetition.organizer;
+		if (UrlExists('images/' + organizer + '.png') == "true") {
+			$( "#footid" ).replaceWith('<div id=footid><img height="50px" src="images/' + organizer + '.png"></div>');
+		} else {
+			$( "#footid" ).replaceWith('<div id=footid><img src="images/blank.gif"></div>');
+		}
 		description = description + '<br>' + agtype + '&nbsp;';
 		if (currcompetition.date) {
 			description = description + "Date: " + currcompetition.date

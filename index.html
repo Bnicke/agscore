@@ -53,14 +53,18 @@
                 <i class="foot-nav-icon fa fa-home"></i>
                 <span class="foot-nav-label">Home</span>
             </a>
+	<a class="foot-nav-item">
+		<div id=footid><img height="50px" src="images/blank.gif"></div>
+	</a>
             <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#profile">
                 <i class="foot-nav-icon fa fa-user"></i>
                 <span id="user" class="foot-nav-label">User</span>
             </a>
-            <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#modal">
+<!--            <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#modal">
                 <i class="foot-nav-icon fa fa-cog"></i>
                 <span class="foot-nav-label">Settings</span>
             </a>
+-->
         </nav>
     </footer>
     
@@ -108,13 +112,26 @@
             </nav>
         </section>
     </div>
-    
+
+      <div id="gymnastinfo" class="modal-sm modal hide">
+        <header class="head">
+            <a class="head-link pull-right" href="#gymnastinfo" data-do="modal-close" data-on="click">
+                <i class="fa fa-times"></i>
+            </a>
+            <h1 id="gymnasttitle" class="title">None</h1>
+        </header>
+  
+        <section class="body with-head">
+		<div id="gymnastabout"></div>
+        </section>
+    </div>
+  
     <div id="profile" class="modal hide">
         <header class="head">
             <a class="head-link pull-right" href="#profile" data-do="modal-close" data-on="click">
                 <i class="fa fa-times"></i>
             </a>
-            <h1 class="title">Profile</h1>
+            <h1 class="title">User</h1>
         </header>
     
         <section class="body with-head">
@@ -259,7 +276,10 @@
 	      currpools.sort();
               var lastpool="";
 	      var divpools="";
-	      var localapps = apps;
+	      var localapps = new Array();
+	      for (var o = 0; o < apps.length; o++) {
+			localapps[o] = apps[o];
+	      }
               for (var n = 0; n < currpools.length; n++) {
                         if (currpools[n] != lastpool) {
 				localorder = "";
@@ -271,7 +291,7 @@
 					}
 				}
 				localapps.push(localapps.shift());
-              			divpools=divpools + '<h4 class="pad upper">Pool ' + currpools[n] + '</h4>' + localorder + '<table id="pools_table' + currpools[n] + '" class="startList_all_table table table-condensed"><thead><th>Number</th><th>Gymnast</th><th>Team</th><th>Born</th><th>Class</th><th>About</th></thead> <tbody></tbody></table>';
+              			divpools=divpools + '<h2 class="pad upper">Pool ' + currpools[n] + '</h2><H4>' + localorder + '</H4><table id="pools_table' + currpools[n] + '" class="startList_all_table table table-condensed"><thead><th>Number</th><th>Gymnast</th><th>Team</th><th>Born</th><th>Class</th><th>About</th></thead> <tbody></tbody></table>';
                         }
                         lastpool=currpools[n];
               }
@@ -1616,6 +1636,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg
 	    <option value="pink">Pink</option>
 	    <option value="purple">Purple</option>
 	    <option value="red">Red</option>
+	    <option value="bluered">Blue & red</option>
   </select>
 </div>
 
