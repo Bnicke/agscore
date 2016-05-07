@@ -168,3 +168,47 @@ input, button, select, textarea {
     font-weight: lighter;
     opacity: 0.5;
 }
+/* Profile container */
+.profile {
+  margin: 20px 0;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  max-width: 100px;
+  max-height: 150px;
+  border: solid 2px #DFDFDF;
+//  -webkit-border-radius: 50% !important;
+//  -moz-border-radius: 50% !important;
+//  border-radius: 50% !important;
+}
+
+.profile-usertitle {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.profile-teampic img {
+  float: left;
+  margin: 0px 5px 0px 0px;
+  max-height: 60px;
+}
+
+
+.profile-usertitle-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-about {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}

@@ -3,6 +3,7 @@ var data = new Array();
 var dynatable;
 var competition = "";
 var currcompetition = [];
+var currcompetitionname = "";
 var currrules = new Array();
 var agtype = "";
 var organizer = "";
@@ -23,17 +24,14 @@ function gyminfo(id) {
         });
 	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
         if (UrlExists("images/" + id + ".jpg") == "true")  {
-        	image = '<img src="images/' + id + '.jpg"><br>';
-        } else {
-		image = "";
-	}
+        	image = '<div class="profile-userpic"><img src="images/' + id + '.jpg" class="img-responsive" alt=""></div>';
+        } 
 	if (UrlExists("images/" + info._source.team + ".png") == "true")  {
-		teamimg = '<img src="images/' + info._source.team + '.png">';
-	} else {
-		teamimg = "";
-	}
-	console.log(teamimg);
-	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + teamimg +  info._source.team + '<br>' + image + '<br>'+ info._source.about + '</div>');
+		teamimg = '<div class="profile-teampic"><img src="images/' + info._source.team + '.png" class="img-responsive" alt=""></div>';
+	} 
+	
+var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
+	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + gymnastabout + '</div>');
 	$.mobility.modalOpen('#gymnastinfo');
 }
 function UrlExists(url) {
@@ -107,7 +105,9 @@ function agcalculate(part,number,agtable,index) {
     console.log("Hej");
     var post = JSON.parse("{}");
     var post_tmp = JSON.parse("{}");
+    var now = new Date();
     post.id = data[index].id;
+    post.timestamp = now.getTime();
     post.gymnast = data[index].gymnast;
     post.pool = data[index].pool;
     post.number = data[index].number;
@@ -634,7 +634,6 @@ $.ajax({
 	//data.shift();
      	data = sortJSON(data,'pool', '123');
 	for (var n = 0; n < data.length; n++) {
-		data[n].gymnast = '<a onclick="gyminfo(\'' + data[n].id + '\');" href="#">' + data[n].gymnast + '</a>';
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
 				if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
@@ -975,22 +974,28 @@ function changecompetition(id) {
 			agtype = "MAG";
 		}
 		currcompetition = s._source;
-		var description = currcompetition.description;
+//		var description = currcompetition.description;
 		organizer = currcompetition.organizer;
 		if (UrlExists('images/' + organizer + '.png') == "true") {
 			$( "#footid" ).replaceWith('<div id=footid><img height="50px" src="images/' + organizer + '.png"></div>');
 		} else {
-			$( "#footid" ).replaceWith('<div id=footid><img src="images/blank.gif"></div>');
+			$( "#footid" ).replaceWith('<div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>');
 		}
 		description = description + '<br>' + agtype + '&nbsp;';
 		if (currcompetition.date) {
 			description = description + "Date: " + currcompetition.date
 	        }
+		
 		if (currcompetition.date2) {
 			description = description + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + currcompetition.date2
 	        }
-		if (description) {
-		 	$( "#pdescription" ).replaceWith('<p id="pdescription">' + description + '</p>');
+		if (currcompetition.description) {
+		 	$( "#pdescription" ).replaceWith('<p id="pdescription">' + currcompetition.description + '</p>');
+		 	$( "#menudescription" ).replaceWith('<p id="menudescription">' + currcompetition.description + '</p>');
+		}
+		if (currcompetition.name) {
+			currcompetitionname = currcompetition.name;
+		 	$( "#menucompetition" ).replaceWith('<h4 id="menucompetition" class="pad upper">' + currcompetition.name + '</h4>');
 		}
 		if (agtype == "WAG") {
 			apps = new Array( "vault", "unevenBars", "beam", "floor");

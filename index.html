@@ -53,8 +53,8 @@
                 <i class="foot-nav-icon fa fa-home"></i>
                 <span class="foot-nav-label">Home</span>
             </a>
-	<a class="foot-nav-item">
-		<div id=footid><img height="50px" src="images/blank.gif"></div>
+	<a class="foot-nav-item" data-do="modal-open" data-on="click" href="#menu">
+		<div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>
 	</a>
             <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#profile">
                 <i class="foot-nav-icon fa fa-user"></i>
@@ -216,20 +216,33 @@
 </div>
 </aside>
 
-    
-    <aside id="aside-left" class="aside aside-left">
-    	<a class="btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-chevron-left"></i></a>
-        <h2 class="pad">AGScore.se</h2>
-        <nav class="nav-list">
-	<a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
-	<a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
-	<a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
+    <div id="menu" class="modal hide">
+        <header class="head">
+            <a class="head-link pull-right" href="#menu" data-do="modal-close" data-on="click">
+                <i class="fa fa-times"></i>
+            </a>
+            <h1 class="title">Menu</h1>
+        </header>
+        <section class="body with-head">
+                <h4 id="menucompetition" class="pad upper">Menu</h4>
+            <div class="row pad">
+	<div class="focus">
+		<p id="menudescription"></p>
+	</div>
+	<nav class="nav-list">
+        <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#results">Results<i class="fa fa-chevron-right"></i></a>
+        <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
+        <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
+        <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#pools">Start list<i class="fa fa-chevron-right"></i></a>
         </nav>
-    </aside>
+            </div>
+        </section>
+    </div>
+    
 
     <script id="results" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
 	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Results</h1>
         </header>
@@ -254,7 +267,7 @@
      </script>
     <script id="pools" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Start list</h1>
         </header>
@@ -308,7 +321,7 @@
 
     <script id="register" type="text/html">
         <header class="head">
- 		<a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!-- 		<a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
 	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Register points</h1>
         </header>
@@ -333,7 +346,7 @@
      </script>
    <script id="administration" type="text/html">
         <header class="head">
-             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
 	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Administration</h1>
         </header>
@@ -354,7 +367,7 @@
 
     <script id="home" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>-->
             <h1 class="title">AGScore.se
             </h1>
         </header>
@@ -383,7 +396,7 @@
 
     <script id="rule" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Rules</h1>
         </header>
@@ -501,7 +514,7 @@
 
     <script id="competition" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>-->
 	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Competitions</h1>
         </header>
@@ -568,9 +581,9 @@ $(function() {
 
        <script id="startList" type="text/html">
         <header class="head">
-<a class="head-btn btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-startlist"><i class="fa fa-bars"></i></a>
+<a class="head-btn btn btn-default pull-right" data-do="aside" data-on="click" href="#aside-startlist"><i class="fa fa-bars"></i></a> 
 <a class="head-btn btn btn-default pull-right" id="new" data-role="new" href="#"><i class="fa fa-plus"></i></a>
-             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>-->
 <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
 <h1 class="title">Start list</h1>
         </header>
@@ -796,7 +809,7 @@ $(function() {
 
        <script id="none" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
 	<a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Nothing yet.</h1>
         </header>
@@ -807,7 +820,7 @@ Placeholder
   
       <script id="allaroundMAG" type="text/html">
         <header class="head">
-            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
@@ -846,7 +859,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableMAG");
 
       <script id="allaroundWAG" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/vault.png" \><img src="images/unevenBars.png" \><img src="images/beam.png" \><img src="images/floor.png" \></h1>
         </header>
@@ -883,7 +896,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableWAG");
 
       <script id="floor" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
@@ -924,7 +937,7 @@ drawgymtable("/ES/" + competition + "/floor/_search","floor_table");
     </script>
        <script id="pommelHorse" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
@@ -966,7 +979,7 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search","pommelHorse_table");
     
       <script id="rings" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
         </header>
@@ -1007,7 +1020,7 @@ drawgymtable("/ES/" + competition + "/rings/_search","rings_table");
     </script>
       <script id="vault" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
@@ -1049,7 +1062,7 @@ drawgymtable("/ES/" + competition + "/vault/_search","vault_table");
 
       <script id="parallelBars" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
@@ -1091,7 +1104,7 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search","parallelBars_table"
 
       <script id="highBar" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
@@ -1133,7 +1146,7 @@ drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
 
       <script id="beam" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Balance Beam</h1>
         </header>
@@ -1174,7 +1187,7 @@ drawgymtable("/ES/" + competition + "/beam/_search","beam_table");
 
       <script id="unevenBars" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven Bars</h1>
         </header>
@@ -1215,7 +1228,7 @@ drawgymtable("/ES/" + competition + "/unevenBars/_search","unevenBars_table");
        
 <script id="REGfloor" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
@@ -1259,7 +1272,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
 
 <script id="REGpommelHorse" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
@@ -1304,7 +1317,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","re
 
 <script id="REGrings" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Still rings</h1>
         </header>
@@ -1348,7 +1361,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
 
 <script id="REGvault" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
@@ -1392,7 +1405,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
 
 <script id="REGparallelBars" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel bars</h1>
         </header>
@@ -1436,7 +1449,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","r
 
 <script id="REGhighBar" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
@@ -1480,7 +1493,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
 
 <script id="REGbeam" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Beam</h1>
         </header>
@@ -1524,7 +1537,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 
 <script id="REGunevenBars" type="text/html">
         <header class="head">
-	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>
+<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven bars</h1>
         </header>
