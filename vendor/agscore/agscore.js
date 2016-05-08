@@ -11,6 +11,29 @@ var apps = new Array();
 var username = "User";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
+
+function updatecss(team) {
+	var value = $("#css_" + team ).val();
+	var notify = "";
+	var notifytype = "";
+	var post = '{"id":"' + team + '","css":"' + value + '"}';
+    $.ajax({
+        'async': false,
+        type: "POST",
+        url: "/ES/global/team/" + team,
+        data: post,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(s){
+                notify = "css updated!";
+                notifytype = "success";
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+                notify = "\"" + xhr.status + " " + thrownError + "\" when uploading!";
+                notifytype = "error";
+        }
+    });
+}
 function uploadimage(id,type,text) {
 	$( "#upload_title" ).replaceWith('<h1 id=upload_title class="title">' + text + '</h1>');
 	$( "#upload_text" ).replaceWith('<div id="upload_text">Upload image for ' + text + '</div>');
@@ -241,14 +264,15 @@ function agcalculate(part,number,agtable,index) {
     post.e4="&nbsp;";
     post.d="&nbsp;";
     post.b="&nbsp;";
-    data[index].base = inputreg(index,"base",number,Base,agtable);
-    data[index].pen = inputreg(index,"pen",number,Pen,agtable);
-    data[index].e1 = inputreg(index,"e1",number,E1,agtable);
-    data[index].e2 = inputreg(index,"e2",number,E2,agtable);
-    data[index].e3 = inputreg(index,"e3",number,E3,agtable);
-    data[index].e4 = inputreg(index,"e4",number,E4,agtable);
-    data[index].d = inputreg(index,"d",number,D,agtable);
-    data[index].b = inputreg(index,"b",number,B,agtable);
+    var onlytot = currrules[camelize(post.rules)].st;
+    data[index].base = inputreg(index,"base",number,Base,agtable,onlytot);
+    data[index].pen = inputreg(index,"pen",number,Pen,agtable,onlytot);
+    data[index].e1 = inputreg(index,"e1",number,E1,agtable,onlytot);
+    data[index].e2 = inputreg(index,"e2",number,E2,agtable,onlytot);
+    data[index].e3 = inputreg(index,"e3",number,E3,agtable,onlytot);
+    data[index].e4 = inputreg(index,"e4",number,E4,agtable,onlytot);
+    data[index].d = inputreg(index,"d",number,D,agtable,onlytot);
+    data[index].b = inputreg(index,"b",number,B,agtable,onlytot);
     $("#" + hidetable + " :input[name='base_"+number+"']").val(Base);
     $("#" + hidetable + " :input[name='pen_"+number+"']").val(Pen);
     $("#" + hidetable + " :input[name='e1_"+number+"']").val(E1);
@@ -260,7 +284,11 @@ function agcalculate(part,number,agtable,index) {
     	$("#" + hidetable + " :input[name='b_"+number+"']").val(B);
     }
     if (!isNumber(Base)) {
-        Base="10";
+	if (onlytot == "true") {
+		Base="0";
+	} else {
+        	Base="10";
+	}
     } else {
 	post.base = parseFloat(Base).toFixed(0);
     }
@@ -298,7 +326,7 @@ function agcalculate(part,number,agtable,index) {
     var avgE = (parseFloat(E1) + parseFloat(E2) + parseFloat(E3) + parseFloat(E4) - parseFloat(Math.max(E1,E2,E3,E4)) - parseFloat(Math.min(E1,E2,E3,E4)))/2;
     $("#" + hidetable + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
     $("#" + table + " :input[name='avgE_"+number+"']").val(avgE.toFixed(2));
-    data[index].avgE = inputreg(index,"avgE",number,avgE.toFixed(2),agtable);
+    data[index].avgE = inputreg(index,"avgE",number,avgE.toFixed(2),agtable,onlytot);
     post.avgE = avgE.toFixed(2);
     var E = Base-avgE;
     if (D <= 0) {
@@ -310,7 +338,7 @@ function agcalculate(part,number,agtable,index) {
     }
     $("#" + hidetable + " :input[name='e_"+number+"']").val(E.toFixed(2));
     $("#" + table + " :input[name='e_"+number+"']").val(E.toFixed(2));
-    data[index].e = inputreg(index,"e",number,E.toFixed(2),agtable);
+    data[index].e = inputreg(index,"e",number,E.toFixed(2),agtable,onlytot);
     post.e = E.toFixed(2);
     var total=parseFloat(E)+parseFloat(D)-parseFloat(Pen);
     if (total < 0) {
@@ -318,7 +346,7 @@ function agcalculate(part,number,agtable,index) {
     }
     $("#" + hidetable + " :input[name='total_"+number+"']").val(total.toFixed(2));
     $("#" + table + " :input[name='total_"+number+"']").val(total.toFixed(2));
-    data[index].total = inputreg(index,"total",number,total.toFixed(2),agtable);
+    data[index].total = inputreg(index,"total",number,total.toFixed(2),agtable,onlytot);
     post.total = parseFloat(total.toFixed(2));
     var app = agtable.split("_");
     var notify;
@@ -373,7 +401,7 @@ function agcalculate(part,number,agtable,index) {
         success: function(s){
 		notify = "Gymnast #" + post.number + " " + app[0] + " updated";
 		notifytype = "success";
-    		if ((E1 > 10) || (E1 < 0) || (E2 > 10) || (E2 < 0) || (E3 > 10) || (E3 < 0) || (E4 > 10) || (E4 < 0) || (D > 8) || (D < 0) || (Pen > 5) || (Pen < 0) || ( Base > 10 ) || (Base < 3)) {
+    		if ((E1 > 10) || (E1 < 0) || (E2 > 10) || (E2 < 0) || (E3 > 10) || (E3 < 0) || (E4 > 10) || (E4 < 0) || (D > 8) || (D < 0) || (Pen > 5) || (Pen < 0) || ( Base > 10 ) || (Base < 0)) {
 			notify = notify + " but an abnormally high or low point registered!";
 			notifytype = "warning";
         	}
@@ -385,27 +413,36 @@ function agcalculate(part,number,agtable,index) {
     });
     	    $.mobility.notify(notify,notifytype);
 }
-function inputregD (index,part,agnumber,agvalue1,agvalue2,agtable) {
-	var cell = "<div class=\"part1\">" + inputreg (index,part, agnumber + "_1",agvalue1,agtable) + "</div><div class=\"part2\">" + inputreg (index,part, agnumber + "_2",agvalue2,agtable) + "</div>";
+function inputregD (index,part,agnumber,agvalue1,agvalue2,agtable,onlytot) {
+	var cell = "<div class=\"part1\">" + inputreg (index,part, agnumber + "_1",agvalue1,agtable,onlytot) + "</div><div class=\"part2\">" + inputreg (index,part, agnumber + "_2",agvalue2,agtable,onlytot) + "</div>";
 	if ( part == 'total' ) { 
 		var totalD = (parseFloat(agvalue1)+parseFloat(agvalue2))/2;
 		cell = cell + inputreg (index,part, agnumber,totalD.toFixed(2),agtable)	
 	} 
 	return cell;
 }
-function inputreg (index,part,agnumber,agvalue,agtable) {
+function inputreg (index,part,agnumber,agvalue,agtable,onlytot) {
+	if (onlytot == "true") {
+		var readonly = " readonly ";
+	} else {
+		var readonly = "";
+	}
 	if (!isNumber(agvalue)) {
 		agvalue = "";
 	}
 	if ((part == 'base') && (agvalue.length < 1)) {
-		agvalue = "10";
+		if (onlytot == "true") {
+			agvalue = "0";
+		} else {
+			agvalue = "10";
+		}
 	}
 	if (( part == 'avgE' ) || (part == 'e' )) {
 		return '<input class="form-control" min="0" max="15" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
-	} else if ( part == 'total' ) {
-		return '<input class="form-control" min="0" max="20" readonly onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
-	} else {
+	} else if ( part == 'd' ) {
 		return '<input class="form-control" min="0" max="15" onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
+	} else {
+		return '<input class="form-control" min="0" max="15" ' + readonly + 'onchange="agcalculate(\''+ part + '\',\'' + agnumber + '\',\'' + agtable +'\',\'' + index +'\');" type="number" step="any" id="' + part + '_' + agnumber + '" name="' + part + '_' + agnumber + '" value="' + agvalue + '">';
 	}
 }
 function checkrule (rule) {
@@ -708,7 +745,7 @@ $.ajax({
      if (type == "reg") {
          $.ajax({
          	'async': false,
-         	url: "/ES/" + competition + "/" + app[0] + "/_search",
+         	url: "/ES/" + competition + "/" + app[0] + "/_search?size=1000&sort=number",
          	success: function(s){
 			for (var i = 0; i < s.hits.hits.length; i++) {
         			data_pre.push(s.hits.hits[i]._source)
@@ -717,7 +754,7 @@ $.ajax({
          	error: function(xhr, ajaxOptions, thrownError) {
          	}
          });
-     	data = sortJSON(data,'number', '123');
+//     	data = sortJSON(data,'number', '123');
 	//data.shift();
      	data = sortJSON(data,'pool', '123');
 	for (var n = 0; n < data.length; n++) {
@@ -769,35 +806,35 @@ $.ajax({
 //			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
 //		}
 		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
-		//if (app[0] == "vault" ){
+		var onlytot = currrules[camelize(data[n].rules)].st;
 		if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
-		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table);
-                data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table);
-                data[n].e1 = inputregD(n,"e1",data[n].number,data[n].e1_1,data[n].e1_2,table);
-                data[n].e2 = inputregD(n,"e2",data[n].number,data[n].e2_1,data[n].e2_2,table);
-                data[n].e3 = inputregD(n,"e3",data[n].number,data[n].e3_1,data[n].e3_2,table);
-                data[n].e4 = inputregD(n,"e4",data[n].number,data[n].e4_1,data[n].e4_2,table);
-                data[n].base = inputregD(n,"base",data[n].number,data[n].base_1,data[n].base_2,table);
-                data[n].avgE = inputregD(n,"avgE",data[n].number,data[n].avgE_1,data[n].avgE_2,table);
-                data[n].e = inputregD(n,"e",data[n].number,data[n].e_1,data[n].e_2,table);
-		data[n].total = inputregD(n,"total",data[n].number,data[n].total_1,data[n].total_2,table);
+		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table,onlytot);
+                data[n].d = inputregD(n,"d",data[n].number,data[n].d_1,data[n].d_2,table,onlytot);
+                data[n].e1 = inputregD(n,"e1",data[n].number,data[n].e1_1,data[n].e1_2,table,onlytot);
+                data[n].e2 = inputregD(n,"e2",data[n].number,data[n].e2_1,data[n].e2_2,table,onlytot);
+                data[n].e3 = inputregD(n,"e3",data[n].number,data[n].e3_1,data[n].e3_2,table,onlytot);
+                data[n].e4 = inputregD(n,"e4",data[n].number,data[n].e4_1,data[n].e4_2,table,onlytot);
+                data[n].base = inputregD(n,"base",data[n].number,data[n].base_1,data[n].base_2,table,onlytot);
+                data[n].avgE = inputregD(n,"avgE",data[n].number,data[n].avgE_1,data[n].avgE_2,table,onlytot);
+                data[n].e = inputregD(n,"e",data[n].number,data[n].e_1,data[n].e_2,table,onlytot);
+		data[n].total = inputregD(n,"total",data[n].number,data[n].total_1,data[n].total_2,table,onlytot);
 		} else {
-		data[n].pen = inputreg(n,"pen",data[n].number,data[n].pen,table);
-		data[n].d = inputreg(n,"d",data[n].number,data[n].d,table);
-		data[n].e1 = inputreg(n,"e1",data[n].number,data[n].e1,table);
-		data[n].e2 = inputreg(n,"e2",data[n].number,data[n].e2,table);
-		data[n].e3 = inputreg(n,"e3",data[n].number,data[n].e3,table);
-		data[n].e4 = inputreg(n,"e4",data[n].number,data[n].e4,table);
-		data[n].base = inputreg(n,"base",data[n].number,data[n].base,table);
-		data[n].avgE = inputreg(n,"avgE",data[n].number,data[n].avgE,table);
-		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table);
-		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table);
+		data[n].pen = inputreg(n,"pen",data[n].number,data[n].pen,table,onlytot);
+		data[n].d = inputreg(n,"d",data[n].number,data[n].d,table,onlytot);
+		data[n].e1 = inputreg(n,"e1",data[n].number,data[n].e1,table,onlytot);
+		data[n].e2 = inputreg(n,"e2",data[n].number,data[n].e2,table,onlytot);
+		data[n].e3 = inputreg(n,"e3",data[n].number,data[n].e3,table,onlytot);
+		data[n].e4 = inputreg(n,"e4",data[n].number,data[n].e4,table,onlytot);
+		data[n].base = inputreg(n,"base",data[n].number,data[n].base,table,onlytot);
+		data[n].avgE = inputreg(n,"avgE",data[n].number,data[n].avgE,table,onlytot);
+		data[n].e = inputreg(n,"e",data[n].number,data[n].e,table,onlytot);
+		data[n].total = inputreg(n,"total",data[n].number,data[n].total,table,onlytot);
 		}
 		if ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].bph == "true" )) {
 			if (currrules[camelize(data[n].rules)].sph == "true" ) {
-				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number+"_1",data[n].b,table);
+				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number+"_1",data[n].b,table,onlytot);
 			} else {
-				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number,data[n].b,table);
+				data[n].d = data[n].d + "<small>Extra:</small>" + inputreg(n,"b",data[n].number,data[n].b,table,onlytot);
 			}
 		}
 		pool = data[n].pool;
@@ -815,7 +852,7 @@ $.ajax({
 		for (var n = 0; n < apps.length; n++) {
 		         $.ajax({
                 		'async': false,
-                		url: "/ES/" + competition + "/" + apps[n] + "/_search",
+                		url: "/ES/" + competition + "/" + apps[n] + "/_search?size=1000",
                 		success: function(s){
                         		for (var i = 0; i < s.hits.hits.length; i++) {
 						for (var m = 0; m < data.length; m++) {
@@ -1062,13 +1099,17 @@ function changecompetition(id) {
 			agtype = "MAG";
 		}
 		currcompetition = s._source;
-//		var description = currcompetition.description;
 		organizer = currcompetition.organizer;
-		if (UrlExists('images/' + organizer + '.png') == "true") {
-			$( "#footid" ).replaceWith('<div id=footid><img height="50px" src="images/' + organizer + '.png"></div>');
-		} else {
-			$( "#footid" ).replaceWith('<div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>');
-		}
+        	$.ajax({
+                	'async': false,
+                 	url: "/ES/bin/team/" + camelize(organizer),
+                 	success: function(u){
+				$( "#footid" ).replaceWith('<div id=footid><img height="50px" src="' + u._source.blob + '"></div>');
+                 	},
+			error: function(e){
+				$( "#footid" ).replaceWith('<div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>');
+			}
+        	});
 		description = description + '<br>' + agtype + '&nbsp;';
 		if (currcompetition.date) {
 			description = description + "Date: " + currcompetition.date
@@ -1093,18 +1134,28 @@ function changecompetition(id) {
 		currrules = [];
 		$.ajax({
                 	'async': false,
-			url: "/ES/" + competition + "/rules/_search",
+			url: "/ES/" + competition + "/rules/_search?size=100",
 			success: function(t){
 				for (var i = 0; i < t.hits.hits.length; i++) {
 					currrules[t.hits.hits[i]._source.id.split("-")[1]] = t.hits.hits[i]._source;
 				}
 			}
 		});
-		if (s._source.css) {
+		var css="";
+        	$.ajax({
+                'async': false,
+                url: "/ES/global/team/_search?q=id:" + camelize(organizer),
+                success: function(s){
+                        for (var i = 0; i < s.hits.hits.length; i++) {
+				css = s.hits.hits[i]._source.css;
+                        }
+                }
+             	});
+		if (css) {
 		jQuery('<link />').attr({
 			rel: 'stylesheet', 
 			type: 'text/css',
-			href: 'vendor/mobility/mobility-'+s._source.css+'.css' })
+			href: 'vendor/mobility/mobility-'+css+'.css' })
 		.appendTo('head');
 		} else {
 		jQuery('<link />').attr({
@@ -1126,7 +1177,7 @@ function initcompetition(id) {
        $( "#user" ).replaceWith('<span id="user" class="foot-nav-label">' + username + '</span>');
        $.ajax({
                 'async': false,
-                url: "/ES/global/competition/_search",
+                url: "/ES/global/competition/_search?size=100&sort=created",
                 error: function(){
                         $.mobility.notify("No competitions or is database down??","error");
                 },
@@ -1135,9 +1186,9 @@ function initcompetition(id) {
                         for (var i = 0; i < s.hits.hits.length; i++) {
                                 competitions.push(s.hits.hits[i]._source)
                         }
-//                        competitions.reverse();
-			competitions = sortJSON(competitions,'id', '123');
-			competitions = sortJSON(competitions,'created', '123');
+                      competitions.reverse();
+//			competitions = sortJSON(competitions,'id', '123');
+//			competitions = sortJSON(competitions,'created', '123');
                         var $el = $("#select-competition");
                         $('#select-competition option').remove();
 			selectedcompetition=readCookie("competition");

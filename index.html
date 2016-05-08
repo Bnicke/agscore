@@ -307,14 +307,14 @@
               var currpools = new Array();
               $.ajax({
                       'async': false,
-                      url: "/ES/" + competition + "/startList/_search",
+                      url: "/ES/" + competition + "/startList/_search?size=20&sort=pool",
                       success: function(s){
                               for (var i = 0; i < s.hits.hits.length; i++) {
                                       currpools.push(s.hits.hits[i]._source.pool);
                               }
                      }
               });
-	      currpools.sort();
+//	      currpools.sort();
               var lastpool="";
 	      var divpools="";
 	      var localapps = new Array();
@@ -340,7 +340,7 @@
 	      var lastpool="";
               for (var n = 0; n < currpools.length; n++) {
                         if (currpools[n] != lastpool) {
-                                drawgymtable("/ES/" + competition + "/startList/_search?q=pool:"+currpools[n],"pools_table"+currpools[n],"pools");
+                                drawgymtable("/ES/" + competition + "/startList/_search?size=100&q=pool:"+currpools[n],"pools_table"+currpools[n],"pools");
                         }
                         lastpool=currpools[n];
               }
@@ -436,7 +436,7 @@
 	     divteams = "";
              $.ajax({
                 'async': false,
-                url: "/ES/" + competition + "/startList/_search",
+                url: "/ES/global/startList/_search?size=100&sort=team",
                 success: function(s){
                         for (var i = 0; i < s.hits.hits.length; i++) {
                                 currteams.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.team + '"}'));
@@ -451,13 +451,25 @@
                         }
                         lastteam=currteams[n].id;
              }
-//	debugger;
-divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th></th></tr></thead><tbody>';
-for (var n = 0; n < currteams.length; n++) {
-	divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td><a href="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o"></i></a></td></tr>'
-}
-divteams=divteams+'</tbody></table>';
-			$("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
+	  var option='<option value="default">Grey</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="pink">Pink</option><option value="purple">Purple</option><option value="red">Red</option><option value="bluered">Blue & red</option>'
+	var select="";
+	divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th>Color</th><th></th></tr></thead><tbody>';
+	for (var n = 0; n < currteams.length; n++) {
+		select='<select onchange="javascript:updatecss(\'' + camelize(currteams[n].id) + '\');" id="css_' + camelize(currteams[n].id) +'" class="form-control">' + option + '</select>';
+		divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td>' + select + '</td><td><a href="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o"></i></a></td></tr>'
+	}
+	divteams=divteams+'</tbody></table>';
+	$("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
+	currteams = [];
+	$.ajax({
+                'async': false,
+                url: "/ES/global/team/_search?size=100",
+                success: function(s){
+                        for (var i = 0; i < s.hits.hits.length; i++) {
+				$("#css_" + s.hits.hits[i]._source.id).val(s.hits.hits[i]._source.css);
+                        }
+                }
+             });
 	</script>
         </section>
     </script>
@@ -472,7 +484,7 @@ divteams=divteams+'</tbody></table>';
 	     var currules = new Array();
 	     $.ajax({
                 'async': false,
-                url: "/ES/" + competition + "/startList/_search",
+                url: "/ES/" + competition + "/startList/_search?size=100&sort=rules",
                 success: function(s){
 			for (var i = 0; i < s.hits.hits.length; i++) {
                                 currules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
@@ -491,12 +503,11 @@ divteams=divteams+'</tbody></table>';
 	     var comprules = new Array();
              $.ajax({
              	'async': false,
-             	url: "/ES/global/startList/_search?q=agtype:" + agtype,
+             	url: "/ES/global/startList/_search?q=agtype:" + agtype + '&size=100&sort=rules',
              	success: function(s){
 			for (var i = 0; i < s.hits.hits.length; i++) {
 				comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
                         }
-			comprules = sortJSON(comprules,'id', '123');
 			lastrule="";
 			var divclassrow = "";
 			divcomprules='<div class="focus focus-group">';
@@ -543,7 +554,7 @@ divteams=divteams+'</tbody></table>';
 						trows4=trows4 + ' checked="checked" ';
 					}
 					trows4=trows4 + '/><span></td>';
-					var trows5='<tr><td>Register only total</td><td><span class="switch switch-2"><input onchange="changerule(\'st_' + camelid + '\');" id="st_' + camelid + '" type="checkbox" name="check" value="PH" ';
+					var trows5='<tr><td>Register only average D</td><td><span class="switch switch-2"><input onchange="changerule(\'st_' + camelid + '\');" id="st_' + camelid + '" type="checkbox" name="check" value="PH" ';
 					if (esrules.st == "true") {
 						trows5=trows5 + ' checked="checked" ';
 					}
@@ -689,8 +700,8 @@ if ( $(window).width() < 568 ) {
 } else if ( $(window).width() < 768 ) {
 	$.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
 }
-drawgymtable("/ES/" + competition + "/startList/_search","startList_table","edit");
-drawgymtable("/ES/global/startList/_search?q=agtype:" + agtype,"startList_all_table","global");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","startList_table","edit");
+drawgymtable("/ES/global/startList/_search?size=5000&q=agtype:" + agtype,"startList_all_table","global");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
 	editableGrid.filter($("#startList_table-search").val());
@@ -925,7 +936,7 @@ $(function() {
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableMAG");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG");
 </script>
         </section>
     </script> 
@@ -962,7 +973,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableMAG");
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableWAG");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableWAG");
 </script>
         </section>
     </script> 
@@ -1004,7 +1015,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","allaround_tableWAG");
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/floor/_search","floor_table");
+drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
 </script>
         </section>
     </script>
@@ -1045,7 +1056,7 @@ drawgymtable("/ES/" + competition + "/floor/_search","floor_table");
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/pommelHorse/_search","pommelHorse_table");
+drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHorse_table");
 </script>
         </section>
  </script>
@@ -1087,7 +1098,7 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search","pommelHorse_table");
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/rings/_search","rings_table");
+drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
 </script>
         </section>
     </script>
@@ -1128,7 +1139,7 @@ drawgymtable("/ES/" + competition + "/rings/_search","rings_table");
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/vault/_search","vault_table");
+drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
 </script>
   </section>
     </script>
@@ -1170,7 +1181,7 @@ drawgymtable("/ES/" + competition + "/vault/_search","vault_table");
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/parallelBars/_search","parallelBars_table");
+drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelBars_table");
 </script>
   </section>
     </script>
@@ -1212,7 +1223,7 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search","parallelBars_table"
 </table>
 
 <script>
-drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
+drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table");
 </script>
   </section>
     </script>
@@ -1253,7 +1264,7 @@ drawgymtable("/ES/" + competition + "/highBar/_search","highBar_table");
  </tbody>
 </table>
 <script>
-drawgymtable("/ES/" + competition + "/beam/_search","beam_table");
+drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
 </script>
   </section>
     </script>
@@ -1294,7 +1305,7 @@ drawgymtable("/ES/" + competition + "/beam/_search","beam_table");
  </tbody>
 </table>
 <script>
-drawgymtable("/ES/" + competition + "/unevenBars/_search","unevenBars_table");
+drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_table");
 </script>
   </section>
     </script>
@@ -1338,7 +1349,7 @@ drawgymtable("/ES/" + competition + "/unevenBars/_search","unevenBars_table");
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","floor_table","reg");
 </script>
         </section>
  </script>
@@ -1382,7 +1393,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","floor_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","pommelHorse_table","reg");
 </script>
         </section>
  </script>
@@ -1427,7 +1438,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","pommelHorse_table","re
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","rings_table","reg");
 </script>
         </section>
  </script>
@@ -1471,7 +1482,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","rings_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","vault_table","reg");
 </script>
         </section>
  </script>
@@ -1515,7 +1526,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","vault_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","parallelBars_table","reg");
 </script>
         </section>
  </script>
@@ -1559,7 +1570,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","parallelBars_table","r
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","highBar_table","reg");
 </script>
         </section>
  </script>
@@ -1603,7 +1614,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","highBar_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","beam_table","reg");
 </script>
         </section>
  </script>
@@ -1647,7 +1658,7 @@ drawgymtable("/ES/" + competition + "/startList/_search","beam_table","reg");
 </table>
 </form>
 <script>
-drawgymtable("/ES/" + competition + "/startList/_search","unevenBars_table","reg");
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_table","reg");
 </script>
         </section>
  </script>
