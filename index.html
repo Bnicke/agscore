@@ -82,15 +82,14 @@
 			<div id="upload_text">Upload</div>
 			</div>
 <div class="focus focus-group">
-  <div class="row">
-    <div class="col-xs-7">
 	<input id="upload_input" type="file" class="form-control" onchange="uploadFile('gymnast','new','#upload_preview')"><br>
     </div>
-    <div class="col-xs-1 middle">
+<div class="focus focus-group">
+<div class="profile-userpic">
 	<img id="upload_preview" src="images/blank.gif" alt="">
-    </div>
-  </div>
+</div>
 	<center><a href="javascript:$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x">Done</i></a></center>
+    </div>
 </div>
 		</p>
         </section>
@@ -704,6 +703,8 @@ editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, 
 			if (post.id.length < 5 ) {
 				post.id =  camelize(post.gymnast + post.team);
 				this.setValueAt(rowIndex, 2, post.id, true);
+				this.setValueAt(rowIndex, 10, '<a href="javascript:uploadimage(\'' + post.id + '\',\'gymnast\',\'' + post.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>' , true);
+				this.setValueAt(rowIndex, 11, '<a href="javascript:delgymnast(\'' + post.id + '\');"><i class="fa fa-times"></i></a>', true);
 			}
 				var klasssplit = new Array();
                             	klasssplit = post.class.split(" ");
@@ -845,7 +846,8 @@ $(function() {
 		datalocal.id = new_id;
 		datalocal.checked = true;
 		datalocal.agtype = agtype;
-		datalocal.del = '<a href="javascript:delgymnast(\'' + new_id + '\');"><i class="fa fa-times"></i></a>';
+		datalocal.del = '<a href="javascript:void(0);"><i class="fa fa-times"></i></a>';
+		datalocal.img = '<a href="javascript:void(0);"><i class="fa fa-file-image-o"></i></a>';
 //		editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ new_id + '","del":"<a href=\"javascript:delgymnast(\'' + new_id + '\');\"><i class=\"fa fa-times\"></i></a>"}'));
 		editableGrid.insertAfter(new_index, new_index, datalocal);
            }

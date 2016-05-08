@@ -24,7 +24,7 @@ function uploadimage(id,type,text) {
 			$( "#upload_preview" ).replaceWith('<img id="upload_preview" src="images/blank.gif" alt="">');
 		 }
         });
-	$( "#upload_input" ).replaceWith('<input id="upload_input" type="file" class="form-control" onchange="uploadFile(\'' + type + '\',\'' + id + '\',\'#upload_preview\')"><br>');
+	$( "#upload_input" ).replaceWith('<input id="upload_input" type="file" class="form-control" onchange="uploadFile(\'' + type + '\',\'' + id + '\',\'#upload_preview\')">');
 	$.mobility.modalOpen('#upload');
 }
 function gyminfo(id) {
@@ -958,7 +958,7 @@ function addgymnast(id) {
 //	datalocal._source.class = "";
 	datalocal._source.checked = true;
 	datalocal._source.del = '<a href="javascript:delgymnast(\'' + datalocal._source.id + '\');"><i class="fa fa-times"></i></a>';
-	datalocal._source.img = '<a href="javascript:uploadimage(\'' + data[n].id + '\',\'gymnast\',\'' + data[n].gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
+	datalocal._source.img = '<a href="javascript:uploadimage(\'' + datalocal._source.id + '\',\'gymnast\',\'' + datalocal._source.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
 //         editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ id + '"}'));
 	 if (alreadyin == "true") {	
 		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
