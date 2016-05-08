@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="icon" href="images/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="vendor/font-awesome/awesome.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="vendor/open-sans/open-sans.css" />
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="vendor/mobility/mobility.css" />
@@ -67,7 +67,36 @@
 -->
         </nav>
     </footer>
-    
+   
+
+    <div id="upload" class="modal hide">
+        <header class="head">
+            <a class="head-link pull-right" href="#upload" data-do="modal-close" data-on="click">
+                <i class="fa fa-times"></i>
+            </a>
+            <h1 id=upload_title class="title">Upload</h1>
+        </header>
+        <section class="body with-head">
+		<p class="pad">
+                        <div class="focus">
+			<div id="upload_text">Upload</div>
+			</div>
+<div class="focus focus-group">
+  <div class="row">
+    <div class="col-xs-7">
+	<input id="upload_input" type="file" class="form-control" onchange="uploadFile('gymnast','new','#upload_preview')"><br>
+    </div>
+    <div class="col-xs-1 middle">
+	<img id="upload_preview" src="images/blank.gif" alt="">
+    </div>
+  </div>
+	<center><a href="javascript:$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x">Done</i></a></center>
+</div>
+		</p>
+        </section>
+    </div>
+
+ 
     <div id="modal" class="modal hide">
         <header class="head">
             <a class="head-link pull-right" href="#modal" data-do="modal-close" data-on="click">
@@ -358,7 +387,7 @@
         </section>
 	<script>
 	if (username != "User" ) {
-		$( "div.nav-admin" ).replaceWith('<a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>');
+		$( "div.nav-admin" ).replaceWith('<a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#teams">Teams<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>');
 	} else {
 		$( "div.nav-admin" ).replaceWith('<div class="focus"><p>Please log in to administer the competition!</p></div>');
 	}
@@ -394,9 +423,47 @@
 	</script>
     </script>
 
+    <script id="teams" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
+            <h1 class="title">Teams</h1>
+        </header>
+        <section class="body with-head with-foot">
+	<div class="focus">
+        <div id="divteams"></div>
+	<div>
+        <script>
+             var currteams = new Array();
+	     divteams = "";
+             $.ajax({
+                'async': false,
+                url: "/ES/" + competition + "/startList/_search",
+                success: function(s){
+                        for (var i = 0; i < s.hits.hits.length; i++) {
+                                currteams.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.team + '"}'));
+                        }
+                }
+             });
+             var lastteam="";
+             for (var n = 0; n < currteams.length; n++) {
+                        if (currteams[n].id == lastteam) {
+                                currteams.splice(n,1);
+                                n--;
+                        }
+                        lastteam=currteams[n].id;
+             }
+//	debugger;
+divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th></th></tr></thead><tbody>';
+for (var n = 0; n < currteams.length; n++) {
+	divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td><a href="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o"></i></a></td></tr>'
+}
+divteams=divteams+'</tbody></table>';
+			$("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
+	</script>
+        </section>
+    </script>
     <script id="rule" type="text/html">
         <header class="head">
-<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Rules</h1>
         </header>
@@ -417,6 +484,7 @@
 	     for (var n = 0; n < currules.length; n++) {
 			if (currules[n].id == lastrule) {
 				currules.splice(n,1);
+				n--;
 			}
 			lastrule=currules[n].id;
 	     }
@@ -815,7 +883,7 @@ $(function() {
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-<input type="file" onchange="previewFile("gymnast","new","#uploadimg")"><br>
+<input type="file" class="form-control" onchange="uploadFile('gymnast','new','#uploadimg')"><br>
 </div>
 <div class="profile-userpic"><img id="uploadimg" src="images/KFUM.png" alt=""></div>
      </section>

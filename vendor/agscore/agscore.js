@@ -11,6 +11,22 @@ var apps = new Array();
 var username = "User";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
+function uploadimage(id,type,text) {
+	$( "#upload_title" ).replaceWith('<h1 id=upload_title class="title">' + text + '</h1>');
+	$( "#upload_text" ).replaceWith('<div id="upload_text">Upload image for ' + text + '</div>');
+        $.ajax({
+                'async': false,
+                 url: "/ES/bin/" + type + "/" + id,
+                 success: function(s){
+			$( "#upload_preview" ).replaceWith('<img id="upload_preview" src="' + s._source.blob + '" alt="">');
+                 },
+		 error: function(e){
+			$( "#upload_preview" ).replaceWith('<img id="upload_preview" src="images/blank.gif" alt="">');
+		 }
+        });
+	$( "#upload_input" ).replaceWith('<input id="upload_input" type="file" class="form-control" onchange="uploadFile(\'' + type + '\',\'' + id + '\',\'#upload_preview\')"><br>');
+	$.mobility.modalOpen('#upload');
+}
 function gyminfo(id) {
 	var info = "";
 	var image ="";
@@ -22,13 +38,22 @@ function gyminfo(id) {
 			info=s;
 		 }
         });
+        $.ajax({
+                'async': false,
+                 url: "/ES/bin/gymnast/" + id,
+                 success: function(u){
+        		image = '<div class="profile-userpic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
+                 }
+        });
+        $.ajax({
+                'async': false,
+                 url: "/ES/bin/team/" + camelize(info._source.team),
+                 success: function(u){
+                        teamimg = '<div class="profile-teampic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
+                 }
+        });
+
 	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
-        if (UrlExists("images/" + id + ".jpg") == "true")  {
-        	image = '<div class="profile-userpic"><img src="images/' + id + '.jpg" class="img-responsive" alt=""></div>';
-        } 
-	if (UrlExists("images/" + info._source.team + ".png") == "true")  {
-		teamimg = '<div class="profile-teampic"><img src="images/' + info._source.team + '.png" class="img-responsive" alt=""></div>';
-	} 
 	
 var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
 	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + gymnastabout + '</div>');
@@ -62,7 +87,7 @@ function deleteFile(type,file) {
     });
     $.mobility.notify(notify,notifytype);
 }
-function uploadFile(type,file,previewselector,inputselector) {
+function uploadFile(type,name,previewselector,inputselector) {
   var base64 = "";
   var notify = "";
   var notifytype = "";
@@ -72,16 +97,16 @@ function uploadFile(type,file,previewselector,inputselector) {
 
   reader.addEventListener("load", function () {
   base64 = reader.result;
-  preview.src = base64;
   if (base64.length > 145000) {
         notify="File to large!";
         notifytype = "error";
   } else {
+  preview.src = "images/loading.gif";
     post='{"blob":"'+base64+'"}';
     $.ajax({
         'async': false,
         type: "POST",
-        url: "/ES/bin/" + type + "/" + file,
+        url: "/ES/bin/" + type + "/" + name,
         data: post,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -94,6 +119,7 @@ function uploadFile(type,file,previewselector,inputselector) {
                 notifytype = "error";
         }
     });
+    preview.src = base64;
     }
     $.mobility.notify(notify,notifytype);
 
@@ -470,6 +496,7 @@ function draweditable(table,type) {
 	for (var n = 0; n < data.length; n++) {
 		data[n].checked = false;
 		data[n].del = '<a href="javascript:delgymnast(\'' + data[n].id + '\');"><i class="fa fa-times"></i></a>';
+		data[n].img = '<a href="javascript:uploadimage(\'' + data[n].id + '\',\'gymnast\',\'' + data[n].gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
 		datalocal.push(JSON.parse('{"id":' + n + ', "values":' + JSON.stringify(data[n]) + '}'));
 	}
 				var metadata = [];
@@ -483,6 +510,7 @@ function draweditable(table,type) {
 				metadata.push({ name: "pool", label: "Pool*", datatype: "string", editable: true});
 				metadata.push({ name: "about", label: "About", datatype: "textarea", editable: true});
 				metadata.push({ name: "checked", label: "Check", datatype: "boolean", editable: true});
+				metadata.push({ name: "img", label: "&nbsp;", datatype: "html", editable: false});
 				metadata.push({ name: "del", label: "&nbsp;", datatype: "html", editable: false});
 				metadata.push({ name: "agtype", label: "Type", datatype: "string", editable: false});
 				editableGrid = new EditableGrid("DemoGridFull", {
@@ -930,6 +958,7 @@ function addgymnast(id) {
 //	datalocal._source.class = "";
 	datalocal._source.checked = true;
 	datalocal._source.del = '<a href="javascript:delgymnast(\'' + datalocal._source.id + '\');"><i class="fa fa-times"></i></a>';
+	datalocal._source.img = '<a href="javascript:uploadimage(\'' + data[n].id + '\',\'gymnast\',\'' + data[n].gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
 //         editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ id + '"}'));
 	 if (alreadyin == "true") {	
 		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
