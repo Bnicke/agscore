@@ -44,6 +44,65 @@ function UrlExists(url) {
         return "false";
     }
 }
+function deleteFile(type,file) {
+  var notify = "";
+  var notifytype = "";
+    $.ajax({
+        'async': false,
+        type: "DELETE",
+        url: "/ES/bin/" + type + "/" + file,
+        success: function(s){
+                notify = "Image deleted!";
+                notifytype = "success";
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+                notify = "\"" + xhr.status + " " + thrownError + "\" when uploading!";
+                notifytype = "error";
+        }
+    });
+    $.mobility.notify(notify,notifytype);
+}
+function uploadFile(type,file,previewselector,inputselector) {
+  var base64 = "";
+  var notify = "";
+  var notifytype = "";
+  var preview = document.querySelector(previewselector);
+  var file    = document.querySelector('input[type=file]').files[0];
+  var reader  = new FileReader();
+
+  reader.addEventListener("load", function () {
+  base64 = reader.result;
+  preview.src = base64;
+  if (base64.length > 145000) {
+        notify="File to large!";
+        notifytype = "error";
+  } else {
+    post='{"blob":"'+base64+'"}';
+    $.ajax({
+        'async': false,
+        type: "POST",
+        url: "/ES/bin/" + type + "/" + file,
+        data: post,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(s){
+                notify = "Image upladed!";
+                notifytype = "success";
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+                notify = "\"" + xhr.status + " " + thrownError + "\" when uploading!";
+                notifytype = "error";
+        }
+    });
+    }
+    $.mobility.notify(notify,notifytype);
+
+  }, false);
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+
 function createCookie(name, value, days) {
     var expires;
 
