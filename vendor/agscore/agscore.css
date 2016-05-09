@@ -212,3 +212,6 @@ input, button, select, textarea {
   font-weight: 600;
   margin-bottom: 15px;
 }
+.upload {
+	text-align: center;
+}
