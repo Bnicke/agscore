@@ -638,8 +638,6 @@ features: {
    .bind('dynatable:afterUpdate', processingComplete("#" + table))
    .data('dynatable');
 }
-
-
     $('#dynatable-query-search-' + table).keypress( function(e) {
 	if(e.which == 13) {
   	dynatable.records.updateFromJson({records: datalocal});
@@ -939,8 +937,15 @@ $.ajax({
 	hidden="false";
 	for (var n = 0; n < data.length; n++) {
 		for (var i = 0; i < parts.length; i++) {
-			if ((data[n][parts[i]] == "&nbsp;") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
+			if ((data[n][parts[i]] == "&nbsp;") || (typeof data[n][parts[i]] === "undefined") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
 				data[n][parts[i]] = "";
+			}
+		}
+		if (type == "update") {
+			for (var i = 0; i < apps.length; i++) {
+				if (typeof data[n][apps[i]] === "undefined") {
+					data[n][apps[i]] = "";
+				}
 			}
 		}
 	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public == "false" )) {
@@ -978,17 +983,26 @@ $.ajax({
 	if (app[0] == "pools") {
                 data = sortJSON(data,'number', '123');
 	}
-       var $el = $("#" + table + "-search-class");
-       $('#' + table + '-search-class option:gt(0)').remove();
+	if (type != "update") {
+       		var $el = $("#" + table + "-search-class");
+       		$('#' + table + '-search-class option:gt(0)').remove();
+	}
      }
-      for (var i = 0; i < Options.length; i++) {
- 	$el.append($("<option></option>")
-        .attr("value", Options[i] ).text(Options[i]));
-      }
+	if ($el) {
+      		for (var i = 0; i < Options.length; i++) {
+ 			$el.append($("<option></option>")
+        		.attr("value", Options[i] ).text(Options[i]));
+      		}
+	}
      if (type == "edit") {
      (function() {
       draweditable(table,type);
   })();
+	} else if (type == "update") {
+        	dynatable.records.updateFromJson({records: data});
+		processingComplete("#" + table);
+        	dynatable.records.init();
+        	dynatable.process();
 	} else {
      (function() {
       drawdynatable(table,type);
