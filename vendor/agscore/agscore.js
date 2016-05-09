@@ -75,9 +75,8 @@ function gyminfo(id) {
                         teamimg = '<div class="profile-teampic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
                  }
         });
-
+	var changeimg='<a href="javascript:uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');"><i class="fa fa-file-image-o fa-2x"></i></a>';
 	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
-	
 var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
 	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + gymnastabout + '</div>');
 	$.mobility.modalOpen('#gymnastinfo');
