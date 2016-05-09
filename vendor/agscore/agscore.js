@@ -110,42 +110,64 @@ function deleteFile(type,file) {
     });
     $.mobility.notify(notify,notifytype);
 }
-function uploadFile(type,name,previewselector,inputselector) {
+function uploadFile(type,name) {
   var base64 = "";
   var notify = "";
   var notifytype = "";
-  var preview = document.querySelector(previewselector);
+  var preview = document.querySelector('#upload_preview');
   var file    = document.querySelector('input[type=file]').files[0];
   var reader  = new FileReader();
 
   reader.addEventListener("load", function () {
-  base64 = reader.result;
-  if (base64.length > 145000) {
-        notify="File to large!";
-        notifytype = "error";
-  } else {
-  preview.src = "images/loading.gif";
-    post='{"blob":"'+base64+'"}';
-    $.ajax({
-        'async': false,
-        type: "POST",
-        url: "/ES/bin/" + type + "/" + name,
-        data: post,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(s){
-                notify = "Image upladed!";
-                notifytype = "success";
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-                notify = "\"" + xhr.status + " " + thrownError + "\" when uploading!";
-                notifytype = "error";
+  preview.src = reader.result;
+    var createImage = function (src) {
+        var deferred = $.Deferred();
+    	var img = new Image();
+        img.onload = function() {
+            deferred.resolve(img);
+        };
+        img.src = src;
+        return deferred.promise();
+    };
+    var halfSize = function (i) {
+        var canvas = document.createElement("canvas");
+        canvas.width = i.width / 2;
+        canvas.height = i.height / 2;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(i, 0, 0, canvas.width, canvas.height);
+        return canvas;
+    };
+    var resize = function (image) {
+        mainCanvas = document.createElement("canvas");
+        mainCanvas.width = image.naturalWidth;
+        mainCanvas.height = image.naturalHeight;
+        var ctx = mainCanvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, mainCanvas.width, mainCanvas.height);
+        size = 300;
+        while (mainCanvas.width > size) {
+            mainCanvas = halfSize(mainCanvas);
         }
-    });
-    preview.src = base64;
-    }
-    $.mobility.notify(notify,notifytype);
-
+        $('#upload_preview').attr('src', mainCanvas.toDataURL("image/png"));
+	base64 = mainCanvas.toDataURL("image/png");
+    		post='{"blob":"'+base64+'"}';
+    		$.ajax({
+		        'async': false,
+		        type: "POST",
+		        url: "/ES/bin/" + type + "/" + name,
+		        data: post,
+		        contentType: "application/json; charset=utf-8",
+		        dataType: "json",
+		        success: function(s){
+		                notify = "Image upladed!";
+		                notifytype = "success";
+		        },
+		        error: function(xhr, ajaxOptions, thrownError) {
+		                notify = "\"" + xhr.status + " " + thrownError + "\" when uploading!";
+		                notifytype = "error";
+		        }
+		    });
+    };
+    createImage($("#upload_preview").attr('src')).then(resize, function () {$.mobility.notify("error","error")});
   }, false);
   if (file) {
     reader.readAsDataURL(file);
