@@ -35,6 +35,7 @@ function updatecss(team) {
     });
 }
 function uploadimage(id,type,text) {
+	$.mobility.modalClose('#gymnastinfo');
 	$( "#upload_title" ).replaceWith('<h1 id=upload_title class="title">' + text + '</h1>');
 	$( "#upload_text" ).replaceWith('<div id="upload_text">Upload image for ' + text + '</div>');
         $.ajax({
@@ -75,9 +76,9 @@ function gyminfo(id) {
                         teamimg = '<div class="profile-teampic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
                  }
         });
-	var changeimg='<a href="javascript:uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');"><i class="fa fa-file-image-o fa-2x"></i></a>';
+	var changeimg='<div class="profile-userpic"><a href="javascript:uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');"><i class="fa fa-file-image-o fa-2x"></i></a></div>';
 	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
-var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
+var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + changeimg + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
 	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + gymnastabout + '</div>');
 	$.mobility.modalOpen('#gymnastinfo');
 }
@@ -917,6 +918,12 @@ $.ajax({
 	  }
 	if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		for (var i = 0; i < parts.length; i++) {
+			if ((data[n][parts[i]+"_1"] == "&nbsp;") || (data[n][parts[i]+"_1"] == "0" ) || (data[n][parts[i]+"_1"] == 0)) {
+				data[n][parts[i]+"_1"] = "";
+			}
+			if ((data[n][parts[i]+"_2"] == "&nbsp;") || (data[n][parts[i]+"_2"] == "0") || (data[n][parts[i]+"_2"] == 0)) {
+				data[n][parts[i]+"_2"] = "";
+			}
 			if ( parts[i] == "total" ) {
 				data[n][parts[i]] = data[n][parts[i]+"_1"] + "<br>" + data[n][parts[i]+"_2"] + "<br><b>" + data[n][parts[i]] + "</b>";
 			} else {
@@ -931,6 +938,11 @@ $.ajax({
      	}
 	hidden="false";
 	for (var n = 0; n < data.length; n++) {
+		for (var i = 0; i < parts.length; i++) {
+			if ((data[n][parts[i]] == "&nbsp;") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
+				data[n][parts[i]] = "";
+			}
+		}
 	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public == "false" )) {
 			hidden="true";
 			for (var i = 0; i < apps.length; i++) {

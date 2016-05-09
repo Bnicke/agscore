@@ -188,7 +188,9 @@ input, button, select, textarea {
 //  -moz-border-radius: 50% !important;
 //  border-radius: 50% !important;
 }
-
+.profile-userpic i {
+	float: right;
+}
 .profile-usertitle {
   text-align: left;
   margin-top: 20px;
