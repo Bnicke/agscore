@@ -436,13 +436,23 @@
 	     divteams = "";
              $.ajax({
                 'async': false,
-                url: "/ES/global/startList/_search?size=100&sort=team",
+                url: "/ES/global/startList/_search?size=100",
                 success: function(s){
                         for (var i = 0; i < s.hits.hits.length; i++) {
                                 currteams.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.team + '"}'));
                         }
                 }
              });
+             $.ajax({
+                'async': false,
+                url: "/ES/global/competition/_search?size=100",
+                success: function(s){
+                        for (var i = 0; i < s.hits.hits.length; i++) {
+                                currteams.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.organizer + '"}'));
+                        }
+                }
+             });
+		data = sortJSON(currteams,'id', '123');
              var lastteam="";
              for (var n = 0; n < currteams.length; n++) {
                         if (currteams[n].id == lastteam) {
@@ -625,7 +635,7 @@ $(function() {
             	$('#organizer').val(currcompetition.organizer);
             	$('#type').val(currcompetition.type);
             	$('#cid').val(currcompetition.id);
-		$('#css').val(currcompetition.css);
+//		$('#css').val(currcompetition.css);
             	$('#description').val(currcompetition.description);
             	$('#created').val(currcompetition.created);
             	$('#create').val("Update");
@@ -643,7 +653,7 @@ $(function() {
                 $('#organizer').val(currcompetition.organizer);
                 $('#type').val(currcompetition.type);
                 $('#cid').val("n");
-                $('#css').val("");
+ //               $('#css').val("");
                 $('#description').val("");
                 $('#created').val("n");
                 $('#create').val("Create");
@@ -1721,19 +1731,6 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
   <select id="type" class="form-control">
     <option value="WAG">Women's artistic gymnastics</option>
     <option value="MAG">Men's artistic gymnastics</option>
-  </select>
-</div>
-<div class="focus">
-  <label class="top">Colour</label>
-  <select id="css" class="form-control">
-	    <option value="default">Grey</option>
-	    <option value="blue">Blue</option>
-	    <option value="green">Green</option>
-	    <option value="orange">Orange</option>
-	    <option value="pink">Pink</option>
-	    <option value="purple">Purple</option>
-	    <option value="red">Red</option>
-	    <option value="bluered">Blue & red</option>
   </select>
 </div>
 
