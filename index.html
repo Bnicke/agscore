@@ -81,18 +81,23 @@
                         <div class="focus">
 			<div id="upload_text">Upload</div>
 			</div>
-<div class="focus focus-group">
+<div class="focus focus-group upload_input">
 	<input id="upload_input" type="file" class="form-control" onchange="uploadFile('gymnast','new')"><br>
     </div>
 <div class="focus focus-group">
 <div class="profile-userpic"> 
 	<img id="upload_preview" src="images/blank.gif" alt="">
 </div>
-	<center><a href="javascript:$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x">Done</i></a></center>
+	<center><a href="javascript:$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
     </div>
 </div>
 </div>
         </section>
+<script>
+$('.profile-userpic').click(function () {
+	 $("input[id='upload_input']").click();
+  });
+</script>
     </div>
 
  
@@ -151,6 +156,7 @@
   
         <section class="body with-head">
 		<div id="gymnastabout"></div>
+	<center><a href="javascript:$.mobility.modalClose('#gymnastinfo');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
         </section>
     </div>
   
@@ -182,6 +188,7 @@
 		<a class="httpauth" id="basic" href="/ES/">Log in with Basic Auth</a>
                 </div>
 				<div>
+	<center><a href="javascript:$.mobility.modalClose('#profile');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>
@@ -263,6 +270,7 @@
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#pools">Start list<i class="fa fa-chevron-right"></i></a>
         </nav>
+<center><a href="javascript:$.mobility.modalClose('#menu');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>
@@ -1826,6 +1834,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
 </script>
                 </div>
 				<div>
+<center><a href="javascript:$.mobility.modalClose('#newCompetition');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>

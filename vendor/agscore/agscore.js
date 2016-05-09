@@ -45,7 +45,7 @@ function uploadimage(id,type,text) {
 			$( "#upload_preview" ).replaceWith('<img id="upload_preview" src="' + s._source.blob + '" alt="">');
                  },
 		 error: function(e){
-			$( "#upload_preview" ).replaceWith('<img id="upload_preview" src="images/blank.gif" alt="">');
+			$( "#upload_preview" ).replaceWith('<img type="image" id="upload_preview" src="images/upload.png" alt="">');
 		 }
         });
 	$( "#upload_input" ).replaceWith('<input id="upload_input" type="file" class="form-control" onchange="uploadFile(\'' + type + '\',\'' + id + '\',\'#upload_preview\')">');
@@ -53,7 +53,7 @@ function uploadimage(id,type,text) {
 }
 function gyminfo(id) {
 	var info = "";
-	var image ="";
+	var image = '<div class="profile-userpic"><center><i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i></center></div>';
 	var teamimg ="";
 	$.ajax({
                 'async': false,
@@ -76,9 +76,9 @@ function gyminfo(id) {
                         teamimg = '<div class="profile-teampic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
                  }
         });
-	var changeimg='<div class="profile-userpic"><a href="javascript:uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');"><i class="fa fa-file-image-o fa-2x"></i></a></div>';
+	image = '<a href="javascript:uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');">' + image + '</a>';
 	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
-var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + changeimg + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
+var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
 	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + gymnastabout + '</div>');
 	$.mobility.modalOpen('#gymnastinfo');
 }
