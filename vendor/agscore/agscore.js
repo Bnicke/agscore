@@ -2,6 +2,7 @@
 var data = new Array();
 var dynatable;
 var competition = "";
+var timerresult = "";
 var currcompetition = [];
 var currcompetitionname = "";
 var currrules = new Array();
