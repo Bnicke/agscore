@@ -299,6 +299,8 @@ $('.profile-userpic').click(function () {
 	}
 	divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaround' + agtype + '">' + appname[agtype] + '<i class="fa fa-chevron-right"></i></a>';
 	$( "div.nav-results" ).replaceWith(divnavresults);
+	loadcurrrules();
+	loadcurrclasses();
 	</script>
      </script>
     <script id="pools" type="text/html">
@@ -398,6 +400,7 @@ $('.profile-userpic').click(function () {
 	} else {
 		$( "div.nav-admin" ).replaceWith('<div class="focus"><p>Please log in to administer the competition!</p></div>');
 	}
+	loadcurrrules();
 	</script>
      </script>
 

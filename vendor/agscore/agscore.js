@@ -6,6 +6,7 @@ var timerresult = "";
 var currcompetition = [];
 var currcompetitionname = "";
 var currrules = new Array();
+var currclasses = new Array();
 var agtype = "";
 var organizer = "";
 var apps = new Array();
@@ -13,6 +14,34 @@ var username = "User";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
 
+function loadcurrrules() {
+	currrules = [];
+        $.ajax({
+                'async': false,
+                url: "/ES/" + competition + "/rules/_search?size=100",
+                success: function(t){
+                       for (var i = 0; i < t.hits.hits.length; i++) {
+                             currrules[t.hits.hits[i]._source.id.split("-")[1]] = t.hits.hits[i]._source;
+                       }
+                }
+        });
+}
+function loadcurrclasses() {
+        currclasses = [];
+        $.ajax({
+                'async': false,
+                url: "/ES/" + competition + "/startList/_search?size=100&sort=class",
+                success: function(t){
+		       var lastclass = "";
+                       for (var i = 0; i < t.hits.hits.length; i++) {
+			     if (lastclass != t.hits.hits[i]._source.class) {
+                             	currclasses.push(t.hits.hits[i]._source.class);
+			     }
+			     lastclass = t.hits.hits[i]._source.class;
+                       }
+                }
+        });
+}
 function updatecss(team) {
 	var value = $("#css_" + team ).val();
 	var notify = "";
@@ -908,7 +937,7 @@ $.ajax({
 	  if ( klass != data[n].class ) {
 		rank = 1;
      		last_rank = 0;
-		Options.push(data[n].class);
+	//	Options.push(data[n].class);
 	  }
  	  if ( total > data[n].total ) {
  		rank = last_rank + 1; 
@@ -996,6 +1025,7 @@ $.ajax({
 	if (type != "update") {
        		var $el = $("#" + table + "-search-class");
        		$('#' + table + '-search-class option:gt(0)').remove();
+		Options=currclasses;
 	}
      }
 	if ($el) {
@@ -1190,16 +1220,6 @@ function changecompetition(id) {
 		} else {
 			apps = new Array( "floor", "pommelHorse", "rings" ,"vault", "parallelBars", "highBar");
 		}
-		currrules = [];
-		$.ajax({
-                	'async': false,
-			url: "/ES/" + competition + "/rules/_search?size=100",
-			success: function(t){
-				for (var i = 0; i < t.hits.hits.length; i++) {
-					currrules[t.hits.hits[i]._source.id.split("-")[1]] = t.hits.hits[i]._source;
-				}
-			}
-		});
 		var css="";
         	$.ajax({
                 'async': false,
