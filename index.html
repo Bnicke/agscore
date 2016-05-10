@@ -88,7 +88,7 @@
 <div class="profile-userpic"> 
 	<img id="upload_preview" src="images/blank.gif" alt="">
 </div>
-	<center><a href="javascript:$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+	<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
     </div>
 </div>
 </div>
@@ -156,7 +156,7 @@ $('.profile-userpic').click(function () {
   
         <section class="body with-head">
 		<div id="gymnastabout"></div>
-	<center><a href="javascript:$.mobility.modalClose('#gymnastinfo');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+	<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#gymnastinfo');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
         </section>
     </div>
   
@@ -188,7 +188,7 @@ $('.profile-userpic').click(function () {
 		<a class="httpauth" id="basic" href="/ES/">Log in with Basic Auth</a>
                 </div>
 				<div>
-	<center><a href="javascript:$.mobility.modalClose('#profile');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+	<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#profile');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>
@@ -270,7 +270,7 @@ $('.profile-userpic').click(function () {
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#pools">Start list<i class="fa fa-chevron-right"></i></a>
         </nav>
-<center><a href="javascript:$.mobility.modalClose('#menu');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#menu')"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>
@@ -477,7 +477,7 @@ $('.profile-userpic').click(function () {
 	divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th>Color</th><th></th></tr></thead><tbody>';
 	for (var n = 0; n < currteams.length; n++) {
 		select='<select onchange="javascript:updatecss(\'' + camelize(currteams[n].id) + '\');" id="css_' + camelize(currteams[n].id) +'" class="form-control">' + option + '</select>';
-		divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td>' + select + '</td><td><a href="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o fa-2x"></i></a></td></tr>'
+		divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td>' + select + '</td><td><a href="javascript:void(0)" onclick="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o fa-2x"></i></a></td></tr>'
 	}
 	divteams=divteams+'</tbody></table>';
 	$("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
@@ -627,7 +627,7 @@ $('.profile-userpic').click(function () {
 <a data-do="modal-open" id="editcomp" data-on="click" href="#newCompetition">
                 <i class="fa fa-pencil-square-o fa-2x"></i>
             </a>
-<a id="delCompetition" onclick="return confirm('Are you sure?! This will clear all scores and the start list of the selected competition')" href="javascript:deletecompetition($('#select-competition').val());">
+<a id="delCompetition" onclick="return confirm('Are you sure?! This will clear all scores and the start list of the selected competition')" href="javascript:void(0)" onclick="javascript:deletecompetition($('#select-competition').val());">
                 <i class="fa fa-times fa-2x"></i>
             </a>
 <a data-do="modal-open" id="newcomp" data-on="click" href="#newCompetition">
@@ -735,8 +735,8 @@ editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, 
 			if (post.id.length < 5 ) {
 				post.id =  camelize(post.gymnast + post.team);
 				this.setValueAt(rowIndex, 2, post.id, true);
-				this.setValueAt(rowIndex, 10, '<a href="javascript:uploadimage(\'' + post.id + '\',\'gymnast\',\'' + post.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>' , true);
-				this.setValueAt(rowIndex, 11, '<a href="javascript:delgymnast(\'' + post.id + '\');"><i class="fa fa-times"></i></a>', true);
+				this.setValueAt(rowIndex, 10, '<a href="javascript:void(0)" onclick="javascript:uploadimage(\'' + post.id + '\',\'gymnast\',\'' + post.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>' , true);
+				this.setValueAt(rowIndex, 11, '<a href="javascript:void(0)" onclick="delgymnast(\'' + post.id + '\');"><i class="fa fa-times"></i></a>', true);
 			}
 				var klasssplit = new Array();
                             	klasssplit = post.class.split(" ");
@@ -1958,7 +1958,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
 </script>
                 </div>
 				<div>
-<center><a href="javascript:$.mobility.modalClose('#newCompetition');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#newCompetition');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>

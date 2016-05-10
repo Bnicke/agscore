@@ -106,7 +106,7 @@ function gyminfo(id) {
                         teamimg = '<div class="profile-teampic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
                  }
         });
-	image = '<a href="javascript:uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');">' + image + '</a>';
+	image = '<a href="javascript:void(0)" onclick="uploadimage(\'' + id + '\',\'gymnast\',\'' + info._source.gymnast + '\');">' + image + '</a>';
 	$( "#gymnasttitle" ).replaceWith('<h1 id="gymnasttitle" class="title">' + info._source.gymnast + '</h1>');
 var gymnastabout = '<div class="col-md-11"><div class="profile-sidebar">' + image + '<div class="profile-usertitle">' + teamimg + '<div class="profile-usertitle-name">' + info._source.gymnast + '</div><div class="profile-usertitle-about">' + info._source.team + '</div></div><table id="gymnast_table" class="gymnast_table table table-condensed"><tr><td>Number</td><td>' + info._source.number + '</td></tr><tr><td>Class</td><td>' + info._source.class + '</td></tr><tr><td>Born</td><td>' + info._source.born + '</td></tr><tr><td colspan=2>' + info._source.about + '</td></tr></table></div>';
 	$( "#gymnastabout" ).replaceWith('<div id="gymnastabout">' + gymnastabout + '</div>');
@@ -587,8 +587,8 @@ function draweditable(table,type) {
 	var datalocal = [];
 	for (var n = 0; n < data.length; n++) {
 		data[n].checked = false;
-		data[n].del = '<a href="javascript:delgymnast(\'' + data[n].id + '\');"><i class="fa fa-times"></i></a>';
-		data[n].img = '<a href="javascript:uploadimage(\'' + data[n].id + '\',\'gymnast\',\'' + data[n].gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
+		data[n].del = '<a href="javascript:void(0)" onclick="delgymnast(\'' + data[n].id + '\');"><i class="fa fa-times"></i></a>';
+		data[n].img = '<a href="javascript:void(0)" onclick="uploadimage(\'' + data[n].id + '\',\'gymnast\',\'' + data[n].gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
 		datalocal.push(JSON.parse('{"id":' + n + ', "values":' + JSON.stringify(data[n]) + '}'));
 	}
 				var metadata = [];
@@ -861,7 +861,7 @@ $.ajax({
 //		} else {
 //			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
 //		}
-		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
+		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:void(0)" onclick="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
 		var onlytot = currrules[camelize(data[n].rules)].st;
 		if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table,onlytot);
@@ -932,7 +932,7 @@ $.ajax({
      	data = sortJSON(data,'class', '123');
      	for (var n = 0; n < data.length; n++) {
 	  if (type == "global") {
-		data[n].add = '<a href="javascript:addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
+		data[n].add = '<a href="javascript:void(0)" onclick="addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
 	  }
 	  if ( klass != data[n].class ) {
 		rank = 1;
@@ -1083,8 +1083,8 @@ function addgymnast(id) {
 	datalocal._source.pool = "";
 //	datalocal._source.class = "";
 	datalocal._source.checked = true;
-	datalocal._source.del = '<a href="javascript:delgymnast(\'' + datalocal._source.id + '\');"><i class="fa fa-times"></i></a>';
-	datalocal._source.img = '<a href="javascript:uploadimage(\'' + datalocal._source.id + '\',\'gymnast\',\'' + datalocal._source.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
+	datalocal._source.del = '<a href="javascript:void(0)" onclick="delgymnast(\'' + datalocal._source.id + '\');"><i class="fa fa-times"></i></a>';
+	datalocal._source.img = '<a href="javascript:void(0)" onclick="uploadimage(\'' + datalocal._source.id + '\',\'gymnast\',\'' + datalocal._source.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>';
 //         editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ id + '"}'));
 	 if (alreadyin == "true") {	
 		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
