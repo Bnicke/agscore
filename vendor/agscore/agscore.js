@@ -641,7 +641,7 @@ features: {
 }
     $('#dynatable-query-search-' + table).keypress( function(e) {
 	if(e.which == 13) {
-  	dynatable.records.updateFromJson({records: datalocal});
+  	dynatable.records.updateFromJson({records: data});
   	dynatable.records.init();
   	dynatable.process();
 	processingComplete("#" + table);
@@ -649,7 +649,7 @@ features: {
     });
     $('#dynatable-query-search-' + table).focusout( function(e) {
 	setTimeout(function() {processingComplete("#" + table);}, 100);
-        dynatable.records.updateFromJson({records: datalocal});
+        dynatable.records.updateFromJson({records: data});
         dynatable.records.init();
         dynatable.process();
     });
@@ -765,6 +765,9 @@ $.ajax({
      var pool = 'NONE';
      var team = 'NONE';
      var Options = new Array();
+     if (type != "update {
+	clearInterval(timerresult);
+     }
      if (type == "reg") {
          $.ajax({
          	'async': false,
@@ -938,11 +941,16 @@ $.ajax({
 	hidden="false";
 	for (var n = 0; n < data.length; n++) {
 		for (var i = 0; i < parts.length; i++) {
-			if ((data[n][parts[i]] == "&nbsp;") || (typeof data[n][parts[i]] === "undefined") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
+			if ((data[n][parts[i]] == "&nbsp;") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
 				data[n][parts[i]] = "";
 			}
 		}
 		if (type == "update") {
+			for (var i = 0; i < parts.length; i++) {
+				if (typeof data[n][parts[i]] === "undefined") {
+					data[n][parts[i]] = "";
+				}
+			}
 			for (var i = 0; i < apps.length; i++) {
 				if (typeof data[n][apps[i]] === "undefined") {
 					data[n][apps[i]] = "";

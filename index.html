@@ -994,7 +994,6 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_ta
 <script>
 //var orgtable = '<div id="allaround_tableWAG_wrap"><table id="allaround_tableWAG" class="table table-condensed"><thead><th>Class</th><th>Rank</th><th data-dynatable-column="number">#</th><th>Gymnast</th><th>Born</th><th>Team</th><th>Vault</th><th>Uneven Bars</th><th>Beam</th><th>Floor</th><th>Total</th></thead> <tbody> </tbody></table><div>';
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableWAG");
-clearInterval(timerresult);
 timerresult = setInterval(function(){ 
 	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableWAG","update");	
 }, 30000);
