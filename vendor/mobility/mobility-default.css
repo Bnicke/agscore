@@ -85,7 +85,7 @@ a, a:link, a:active, a:hover, a:visited { color: #4D4D4D; text-decoration: none;
 
 /* Nav List
 -------------------------------*/
-.nav-list a { font-weight: 200; }
+.nav-list a { font-weight: 500; }
 .nav-list i  { color: #A4A4A4; }
 
 /* Tabs
