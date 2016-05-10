@@ -765,7 +765,7 @@ $.ajax({
      var pool = 'NONE';
      var team = 'NONE';
      var Options = new Array();
-     if (type != "update {
+     if (type != "update" ) {
 	clearInterval(timerresult);
      }
      if (type == "reg") {
