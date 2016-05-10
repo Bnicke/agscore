@@ -221,6 +221,7 @@ function processingComplete(table) {
 	$(table + " td:contains('undefined')").html('');
 	$(table + "-stacktable-small-only").remove();
 	$(table).stacktable({headIndex:1});
+	$("#filler").height($(document).height()-$(table).height()-200);
 }
 function isNumber(value) {
     if ((undefined === value) || (null === value) || ("" == value)) {

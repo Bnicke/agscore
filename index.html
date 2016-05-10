@@ -927,6 +927,13 @@ $(function() {
             <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="allaround_tableMAG-search-class" class="form-control">
@@ -952,8 +959,13 @@ $(function() {
  <tbody>
  </tbody>
 </table>
-
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG");
 </script>
         </section>
@@ -961,18 +973,23 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_ta
 
       <script id="allaroundWAG" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/vault.png" \><img src="images/unevenBars.png" \><img src="images/beam.png" \><img src="images/floor.png" \></h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+				data-pull="Pull down to refresh" 
+				data-release="Release to refresh" 
+				data-loading="Loading ...">
+				<i class="fa fa-arrow-up"></i>
+				<span class="message"></span>
+			</div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="allaround_tableWAG-search-class" class="form-control">
     <option></option>
   </select>
 </div>
-<div id="allaround_tableWAG_wrap">
 <table id="allaround_tableWAG" class="table table-condensed">
 <thead>
 <th>Class</th>
@@ -990,14 +1007,14 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_ta
  <tbody>
  </tbody>
 </table>
-</div>
+<div id="filler"></div>
 <script>
-//var orgtable = '<div id="allaround_tableWAG_wrap"><table id="allaround_tableWAG" class="table table-condensed"><thead><th>Class</th><th>Rank</th><th data-dynatable-column="number">#</th><th>Gymnast</th><th>Born</th><th>Team</th><th>Vault</th><th>Uneven Bars</th><th>Beam</th><th>Floor</th><th>Total</th></thead> <tbody> </tbody></table><div>';
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+              drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableWAG","update");
+      }, 1000);      
+});
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableWAG");
-timerresult = setInterval(function(){ 
-	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableWAG","update");	
-}, 30000);
-
 </script>
         </section>
     </script> 
@@ -1009,6 +1026,13 @@ timerresult = setInterval(function(){
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="floor_table-search-class" class="form-control">
@@ -1037,8 +1061,13 @@ timerresult = setInterval(function(){
  <tbody>
  </tbody>
 </table>
-
+<div id="filler" />
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
 </script>
         </section>
@@ -1050,6 +1079,13 @@ drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="pommelHorse_table-search-class" class="form-control">
@@ -1078,8 +1114,13 @@ drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
  <tbody>
  </tbody>
 </table>
-
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHorse_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHorse_table");
 </script>
         </section>
@@ -1092,6 +1133,13 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHors
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="rings_table-search-class" class="form-control">
@@ -1120,8 +1168,13 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHors
  <tbody>
  </tbody>
 </table>
-
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
 </script>
         </section>
@@ -1133,6 +1186,13 @@ drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="vault_table-search-class" class="form-control">
@@ -1161,8 +1221,13 @@ drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
  <tbody>
  </tbody>
 </table>
-
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
 </script>
   </section>
@@ -1175,6 +1240,13 @@ drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="parallelBars_table-search-class" class="form-control">
@@ -1203,8 +1275,13 @@ drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
  <tbody>
  </tbody>
 </table>
-
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelBars_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelBars_table");
 </script>
   </section>
@@ -1217,6 +1294,13 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelB
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="highBar_table-search-class" class="form-control">
@@ -1245,8 +1329,13 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelB
  <tbody>
  </tbody>
 </table>
-
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table");
 </script>
   </section>
@@ -1259,6 +1348,13 @@ drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table"
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Balance Beam</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="beam_table-search-class" class="form-control">
@@ -1287,7 +1383,13 @@ drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table"
  <tbody>
  </tbody>
 </table>
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
 </script>
   </section>
@@ -1300,6 +1402,13 @@ drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
+            <div class="refresh-pull hide" data-do="refresh-pull"
+                                data-pull="Pull down to refresh"
+                                data-release="Release to refresh"
+                                data-loading="Loading ...">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="message"></span>
+                        </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="unevenBars_table-search-class" class="form-control">
@@ -1328,7 +1437,13 @@ drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
  <tbody>
  </tbody>
 </table>
+<div id="filler"></div>
 <script>
+jQuery(window).on('mobility-refresh', function(e, target, callback) {
+      setTimeout(function() {
+		drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_table","update");
+      }, 1000);
+});
 drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_table");
 </script>
   </section>
