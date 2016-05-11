@@ -14,26 +14,26 @@
     <link rel="stylesheet" type="text/css" href="vendor/open-sans/open-sans.css" />
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="vendor/mobility/mobility.css" />
-	<link rel="stylesheet" type="text/css" href="vendor/dynatable/jquery.dynatable.css" /> 
-	<link rel="stylesheet" type="text/css" href="vendor/stacktable/stacktable.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/dynatable/jquery.dynatable.css" /> 
+    <link rel="stylesheet" type="text/css" href="vendor/stacktable/stacktable.css" />
 <link rel="stylesheet" href="vendor/easy-autocomplete/easy-autocomplete.min.css" /> 
 <link rel="stylesheet" href="vendor/editablegrid/editablegrid.css" /> 
 
-	<link rel="stylesheet" type="text/css" href="vendor/agscore/agscore.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/agscore/agscore.css" />
     
     <!--<script type="text/javascript" src="cordova.js"></script>-->
-	<script type="text/javascript" src="vendor/jquery/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="vendor/jquery/jquery-1.12.3.min.js"></script>
     <script type="text/javascript" src="vendor/classified/classified.js"></script>
-	<script type="text/javascript" src="vendor/doon/doon.js"></script>
-	<script type="text/javascript" src="vendor/time/time.js"></script>
+    <script type="text/javascript" src="vendor/doon/doon.js"></script>
+    <script type="text/javascript" src="vendor/time/time.js"></script>
     <script type="text/javascript" src="vendor/mobility/mobility.js"></script>
     <script type="text/javascript" src="vendor/acquire/acquire.js"></script>
     <script type="text/javascript" src="vendor/handlebars/handlebars.js"></script>
-	<script type="text/javascript" src="vendor/chops/chops.js"></script>
+    <script type="text/javascript" src="vendor/chops/chops.js"></script>
     <script type="text/javascript" src="vendor/cropper/cropper.js"></script>
     <script type="text/javascript" src="vendor/password/password.js"></script>
-	<script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
-	<script src="vendor/stacktable/stacktable.js" type="text/javascript"></script>
+    <script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
+    <script src="vendor/stacktable/stacktable.js" type="text/javascript"></script>
     <script src="vendor/easy-autocomplete/jquery.easy-autocomplete.js"></script>
                 <script src="vendor/editablegrid/editablegrid.js"></script>
                 <!-- [DO NOT DEPLOY] --> <script src="vendor/editablegrid/editablegrid_renderers.js" ></script>
@@ -41,21 +41,20 @@
                 <!-- [DO NOT DEPLOY] --> <script src="vendor/editablegrid/editablegrid_validators.js" ></script>
                 <!-- [DO NOT DEPLOY] --> <script src="vendor/editablegrid/editablegrid_utils.js" ></script>
                 <!-- [DO NOT DEPLOY] --> <script src="vendor/editablegrid/editablegrid_charts.js" ></script>
-	<script src="vendor/htmlhttpauth/httpauth.js"></script>
-	<script src="vendor/agscore/agscore.js"></script>
+    <script src="vendor/htmlhttpauth/httpauth.js"></script>
+    <script src="vendor/agscore/agscore.js"></script>
 </head>
 <body>
-	<section class="screen current"></section>
-    
+
     <footer class="foot">
         <nav class="foot-nav" data-do="foot-nav">
             <a class="foot-nav-item" href=".">
                 <i class="foot-nav-icon fa fa-home"></i>
                 <span class="foot-nav-label">Home</span>
             </a>
-	<a class="foot-nav-item" data-do="modal-open" data-on="click" href="#menu">
-		<div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>
-	</a>
+    <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#menu">
+        <div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>
+    </a>
             <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#profile">
                 <i class="foot-nav-icon fa fa-user"></i>
                 <span id="user" class="foot-nav-label">User</span>
@@ -77,74 +76,28 @@
             <h1 id=upload_title class="title">Upload</h1>
         </header>
         <section class="body with-head">
-		<div class="upload">
+        <div class="upload">
                         <div class="focus">
-			<div id="upload_text">Upload</div>
-			</div>
+            <div id="upload_text">Upload</div>
+            </div>
 <div class="focus focus-group upload_input">
-	<input id="upload_input" type="file" class="form-control" onchange="uploadFile('gymnast','new')"><br>
+    <input id="upload_input" type="file" class="form-control" onchange="uploadFile('gymnast','new')"><br>
     </div>
 <div class="focus focus-group">
 <div class="profile-userpic"> 
-	<img id="upload_preview" src="images/blank.gif" alt="">
+    <img id="upload_preview" src="images/blank.gif" alt="">
 </div>
-	<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+    <center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#upload');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
     </div>
-</div>
 </div>
         </section>
 <script>
 $('.profile-userpic').click(function () {
-	 $("input[id='upload_input']").click();
+     $("input[id='upload_input']").click();
   });
 </script>
     </div>
 
- 
-    <div id="modal" class="modal hide">
-        <header class="head">
-            <a class="head-link pull-right" href="#modal" data-do="modal-close" data-on="click">
-                <i class="fa fa-times"></i>
-            </a>
-            <h1 class="title">Settings</h1>
-        </header>
-    
-        <section class="body with-head">
-            <p class="pad">
-			<div class="focus">
-</div>
-<h4 class="pad upper">Themes</h4>
-
-                        <nav class="themes nav-list">
-                <a href="javascript:void(0)">Blue</a>
-                <a href="javascript:void(0)">Green</a>
-                <a href="javascript:void(0)">Orange</a>
-                <a href="javascript:void(0)">Pink</a>
-                <a href="javascript:void(0)">Purple</a>
-                <a href="javascript:void(0)">Red</a>
-
-			</p>
-        </section>
-
-    </div>
-    
-    <div id="favorites" class="modal hide">
-        <header class="head">
-            <a class="head-link pull-right" href="#favorites" data-do="modal-close" data-on="click">
-                <i class="fa fa-times"></i>
-            </a>
-            <h1 class="title">Favorites</h1>
-        </header>
-    
-        <section class="body with-head">
-            <nav class="nav-list">
-                <a data-do="go-forward" data-on="click" href="#typography">Typography <i class="fa fa-plus"></i></a>
-                <a data-do="go-forward" data-on="click" href="#tabs">Tabs <i class="fa fa-edit"></i></a>
-                <a data-do="go-forward" data-on="click" href="#fields">Fields <i class="fa fa-chevron-right"></i><span class="badge">42</span></a>
-                <a data-do="go-forward" data-on="click" href="#list">List <i class="fa fa-chevron-right"></i></a>
-            </nav>
-        </section>
-    </div>
 
       <div id="gymnastinfo" class="modal-sm modal hide">
         <header class="head">
@@ -155,8 +108,8 @@ $('.profile-userpic').click(function () {
         </header>
   
         <section class="body with-head">
-		<div id="gymnastabout"></div>
-	<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#gymnastinfo');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+        <div id="gymnastabout"></div>
+    <center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#gymnastinfo');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
         </section>
     </div>
   
@@ -173,28 +126,18 @@ $('.profile-userpic').click(function () {
                 <div class="col-md-1 middle">
                     <i class="fa fa-user fa-5x"></i> 
                 </div>
-				<div class="login">
+                <div class="login">
                 <div class="col-md-11">
-		<!--
-                    <div class="focus">
-                        <label>Username</label>
-                        <input name="username" id="basic-username" type="text" class="form-control" placeholder="Enter Username" value="" />
-                    </div>
-                    <div class="focus">
-                        <label>Password</label>
-                        <input name="password" id="basic-password" type="password" class="form-control" placeholder="Enter Password" />
-                    </div       
-		-->
-		<a class="httpauth" id="basic" href="/ES/">Log in with Basic Auth</a>
+        <a class="httpauth" id="basic" href="/ES/">Log in with Basic Auth</a>
                 </div>
-				<div>
-	<center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#profile');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
+                <div>
+    <center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#profile');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
     </div>
     
     <div id="popover" 
-    	class="popover hide" 
+        class="popover hide" 
         data-do="popover-close" 
         data-on="click" 
         data-target="#popover">
@@ -261,10 +204,10 @@ $('.profile-userpic').click(function () {
         <section class="body with-head">
                 <h4 id="menucompetition" class="pad upper">Menu</h4>
             <div class="row pad">
-	<div class="focus">
-		<p id="menudescription"></p>
-	</div>
-	<nav class="nav-list">
+    <div class="focus">
+        <p id="menudescription"></p>
+    </div>
+    <nav class="nav-list">
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#results">Results<i class="fa fa-chevron-right"></i></a>
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
         <a data-do="go-forward" data-on="click" onclick="$.mobility.modalClose('#menu');" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
@@ -278,31 +221,32 @@ $('.profile-userpic').click(function () {
 
     <script id="results" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
-	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+        <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Results</h1>
         </header>
         <section class="body with-head with-foot">
                 <h4 class="pad upper">Results</h4>
         <nav class="nav-list">
-	<div class="nav-results"></div>
+    <div class="nav-results"></div>
         </nav>
          <h4 class="pad upper">Start list</h4>
          <nav class="nav-list">
                <a data-do="go-forward" data-on="click" href="#pools">Start list<i class="fa fa-chevron-right"></i></a>
          </nav>
         </section>
-	<script>
-	var divnavresults = "";
-	for (var n = 0; n < apps.length; n++) {
-		divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
-	}
-	divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaround' + agtype + '">' + appname[agtype] + '<i class="fa fa-chevron-right"></i></a>';
-	$( "div.nav-results" ).replaceWith(divnavresults);
-	loadcurrrules();
-	loadcurrclasses();
-	</script>
-     </script>
+    <script>
+    var divnavresults = "";
+    for (var n = 0; n < apps.length; n++) {
+        divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
+    }
+    divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaround' + agtype + '">' + appname[agtype] + '<i class="fa fa-chevron-right"></i></a>';
+    $( "div.nav-results" ).replaceWith(divnavresults);
+    loadcurrrules();
+    loadcurrclasses();
+    </script>
+    </script>
+
     <script id="pools" type="text/html">
         <header class="head">
 <!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
@@ -324,30 +268,30 @@ $('.profile-userpic').click(function () {
                               }
                      }
               });
-//	      currpools.sort();
+//        currpools.sort();
               var lastpool="";
-	      var divpools="";
-	      var localapps = new Array();
-	      for (var o = 0; o < apps.length; o++) {
-			localapps[o] = apps[o];
-	      }
+          var divpools="";
+          var localapps = new Array();
+          for (var o = 0; o < apps.length; o++) {
+            localapps[o] = apps[o];
+          }
               for (var n = 0; n < currpools.length; n++) {
                         if (currpools[n] != lastpool) {
-				localorder = "";
-				for (var o = 0; o < localapps.length; o++) {
-					if (localorder == "") {
-						localorder=appname[localapps[o]];
-					} else {
-						localorder=localorder + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + appname[localapps[o]];
-					}
-				}
-				localapps.push(localapps.shift());
-              			divpools=divpools + '<h2 class="pad upper">Pool ' + currpools[n] + '</h2><H4>' + localorder + '</H4><table id="pools_table' + currpools[n] + '" class="startList_all_table table table-condensed"><thead><th>Number</th><th>Gymnast</th><th>Team</th><th>Born</th><th>Class</th><th>About</th></thead> <tbody></tbody></table>';
+                localorder = "";
+                for (var o = 0; o < localapps.length; o++) {
+                    if (localorder == "") {
+                        localorder=appname[localapps[o]];
+                    } else {
+                        localorder=localorder + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + appname[localapps[o]];
+                    }
+                }
+                localapps.push(localapps.shift());
+                        divpools=divpools + '<h2 class="pad upper">Pool ' + currpools[n] + '</h2><H4>' + localorder + '</H4><table id="pools_table' + currpools[n] + '" class="startList_all_table table table-condensed"><thead><th>Number</th><th>Gymnast</th><th>Team</th><th>Born</th><th>Class</th><th>About</th></thead> <tbody></tbody></table>';
                         }
                         lastpool=currpools[n];
               }
               $( "div.div-pools" ).replaceWith('<div class="div-pools">' + divpools + '</div>');
-	      var lastpool="";
+          var lastpool="";
               for (var n = 0; n < currpools.length; n++) {
                         if (currpools[n] != lastpool) {
                                 drawgymtable("/ES/" + competition + "/startList/_search?size=100&q=pool:"+currpools[n],"pools_table"+currpools[n],"pools");
@@ -359,49 +303,49 @@ $('.profile-userpic').click(function () {
 
     <script id="register" type="text/html">
         <header class="head">
-<!-- 		<a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
-	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+        <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Register points</h1>
         </header>
         <section class="body with-head with-foot">
                 <h4 class="pad upper">Register Points</h4>
         <nav class="nav-list">
-	<div class="nav-register"></div>
+    <div class="nav-register"></div>
         </nav>
-	</section>
+    </section>
         <script>
         var divnavregister = "";
-	if (username != "User" ) {
+    if (username != "User" ) {
         for (var n = 0; n < apps.length; n++) {
                 divnavregister = divnavregister + '<a data-do="go-forward" data-on="click" href="#REG' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
         }
         $( "div.nav-register" ).replaceWith(divnavregister);
-	} else  {
-		$( "div.nav-register" ).replaceWith('<div class="focus"><p>Please log in to register points!</p></div>');
-	}
+    } else  {
+        $( "div.nav-register" ).replaceWith('<div class="focus"><p>Please log in to register points!</p></div>');
+    }
         </script>
-
      </script>
+
    <script id="administration" type="text/html">
         <header class="head">
 <!--             <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
-	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
+        <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Administration</h1>
         </header>
         <section class="body with-head with-foot">
                 <h4 class="pad upper">Administration</h4>
         <nav class="nav-list">
-		<div class="nav-admin"></div>
+        <div class="nav-admin"></div>
         </nav>
         </section>
-	<script>
-	if (username != "User" ) {
-		$( "div.nav-admin" ).replaceWith('<a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#teams">Teams<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>');
-	} else {
-		$( "div.nav-admin" ).replaceWith('<div class="focus"><p>Please log in to administer the competition!</p></div>');
-	}
-	loadcurrrules();
-	</script>
+    <script>
+    if (username != "User" ) {
+        $( "div.nav-admin" ).replaceWith('<a data-do="go-forward" data-on="click" href="#startList">Start list<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#competition">Competitions<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#teams">Teams<i class="fa fa-chevron-right"></i></a><a data-do="go-forward" data-on="click" href="#none">Backup/Restore<i class="fa fa-chevron-right"></i></a>');
+    } else {
+        $( "div.nav-admin" ).replaceWith('<div class="focus"><p>Please log in to administer the competition!</p></div>');
+    }
+    loadcurrrules();
+    </script>
      </script>
 
     <script id="home" type="text/html">
@@ -412,7 +356,7 @@ $('.profile-userpic').click(function () {
         </header>
         
         <section class="body with-head with-foot">
-			<h4 class="pad upper">AGscore.se</h4>
+            <h4 class="pad upper">AGscore.se</h4>
             <div class="focus">
   <label class="top">Select<br>competition</label>
     <select id="select-competition" class="form-control">
@@ -423,14 +367,14 @@ $('.profile-userpic').click(function () {
 <p id="pdescription"></p>
 </div>
         <nav class="nav-list">
-	<a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
-	<a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
-	<a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
+    <a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
+    <a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
+    <a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
 </nav>
         </section>
-	<script>
-	initcompetition();
-	</script>
+    <script>
+    initcompetition();
+    </script>
     </script>
 
     <script id="teams" type="text/html">
@@ -439,12 +383,12 @@ $('.profile-userpic').click(function () {
             <h1 class="title">Teams</h1>
         </header>
         <section class="body with-head with-foot">
-	<div class="focus">
+    <div class="focus">
         <div id="divteams"></div>
-	<div>
+    </div>
         <script>
              var currteams = new Array();
-	     divteams = "";
+         divteams = "";
              $.ajax({
                 'async': false,
                 url: "/ES/global/startList/_search?size=100",
@@ -463,7 +407,7 @@ $('.profile-userpic').click(function () {
                         }
                 }
              });
-		data = sortJSON(currteams,'id', '123');
+        data = sortJSON(currteams,'id', '123');
              var lastteam="";
              for (var n = 0; n < currteams.length; n++) {
                         if (currteams[n].id == lastteam) {
@@ -472,149 +416,150 @@ $('.profile-userpic').click(function () {
                         }
                         lastteam=currteams[n].id;
              }
-	  var option='<option value="default">Grey</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="pink">Pink</option><option value="purple">Purple</option><option value="red">Red</option><option value="bluered">Blue & red</option>'
-	var select="";
-	divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th>Color</th><th></th></tr></thead><tbody>';
-	for (var n = 0; n < currteams.length; n++) {
-		select='<select onchange="javascript:updatecss(\'' + camelize(currteams[n].id) + '\');" id="css_' + camelize(currteams[n].id) +'" class="form-control">' + option + '</select>';
-		divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td>' + select + '</td><td><a href="javascript:void(0)" onclick="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o fa-2x"></i></a></td></tr>'
-	}
-	divteams=divteams+'</tbody></table>';
-	$("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
-	currteams = [];
-	$.ajax({
+      var option='<option value="default">Grey</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="pink">Pink</option><option value="purple">Purple</option><option value="red">Red</option><option value="bluered">Blue & red</option>'
+    var select="";
+    divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th>Color</th><th></th></tr></thead><tbody>';
+    for (var n = 0; n < currteams.length; n++) {
+        select='<select onchange="javascript:updatecss(\'' + camelize(currteams[n].id) + '\');" id="css_' + camelize(currteams[n].id) +'" class="form-control">' + option + '</select>';
+        divteams=divteams+'<tr><td>' + currteams[n].id + '</td><td>' + select + '</td><td><a href="javascript:void(0)" onclick="javascript:uploadimage(\'' + camelize(currteams[n].id) + '\',\'team\',\'' + currteams[n].id + '\');"><i class="fa fa-file-image-o fa-2x"></i></a></td></tr>'
+    }
+    divteams=divteams+'</tbody></table>';
+    $("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
+    currteams = [];
+    $.ajax({
                 'async': false,
                 url: "/ES/global/team/_search?size=100",
                 success: function(s){
                         for (var i = 0; i < s.hits.hits.length; i++) {
-				$("#css_" + s.hits.hits[i]._source.id).val(s.hits.hits[i]._source.css);
+                $("#css_" + s.hits.hits[i]._source.id).val(s.hits.hits[i]._source.css);
                         }
                 }
              });
-	</script>
+    </script>
         </section>
     </script>
+
     <script id="rule" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Rules</h1>
         </header>
         <section class="body with-head with-foot">
-	<div id="comprules"></div>
-	<script>
-	     var currules = new Array();
-	     $.ajax({
+    <div id="comprules"></div>
+    <script>
+         var currules = new Array();
+         $.ajax({
                 'async': false,
                 url: "/ES/" + competition + "/startList/_search?size=100&sort=rules",
                 success: function(s){
-			for (var i = 0; i < s.hits.hits.length; i++) {
+            for (var i = 0; i < s.hits.hits.length; i++) {
                                 currules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
                         }
-	        }
+            }
              });
-	     var lastrule="";
-	     for (var n = 0; n < currules.length; n++) {
-			if (currules[n].id == lastrule) {
-				currules.splice(n,1);
-				n--;
-			}
-			lastrule=currules[n].id;
-	     }
-	     var divcomprules="";
-	     var comprules = new Array();
+         var lastrule="";
+         for (var n = 0; n < currules.length; n++) {
+            if (currules[n].id == lastrule) {
+                currules.splice(n,1);
+                n--;
+            }
+            lastrule=currules[n].id;
+         }
+         var divcomprules="";
+         var comprules = new Array();
              $.ajax({
-             	'async': false,
-             	url: "/ES/global/startList/_search?q=agtype:" + agtype + '&size=100&sort=rules',
-             	success: function(s){
-			for (var i = 0; i < s.hits.hits.length; i++) {
-				comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
+                'async': false,
+                url: "/ES/global/startList/_search?q=agtype:" + agtype + '&size=100&sort=rules',
+                success: function(s){
+            for (var i = 0; i < s.hits.hits.length; i++) {
+                comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
                         }
-			lastrule="";
-			var divclassrow = "";
-			divcomprules='<div class="focus focus-group">';
-			var localcomprules = new Array();
-		        var comprow = "";
-			for (var i = 0; i < comprules.length; i++) {
-				if (lastrule != comprules[i].id) {
-		        		comprow = "";
-					var camelid=camelize(comprules[i].id);
-					var esrules = new Array();
-					divclassrow = "zrulesirrelevant row"
-					esindex = "global";
-					for (var n = 0; n < currules.length; n++) {
-						if (comprules[i].id == currules[n].id) {
-							divclassrow = "row";
-							esindex = competition;
-						}
-					}
-					$.ajax({
+            lastrule="";
+            var divclassrow = "";
+            divcomprules='<div class="focus focus-group">';
+            var localcomprules = new Array();
+                var comprow = "";
+            for (var i = 0; i < comprules.length; i++) {
+                if (lastrule != comprules[i].id) {
+                        comprow = "";
+                    var camelid=camelize(comprules[i].id);
+                    var esrules = new Array();
+                    divclassrow = "zrulesirrelevant row"
+                    esindex = "global";
+                    for (var n = 0; n < currules.length; n++) {
+                        if (comprules[i].id == currules[n].id) {
+                            divclassrow = "row";
+                            esindex = competition;
+                        }
+                    }
+                    $.ajax({
                                                 'async': false,
                                                 url: "/ES/" + esindex + "/rules/"+agtype + "-" + camelid,
                                                 success: function(t){
                                                         esrules = t._source;
                                                 }
                                         });
-					comprow = comprow + '<div class="' + divclassrow + '"><div class="col-xs-1 middle"><h1>' + comprules[i].id + '</h1></div><table id="rules_' + comprules[i].id +'"class="table table-condensed">';
-					var trows1='<tr><td>Results are public</td><td><span class="switch switch-2"><input onchange="changerule(\'public_' + camelid + '\');" id="public_' + camelid + '" type="checkbox" name="check" value="PH" ';
-					if (esrules.public == "true") {
-						trows1=trows1 + ' checked="checked" ';
-					}
-					trows1=trows1 + '/><span></td>';
-					var trows2='<tr><td>Extra Bonus in Pommel horse</td><td><span class="switch switch-2"><input onchange="changerule(\'bph_' + camelid + '\');" id="bph_' + camelid + '" type="checkbox" name="check"  value="PH" ';
-					if (esrules.bph == "true") {
-						trows2=trows2+ ' checked="checked" ';
-					}
-					trows2=trows2+ '/><span></td>';
-					var trows3='<tr><td>Second Pommel horse exercise</td><td><span class="switch switch-2"><input onchange="changerule(\'sph_' + camelid + '\');" id="sph_' + camelid + '" type="checkbox" name="check"  value="PH" ';
-					if (esrules.sph == "true") {
-						trows3=trows3 + ' checked="checked" ';
-					}
-					trows3=trows3 + '/><span></td>';
-					var trows4='<tr><td>Second vault</td><td><span class="switch switch-2"><input onchange="changerule(\'sv_' + camelid + '\');" id="sv_' + camelid + '" type="checkbox" name="check" value="PH" ';
-					if (esrules.sv == "true") {
-						trows4=trows4 + ' checked="checked" ';
-					}
-					trows4=trows4 + '/><span></td>';
-					var trows5='<tr><td>Register only average D</td><td><span class="switch switch-2"><input onchange="changerule(\'st_' + camelid + '\');" id="st_' + camelid + '" type="checkbox" name="check" value="PH" ';
-					if (esrules.st == "true") {
-						trows5=trows5 + ' checked="checked" ';
-					}
-					trows5=trows5 + '/><span></td>';
-					var trows6='<tr><td>Count second vault in ' + appname[agtype] + '</td><td><span class="switch switch-2"><input onchange="changerule(\'v2a_' + camelid + '\');" id="v2a_' + camelid + '" type="checkbox" name="check" value="PH" ';
-					if (esrules.v2a == "true") {
-						trows6=trows6 + 'checked="checked" ';
-					}
-					trows6=trows6 + '/><span></td>';
-					comprow = comprow + trows1 + '</tr>';
-					if (agtype == "MAG") {
-						comprow = comprow + trows2 + '</tr>';
-						comprow = comprow + trows3 + '</tr>';
-						comprow = comprow + trows4 + '</tr>';
-					} else { 
-						comprow = comprow + trows5 + '</tr>';
-						comprow = comprow + trows6 + '</tr>';
-					}
-					comprow = comprow + '</table></div>';
-					localcomprules.push(comprow);
-				}
-				lastrule=comprules[i].id;
-			}
-			localcomprules.sort();
-			for (var i = 0; i < localcomprules.length; i++) {
-				divcomprules = divcomprules + localcomprules[i];
-			}
-			divcomprules = divcomprules + '</div>';
-			$("#comprules").replaceWith('<div id="comprules">' + divcomprules + '</div>');
-             	}
+                    comprow = comprow + '<div class="' + divclassrow + '"><div class="col-xs-1 middle"><h1>' + comprules[i].id + '</h1></div><table id="rules_' + comprules[i].id +'"class="table table-condensed">';
+                    var trows1='<tr><td>Results are public</td><td><span class="switch switch-2"><input onchange="changerule(\'public_' + camelid + '\');" id="public_' + camelid + '" type="checkbox" name="check" value="PH" ';
+                    if (esrules.public == "true") {
+                        trows1=trows1 + ' checked="checked" ';
+                    }
+                    trows1=trows1 + '/><span></td>';
+                    var trows2='<tr><td>Extra Bonus in Pommel horse</td><td><span class="switch switch-2"><input onchange="changerule(\'bph_' + camelid + '\');" id="bph_' + camelid + '" type="checkbox" name="check"  value="PH" ';
+                    if (esrules.bph == "true") {
+                        trows2=trows2+ ' checked="checked" ';
+                    }
+                    trows2=trows2+ '/><span></td>';
+                    var trows3='<tr><td>Second Pommel horse exercise</td><td><span class="switch switch-2"><input onchange="changerule(\'sph_' + camelid + '\');" id="sph_' + camelid + '" type="checkbox" name="check"  value="PH" ';
+                    if (esrules.sph == "true") {
+                        trows3=trows3 + ' checked="checked" ';
+                    }
+                    trows3=trows3 + '/><span></td>';
+                    var trows4='<tr><td>Second vault</td><td><span class="switch switch-2"><input onchange="changerule(\'sv_' + camelid + '\');" id="sv_' + camelid + '" type="checkbox" name="check" value="PH" ';
+                    if (esrules.sv == "true") {
+                        trows4=trows4 + ' checked="checked" ';
+                    }
+                    trows4=trows4 + '/><span></td>';
+                    var trows5='<tr><td>Register only average D</td><td><span class="switch switch-2"><input onchange="changerule(\'st_' + camelid + '\');" id="st_' + camelid + '" type="checkbox" name="check" value="PH" ';
+                    if (esrules.st == "true") {
+                        trows5=trows5 + ' checked="checked" ';
+                    }
+                    trows5=trows5 + '/><span></td>';
+                    var trows6='<tr><td>Count second vault in ' + appname[agtype] + '</td><td><span class="switch switch-2"><input onchange="changerule(\'v2a_' + camelid + '\');" id="v2a_' + camelid + '" type="checkbox" name="check" value="PH" ';
+                    if (esrules.v2a == "true") {
+                        trows6=trows6 + 'checked="checked" ';
+                    }
+                    trows6=trows6 + '/><span></td>';
+                    comprow = comprow + trows1 + '</tr>';
+                    if (agtype == "MAG") {
+                        comprow = comprow + trows2 + '</tr>';
+                        comprow = comprow + trows3 + '</tr>';
+                        comprow = comprow + trows4 + '</tr>';
+                    } else { 
+                        comprow = comprow + trows5 + '</tr>';
+                        comprow = comprow + trows6 + '</tr>';
+                    }
+                    comprow = comprow + '</table></div>';
+                    localcomprules.push(comprow);
+                }
+                lastrule=comprules[i].id;
+            }
+            localcomprules.sort();
+            for (var i = 0; i < localcomprules.length; i++) {
+                divcomprules = divcomprules + localcomprules[i];
+            }
+            divcomprules = divcomprules + '</div>';
+            $("#comprules").replaceWith('<div id="comprules">' + divcomprules + '</div>');
+                }
              });
-	</script>
+    </script>
         </section>
 </script>
 
     <script id="competition" type="text/html">
         <header class="head">
 <!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>-->
-	    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
+        <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Competitions</h1>
         </header>
 
@@ -640,17 +585,17 @@ $('.profile-userpic').click(function () {
 $(function() {
       $("#editcomp").click( function()
            {
-		$('#name').val(currcompetition.name);
-            	$('#date').val(currcompetition.date);
-            	$('#date2').val(currcompetition.date2);
-            	$('#organizer').val(currcompetition.organizer);
-            	$('#type').val(currcompetition.type);
-            	$('#cid').val(currcompetition.id);
-//		$('#css').val(currcompetition.css);
-            	$('#description').val(currcompetition.description);
-            	$('#created').val(currcompetition.created);
-            	$('#create').val("Update");
-		$( "#compsymb" ).replaceWith('<div id="compsymb"><i class="fa fa-pencil-square-o fa-5x"></i></div>');
+        $('#name').val(currcompetition.name);
+                $('#date').val(currcompetition.date);
+                $('#date2').val(currcompetition.date2);
+                $('#organizer').val(currcompetition.organizer);
+                $('#type').val(currcompetition.type);
+                $('#cid').val(currcompetition.id);
+//      $('#css').val(currcompetition.css);
+                $('#description').val(currcompetition.description);
+                $('#created').val(currcompetition.created);
+                $('#create').val("Update");
+        $( "#compsymb" ).replaceWith('<div id="compsymb"><i class="fa fa-pencil-square-o fa-5x"></i></div>');
 
            }
       );
@@ -668,7 +613,7 @@ $(function() {
                 $('#description').val("");
                 $('#created').val("n");
                 $('#create').val("Create");
-		$( "#compsymb" ).replaceWith('<div id="compsymb"><i class="fa fa-plus fa-5x"></i></div>');
+        $( "#compsymb" ).replaceWith('<div id="compsymb"><i class="fa fa-plus fa-5x"></i></div>');
            }
       );
 });
@@ -717,58 +662,58 @@ $(function() {
 
 <script>
 if ( $(window).width() < 568 ) {
-	$.mobility.notify("Editing the start list on a small screen is not recommended!, at least tilt your device to landscape!","warning");
+    $.mobility.notify("Editing the start list on a small screen is not recommended!, at least tilt your device to landscape!","warning");
 } else if ( $(window).width() < 768 ) {
-	$.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
+    $.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
 }
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","startList_table","edit");
 drawgymtable("/ES/global/startList/_search?size=5000&q=agtype:" + agtype,"startList_all_table","global");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);
 $( "#startList_table-search" ).change(function() {
-	editableGrid.filter($("#startList_table-search").val());
+    editableGrid.filter($("#startList_table-search").val());
 });
 editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, row) {
-		var post = this.getRowValues(rowIndex);
+        var post = this.getRowValues(rowIndex);
                 var notify;
                 var notifytype;
-		if ((this.getColumnName(columnIndex) != "checked") & (post.gymnast.length > 4 ) & (post.pool.length > 0) & (post.team.length > 1 ) & (post.class.length > 0 ) & (post.number > 0)) {
-			if (post.id.length < 5 ) {
-				post.id =  camelize(post.gymnast + post.team);
-				this.setValueAt(rowIndex, 2, post.id, true);
-				this.setValueAt(rowIndex, 10, '<a href="javascript:void(0)" onclick="javascript:uploadimage(\'' + post.id + '\',\'gymnast\',\'' + post.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>' , true);
-				this.setValueAt(rowIndex, 11, '<a href="javascript:void(0)" onclick="delgymnast(\'' + post.id + '\');"><i class="fa fa-times"></i></a>', true);
-			}
-				var klasssplit = new Array();
-                            	klasssplit = post.class.split(" ");
-    				if ((klasssplit[0].toLowerCase() == "steg") && (klasssplit[1] < 5)) {
-        				post.rules = "Steg4-";
-    				} 
-				if ((klasssplit[0].toLowerCase() == "steg") && (klasssplit[1] > 4)) {
-        				post.rules = "Steg5+";
-    				}
-    				if ((post.class.substring(0, 2) == "RM") && (post.class.substring(2, 3) < 9)) {
-        				post.rules = post.class;
-    				}
-    				if (klasssplit[0].toLowerCase() == "cop" ) {
-        				post.rules = "CoP";
-    				}
+        if ((this.getColumnName(columnIndex) != "checked") & (post.gymnast.length > 4 ) & (post.pool.length > 0) & (post.team.length > 1 ) & (post.class.length > 0 ) & (post.number > 0)) {
+            if (post.id.length < 5 ) {
+                post.id =  camelize(post.gymnast + post.team);
+                this.setValueAt(rowIndex, 2, post.id, true);
+                this.setValueAt(rowIndex, 10, '<a href="javascript:void(0)" onclick="javascript:uploadimage(\'' + post.id + '\',\'gymnast\',\'' + post.gymnast + '\');"><i class="fa fa-file-image-o"></i></a>' , true);
+                this.setValueAt(rowIndex, 11, '<a href="javascript:void(0)" onclick="delgymnast(\'' + post.id + '\');"><i class="fa fa-times"></i></a>', true);
+            }
+                var klasssplit = new Array();
+                                klasssplit = post.class.split(" ");
+                    if ((klasssplit[0].toLowerCase() == "steg") && (klasssplit[1] < 5)) {
+                        post.rules = "Steg4-";
+                    } 
+                if ((klasssplit[0].toLowerCase() == "steg") && (klasssplit[1] > 4)) {
+                        post.rules = "Steg5+";
+                    }
+                    if ((post.class.substring(0, 2) == "RM") && (post.class.substring(2, 3) < 9)) {
+                        post.rules = post.class;
+                    }
+                    if (klasssplit[0].toLowerCase() == "cop" ) {
+                        post.rules = "CoP";
+                    }
                                 editableGrid.setValueAt(rowIndex,6,post.rules,true);
-			startlistedit("POST",post,true);
-		}
+            startlistedit("POST",post,true);
+        }
                 };
 
 $(function() {
-	var post = new Array();
+    var post = new Array();
       $("#delete").click( function()
            {
-		for (var i = 0; i < editableGrid.getRowCount(); i++) { 
-			if (editableGrid.getRowValues(i).checked) {
-				post = editableGrid.getRowValues(i);
-				startlistedit("DELETE",post,true);
-				editableGrid.removeRow(editableGrid.getRowId(i));
-				i = -1;
-			}
-		}
+        for (var i = 0; i < editableGrid.getRowCount(); i++) { 
+            if (editableGrid.getRowValues(i).checked) {
+                post = editableGrid.getRowValues(i);
+                startlistedit("DELETE",post,true);
+                editableGrid.removeRow(editableGrid.getRowId(i));
+                i = -1;
+            }
+        }
            }
       );
 });
@@ -802,37 +747,37 @@ $(function() {
                                 editableGrid.setValueAt(i,9,"false",true);
                         } else {
                                 editableGrid.setValueAt(i,9,"true",true);
-			}
+            }
                 }
            }
       );
 });
 
 $(function() {
-	var post = new Array();
+    var post = new Array();
       $("#class").click( function()
            {
-	   	var newKlass=$("#startList_table-class").val();
+        var newKlass=$("#startList_table-class").val();
                 for (var i = 0; i < editableGrid.getRowCount(); i++) { 
                         if (editableGrid.getRowValues(i).checked) {
-				editableGrid.setValueAt(i,5,newKlass,true);
-				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,false);
+                editableGrid.setValueAt(i,5,newKlass,true);
+                post = editableGrid.getRowValues(i);
+                startlistedit("POST",post,false);
                         }
                 }
            }
       );
 });
 $(function() {
-	var post = new Array();
+    var post = new Array();
       $("#rules").click( function()
            {
                 var newRules=$("#startList_table-rules").val();
                 for (var i = 0; i < editableGrid.getRowCount(); i++) {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,6,newRules,true);
-				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,false);
+                post = editableGrid.getRowValues(i);
+                startlistedit("POST",post,false);
                         }
                 }
            }
@@ -840,15 +785,15 @@ $(function() {
 });
 
 $(function() {
-	var post = new Array();
+    var post = new Array();
       $("#pool").click( function()
            { 
-	   	var newPool=$("#startList_table-pool").val();
+        var newPool=$("#startList_table-pool").val();
                 for (var i = 0; i < editableGrid.getRowCount(); i++) {
                         if (editableGrid.getRowValues(i).checked) {
                                 editableGrid.setValueAt(i,7,newPool,true);
-				post = editableGrid.getRowValues(i);
-				startlistedit("POST",post,false);
+                post = editableGrid.getRowValues(i);
+                startlistedit("POST",post,false);
                         }
                 }
            }
@@ -859,51 +804,31 @@ $(function() {
 $(function() {
       $("#new").click( function()
            {
-		//var d = new Date();
-		//var n = d.getTime();
-		//var new_id = n + "_" + Math.floor((Math.random() * 10000) + 1);
-		var new_id = "n";
-		var new_index=editableGrid.getRowCount() + 1;
-		var new_startnr = 0;
-		var datalocal=[];
-		for (var i = 0; i < editableGrid.getRowCount(); i++) {
-			if (editableGrid.getRowValues(i).number >= new_startnr) {
-				new_startnr = editableGrid.getRowValues(i).number + 1;
-			}
-		}
-		if (new_startnr < 1) {
-			new_startnr = 1;
-		}
-		datalocal.number = new_startnr;
-		datalocal.id = new_id;
-		datalocal.checked = true;
-		datalocal.agtype = agtype;
-		datalocal.del = '<a href="javascript:void(0);"><i class="fa fa-times"></i></a>';
-		datalocal.img = '<a href="javascript:void(0);"><i class="fa fa-file-image-o"></i></a>';
-//		editableGrid.insertAfter(new_index, new_index, JSON.parse('{ "number" : "' + new_startnr + '","id":"'+ new_id + '","del":"<a href=\"javascript:delgymnast(\'' + new_id + '\');\"><i class=\"fa fa-times\"></i></a>"}'));
-		editableGrid.insertAfter(new_index, new_index, datalocal);
+        //var d = new Date();
+        //var n = d.getTime();
+        //var new_id = n + "_" + Math.floor((Math.random() * 10000) + 1);
+        var new_id = "n";
+        var new_index=editableGrid.getRowCount() + 1;
+        var new_startnr = 0;
+        var datalocal=[];
+        for (var i = 0; i < editableGrid.getRowCount(); i++) {
+            if (editableGrid.getRowValues(i).number >= new_startnr) {
+                new_startnr = editableGrid.getRowValues(i).number + 1;
+            }
+        }
+        if (new_startnr < 1) {
+            new_startnr = 1;
+        }
+        datalocal.number = new_startnr;
+        datalocal.id = new_id;
+        datalocal.checked = true;
+        datalocal.agtype = agtype;
+        datalocal.del = '<a href="javascript:void(0);"><i class="fa fa-times"></i></a>';
+        datalocal.img = '<a href="javascript:void(0);"><i class="fa fa-file-image-o"></i></a>';
+        editableGrid.insertAfter(new_index, new_index, datalocal);
            }
       );
 });
-//var options = {
-//    url: "people.json",
-//    getValue: "name",
-//    template: {
-//        type: "description",
-//        fields: {
-//            description: "email"
-//        }
-//    },
-//    list: {
-//        match: {
-//            enabled: true
-//        }
-//    },
-//    theme: "plate-dark"
-//};
-//$('#startList_table [id^="gymnast_"]').easyAutocomplete(options);
-//$('#startList_table-stacktable-small-only [id^="gymnast_"]').easyAutocomplete(options);
-//$("div.easy-autocomplete").removeAttr("width");
 
 </script>
      </section>
@@ -912,12 +837,12 @@ $(function() {
        <script id="none" type="text/html">
         <header class="head">
 <!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
-	<a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
+    <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#administration"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title">Nothing yet.</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
-<input type="file" class="form-control" onchange="uploadFile('gymnast','new','#uploadimg')"><br>
+<input type="file" class="form-control" onchange="uploadFile('gymnast','new','#uploadimg')" /><br>
 </div>
 <div class="profile-userpic"><img id="uploadimg" src="images/KFUM.png" alt=""></div>
      </section>
@@ -925,7 +850,6 @@ $(function() {
   
       <script id="allaroundMAG" type="text/html">
         <header class="head">
-<!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
         </header>
@@ -966,7 +890,7 @@ $(function() {
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG","update");
+        drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG");
@@ -981,12 +905,12 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_ta
         </header>
         <section class="body with-foot with-head pad">
             <div class="refresh-pull hide" data-do="refresh-pull"
-				data-pull="Pull down to refresh" 
-				data-release="Release to refresh" 
-				data-loading="Loading ...">
-				<i class="fa fa-arrow-up"></i>
-				<span class="message"></span>
-			</div>
+                data-pull="Pull down to refresh" 
+                data-release="Release to refresh" 
+                data-loading="Loading ...">
+                <i class="fa fa-arrow-up"></i>
+                <span class="message"></span>
+            </div>
 <div class="focus">
   <label class="top">Select class:</label>
   <select id="allaround_tableWAG-search-class" class="form-control">
@@ -1024,7 +948,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_ta
 
       <script id="floor" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
@@ -1068,7 +992,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_ta
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table","update");
+        drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
@@ -1077,7 +1001,7 @@ drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
     </script>
        <script id="pommelHorse" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
@@ -1121,7 +1045,7 @@ drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHorse_table","update");
+        drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHorse_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHorse_table");
@@ -1131,7 +1055,7 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHors
     
       <script id="rings" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Rings</h1>
         </header>
@@ -1175,7 +1099,7 @@ drawgymtable("/ES/" + competition + "/pommelHorse/_search?size=1000","pommelHors
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table","update");
+        drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
@@ -1184,7 +1108,7 @@ drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
     </script>
       <script id="vault" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
@@ -1228,7 +1152,7 @@ drawgymtable("/ES/" + competition + "/rings/_search?size=1000","rings_table");
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table","update");
+        drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
@@ -1238,7 +1162,7 @@ drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
 
       <script id="parallelBars" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
         </header>
@@ -1282,7 +1206,7 @@ drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelBars_table","update");
+        drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelBars_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelBars_table");
@@ -1292,7 +1216,7 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelB
 
       <script id="highBar" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
@@ -1336,7 +1260,7 @@ drawgymtable("/ES/" + competition + "/parallelBars/_search?size=1000","parallelB
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table","update");
+        drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table");
@@ -1346,7 +1270,7 @@ drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table"
 
       <script id="beam" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Balance Beam</h1>
         </header>
@@ -1390,7 +1314,7 @@ drawgymtable("/ES/" + competition + "/highBar/_search?size=1000","highBar_table"
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table","update");
+        drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
@@ -1400,7 +1324,7 @@ drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
 
       <script id="unevenBars" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven Bars</h1>
         </header>
@@ -1444,7 +1368,7 @@ drawgymtable("/ES/" + competition + "/beam/_search?size=1000","beam_table");
 <script>
 jQuery(window).on('mobility-refresh', function(e, target, callback) {
       setTimeout(function() {
-		drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_table","update");
+        drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_table","update");
       }, 1000);
 });
 drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_table");
@@ -1454,7 +1378,7 @@ drawgymtable("/ES/" + competition + "/unevenBars/_search?size=1000","unevenBars_
        
 <script id="REGfloor" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/floor.png" \>&nbsp;Floor</h1>
         </header>
@@ -1498,7 +1422,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","floor_table"
 
 <script id="REGpommelHorse" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
         </header>
@@ -1543,7 +1467,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","pommelHorse_
 
 <script id="REGrings" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/rings.png" \>&nbsp;Still rings</h1>
         </header>
@@ -1587,7 +1511,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","rings_table"
 
 <script id="REGvault" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/vault.png" \>&nbsp;Vault</h1>
         </header>
@@ -1631,7 +1555,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","vault_table"
 
 <script id="REGparallelBars" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel bars</h1>
         </header>
@@ -1675,7 +1599,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","parallelBars
 
 <script id="REGhighBar" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/highBar.png" \>&nbsp;High bar</h1>
         </header>
@@ -1719,7 +1643,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","highBar_tabl
 
 <script id="REGbeam" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/beam.png" \>&nbsp;Beam</h1>
         </header>
@@ -1763,7 +1687,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","beam_table",
 
 <script id="REGunevenBars" type="text/html">
         <header class="head">
-<!--	    <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
+<!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
             <h1 class="title"><img src="images/unevenBars.png" \>&nbsp;Uneven bars</h1>
         </header>
@@ -1815,11 +1739,11 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
         <section class="body with-head">
             <div class="row pad">
                 <div class="col-md-1 middle">
-		    <div id="compsymb">
+            <div id="compsymb">
                     <i class="fa fa-plus fa-5x"></i> 
-		    </div>
+            </div>
                 </div>
-				<div class="newCompetition">
+                <div class="newCompetition">
                 <div class="col-md-11">
 
 
@@ -1881,83 +1805,83 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
  (function($){
         function processForm( e ){
             e.preventDefault();
-	    var post = {};
-	    post.name = $('#name').val();
-	    post.date = $('#date').val();
-	    post.date2 = $('#date2').val();
-	    post.organizer = $('#organizer').val();
-	    post.type = $('#type').val();
-	    post.id = $('#cid').val();
-	    var testC = "false";
-	    var mess = " updated!";
-	    if (post.id.length < 3) {
-	    	post.id = camelize(post.organizer) + "-" + camelize($('#name').val());
-	    	post.id = post.id.toLowerCase();
-	    	testC = post.id;
-	    	var mess = " created!";
-	    }
-	    post.css = $('#css').val();
-	    post.description = $('#description').val();
-	    post.created = $('#created').val();
-	    if (post.created.length < 3) {
-	    	post.created = Math.floor(new Date()/1000);
-	    }
-	    if ((post.date2 < post.date) && (post.date2)) {
-		$.mobility.notify("End date can not be before start date!","error");
-		return false;
-	    }
-	    if (post.name.length < 5) {
-		$.mobility.notify("Name to short!","error");
-		return false;
-	    }
-	    if (post.organizer.length < 2) {
-		$.mobility.notify("Organizer name to short!","error");
-		return false;
-	    }
-	    if ((post.type == "WAG") || (post.type == "MAG")) {
-		$.ajax({
-			'async': false,
-			url: "/ES/global/competition/" + testC,
-			success: function(result){
-				$.mobility.notify("Competition name already used!","error");
-			},
-			error: function(result){
-				    $.ajax({
-        				'async': false,
-        				type: "POST",
-				        url: "/ES/global/competition/" + post.id,
-				        data: JSON.stringify(post),
-				        contentType: "application/json; charset=utf-8",
-				        dataType: "json",
-				        success: function(s){
-                                    		$.ajax({
-                                        		'async': false,
-                                        		type: "POST",
-                                        		url: "/ES/"+  post.id + "/competition/" + post.id,
-                                        		data: '{"name":"dummy"}',
-                                        		contentType: "application/json; charset=utf-8",
-                                        		dataType: "json",
-                                        		success: function(s){	
-								$.mobility.notify("Competition " + post.name +  mess ,"success");
-                                                    		changecompetition(post.id);
-                                                    		$.mobility.modalClose('#newCompetition');
-								initcompetition();
-                                        		}
-                                    		});
-					}
-				    });
-			}
-    		});
-	    } else {
-		$.mobility.notify("AGScore.se does only handle WAG or MAG competitions!","error");
-		return false;
-	    }
+        var post = {};
+        post.name = $('#name').val();
+        post.date = $('#date').val();
+        post.date2 = $('#date2').val();
+        post.organizer = $('#organizer').val();
+        post.type = $('#type').val();
+        post.id = $('#cid').val();
+        var testC = "false";
+        var mess = " updated!";
+        if (post.id.length < 3) {
+            post.id = camelize(post.organizer) + "-" + camelize($('#name').val());
+            post.id = post.id.toLowerCase();
+            testC = post.id;
+            var mess = " created!";
+        }
+        post.css = $('#css').val();
+        post.description = $('#description').val();
+        post.created = $('#created').val();
+        if (post.created.length < 3) {
+            post.created = Math.floor(new Date()/1000);
+        }
+        if ((post.date2 < post.date) && (post.date2)) {
+        $.mobility.notify("End date can not be before start date!","error");
+        return false;
+        }
+        if (post.name.length < 5) {
+        $.mobility.notify("Name to short!","error");
+        return false;
+        }
+        if (post.organizer.length < 2) {
+        $.mobility.notify("Organizer name to short!","error");
+        return false;
+        }
+        if ((post.type == "WAG") || (post.type == "MAG")) {
+        $.ajax({
+            'async': false,
+            url: "/ES/global/competition/" + testC,
+            success: function(result){
+                $.mobility.notify("Competition name already used!","error");
+            },
+            error: function(result){
+                    $.ajax({
+                        'async': false,
+                        type: "POST",
+                        url: "/ES/global/competition/" + post.id,
+                        data: JSON.stringify(post),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(s){
+                                            $.ajax({
+                                                'async': false,
+                                                type: "POST",
+                                                url: "/ES/"+  post.id + "/competition/" + post.id,
+                                                data: '{"name":"dummy"}',
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function(s){   
+                                $.mobility.notify("Competition " + post.name +  mess ,"success");
+                                                            changecompetition(post.id);
+                                                            $.mobility.modalClose('#newCompetition');
+                                initcompetition();
+                                                }
+                                            });
+                    }
+                    });
+            }
+            });
+        } else {
+        $.mobility.notify("AGScore.se does only handle WAG or MAG competitions!","error");
+        return false;
+        }
         }
         $('#newCompetition-form').submit( processForm );
     })(jQuery);
 </script>
                 </div>
-				<div>
+                <div>
 <center><a href="javascript:void(0)" onclick="$.mobility.modalClose('#newCompetition');"><i class="fa fa-arrow-down fa-2x"></i></a></center>
             </div>
         </section>
@@ -1965,77 +1889,77 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
 
     
     <script type="text/javascript">
-	//initialize
-	jQuery.mobility.start();
-	
-	//config aquire
-	require.config({ templates: { root: 'templates' } });
-	
-	//add header and footer spacing
-	jQuery(window).trigger('mobility-swap-complete', function() {
-		jQuery('section.screen.current').addClass('with-head with-foot');
-	});
-	
-	//now load the home page
-	jQuery.mobility.swap(jQuery('#home').html());
-	
-	//remote transition are pluggable in this manner
-	jQuery(window).on('mobility-request', function(e, target, effect) {
-		jQuery(window).one('mobility-swap-complete', function() {
-			var current = jQuery('section.screen.current').addClass('loading');
-			
-			//remote call yes? lets use acquire!
-			if(target === '/acquire') {
-				require('templates/sample.html', function(html) {
-					jQuery.mobility.swap(html);
-				});
-				
-				return;
-			}
-			
-			//Probably do Ajax instead of this
-			setTimeout(function() {
-				jQuery.mobility.swap(jQuery('#transition').html());
-			}, 5000);
-		});
-		
-		jQuery.mobility.swap('', 'slide-left');
-	});
-	
-	//default refresh pagination
+    //initialize
+    jQuery.mobility.start();
+    
+    //config aquire
+    require.config({ templates: { root: 'templates' } });
+    
+    //add header and footer spacing
+    jQuery(window).trigger('mobility-swap-complete', function() {
+        jQuery('section.screen.current').addClass('with-head with-foot');
+    });
+    
+    //now load the home page
+    jQuery.mobility.swap(jQuery('#home').html());
+    
+    //remote transition are pluggable in this manner
+    jQuery(window).on('mobility-request', function(e, target, effect) {
+        jQuery(window).one('mobility-swap-complete', function() {
+            var current = jQuery('section.screen.current').addClass('loading');
+            
+            //remote call yes? lets use acquire!
+            if(target === '/acquire') {
+                require('templates/sample.html', function(html) {
+                    jQuery.mobility.swap(html);
+                });
+                
+                return;
+            }
+            
+            //Probably do Ajax instead of this
+            setTimeout(function() {
+                jQuery.mobility.swap(jQuery('#transition').html());
+            }, 5000);
+        });
+        
+        jQuery.mobility.swap('', 'slide-left');
+    });
+    
+    //default refresh pagination
     var i = 0;
-	jQuery(window).on('mobility-refresh', function(e, target, callback) {
-		var rows = $(jQuery('#refresh-template').html());
-		setTimeout(function() {
-			callback(rows[(++i) % 4]);
-		}, 1000);	
-	});
-	
-	
-	//default paginate pagination
-	var j = 0;
-	jQuery(window).on('mobility-paginate', function(e, target, callback) {
-		setTimeout(function() {
-			if(j === 3) {
-				callback();
-				jQuery('.pagi-wait').removeClass('hide');
-				return;
-			}
-			
-			callback(jQuery('#refresh-template').html());
-			j++;
-		}, 1000);	
-	});
-	
-	jQuery(document).on('click', 'nav.themes a', function(e) {
-		e.preventDefault();
-		var color = this.innerHTML.toLowerCase();
-		jQuery('<link />').attr({
-			rel: 'stylesheet', 
-			type: 'text/css',
-			href: 'vendor/mobility/mobility-'+color+'.css' })
-		.appendTo('head');
-	});
+    jQuery(window).on('mobility-refresh', function(e, target, callback) {
+        var rows = $(jQuery('#refresh-template').html());
+        setTimeout(function() {
+            callback(rows[(++i) % 4]);
+        }, 1000);   
+    });
+    
+    
+    //default paginate pagination
+    var j = 0;
+    jQuery(window).on('mobility-paginate', function(e, target, callback) {
+        setTimeout(function() {
+            if(j === 3) {
+                callback();
+                jQuery('.pagi-wait').removeClass('hide');
+                return;
+            }
+            
+            callback(jQuery('#refresh-template').html());
+            j++;
+        }, 1000);   
+    });
+    
+    jQuery(document).on('click', 'nav.themes a', function(e) {
+        e.preventDefault();
+        var color = this.innerHTML.toLowerCase();
+        jQuery('<link />').attr({
+            rel: 'stylesheet', 
+            type: 'text/css',
+            href: 'vendor/mobility/mobility-'+color+'.css' })
+        .appendTo('head');
+    });
     </script>
 </body>
 </html>
