@@ -223,3 +223,11 @@ input, button, select, textarea {
         visibility: hidden;
          display: none;
 }
+.modal_down i {
+    text-align: center;
+    width: 100%;
+}
+.profile-userpic i {
+    text-align: center;
+    width: 100%;
+}

@@ -83,7 +83,7 @@ function uploadimage(id,type,text) {
 }
 function gyminfo(id) {
 	var info = "";
-	var image = '<div class="profile-userpic"><center><i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i></center></div>';
+	var image = '<div class="profile-userpic"><i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i></div>';
 	var teamimg ="";
 	$.ajax({
                 'async': false,
