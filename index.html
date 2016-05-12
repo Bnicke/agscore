@@ -241,6 +241,7 @@ $('.profile-userpic').click(function () {
         divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-chevron-right"></i></a>';
     }
     divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaround' + agtype + '">' + appname[agtype] + '<i class="fa fa-chevron-right"></i></a>';
+    divnavresults = divnavresults + '<a data-do="go-forward" data-on="click" href="#allaroundteam">Team competition<i class="fa fa-chevron-right"></i></a>';
     $( "div.nav-results" ).replaceWith(divnavresults);
     loadcurrrules();
     loadcurrclasses();
@@ -390,35 +391,8 @@ $('.profile-userpic').click(function () {
         <div id="divteams"></div>
     </div>
         <script>
-             var currteams = new Array();
-         divteams = "";
-             $.ajax({
-                'async': false,
-                url: "/ES/global/startList/_search?size=100",
-                success: function(s){
-                        for (var i = 0; i < s.hits.hits.length; i++) {
-                                currteams.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.team + '"}'));
-                        }
-                }
-             });
-             $.ajax({
-                'async': false,
-                url: "/ES/global/competition/_search?size=100",
-                success: function(s){
-                        for (var i = 0; i < s.hits.hits.length; i++) {
-                                currteams.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.organizer + '"}'));
-                        }
-                }
-             });
-        data = sortJSON(currteams,'id', '123');
-             var lastteam="";
-             for (var n = 0; n < currteams.length; n++) {
-                        if (currteams[n].id == lastteam) {
-                                currteams.splice(n,1);
-                                n--;
-                        }
-                        lastteam=currteams[n].id;
-             }
+         var divteams = "";
+         var currteams=loadteams(); 
       var option='<option value="default">Grey</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="pink">Pink</option><option value="purple">Purple</option><option value="red">Red</option><option value="bluered">Blue & red</option>'
     var select="";
     divteams=divteams+'<table class="table table-condensed"><thead><tr><th>Team</th><th>Color</th><th></th></tr></thead><tbody>';
@@ -428,7 +402,6 @@ $('.profile-userpic').click(function () {
     }
     divteams=divteams+'</tbody></table>';
     $("#divteams").replaceWith('<div id="divteams">' + divteams + '</div>');
-    currteams = [];
     $.ajax({
                 'async': false,
                 url: "/ES/global/team/_search?size=100",
@@ -898,8 +871,32 @@ jQuery(window).on('mobility-refresh', function(e, target, callback) {
 });
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableMAG");
 </script>
+
         </section>
     </script> 
+      <script id="allaroundteam" type="text/html">
+        <header class="head">
+            <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
+            <h1 class="title"><div id="teamhead"></div></h1>
+        </header>
+        <section class="body with-foot with-head pad">
+<table id="allaround_tableteam" class="table table-condensed">
+<thead>
+<th style="display: none">Dummy</th>
+<th data-dynatable-column="id">Team</th>
+<th data-dynatable-column="t">Top scores x 4 </th>
+<th data-dynatable-column="p">Rank score</th>
+</thead>
+ <tbody>
+ </tbody>
+</table>
+<script>
+$( "#teamhead" ).replaceWith('<div id="teamhead"><img src="images/' + agtype + '.png"/></div>');
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_tableteam","team");
+</script>
+
+        </section>
+    </script>
 
       <script id="allaroundWAG" type="text/html">
         <header class="head">

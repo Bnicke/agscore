@@ -20,11 +20,42 @@ function loadcurrrules() {
                 'async': false,
                 url: "/ES/" + competition + "/rules/_search?size=100",
                 success: function(t){
-                       for (var i = 0; i < t.hits.hits.length; i++) {
-                             currrules[t.hits.hits[i]._source.id.split("-")[1]] = t.hits.hits[i]._source;
+                       for (var ii = 0; ii < t.hits.hits.length; ii++) {
+                             currrules[t.hits.hits[ii]._source.id.split("-")[1]] = t.hits.hits[ii]._source;
                        }
                 }
         });
+}
+function loadteams() {
+         var currteams = new Array();
+             $.ajax({
+                'async': false,
+                url: "/ES/global/startList/_search?size=100",
+                success: function(ss){
+                        for (var ii = 0; ii < ss.hits.hits.length; ii++) {
+                                currteams.push(JSON.parse('{"id":"' + ss.hits.hits[ii]._source.team + '"}'));
+                        }
+                }
+             });
+             $.ajax({
+                'async': false,
+                url: "/ES/global/competition/_search?size=100",
+                success: function(ss){
+                        for (var ii = 0; ii < ss.hits.hits.length; ii++) {
+                                currteams.push(JSON.parse('{"id":"' + ss.hits.hits[ii]._source.organizer + '"}'));
+                        }
+                }
+             });
+         currteams = sortJSON(currteams,'id', '123');
+             var lastteam="";
+             for (var ni = 0; ni < currteams.length; ni++) {
+                        if (currteams[ni].id == lastteam) {
+                                currteams.splice(ni,1);
+                                ni--;
+                        }
+                        lastteam=currteams[ni].id;
+             }
+     return currteams;
 }
 function loadcurrclasses() {
         currclasses = [];
@@ -618,6 +649,26 @@ function draweditable(table,type) {
 				editableGrid.renderGrid(table, "table table-condensed table-fixed");
 
 }
+function drawdynateamtable(table,allteams) {
+dynatable = $('#' + table).dynatable({
+      dataset: {
+        records: allteams
+      },
+      inputs: {
+         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      },
+features: {
+    paginate: false,
+    sort: true,
+    pushState: true,
+    perPageSelect: false
+  }
+    })
+   .bind('dynatable')
+   .data('dynatable');
+	console.log(allteams);
+	console.log(table);
+}
 function drawdynatable(table,type) {
       var datalocal = data;
       if (type == "global") {
@@ -799,9 +850,9 @@ $.ajax({
      var pool = 'NONE';
      var team = 'NONE';
      var Options = new Array();
-     if (type != "update" ) {
-	clearInterval(timerresult);
-     }
+     //if (type != "update" ) {
+//	clearInterval(timerresult);
+ //    }
      if (type == "reg") {
          $.ajax({
          	'async': false,
@@ -898,11 +949,20 @@ $.ajax({
        $('#' + table + '-search-pool option:gt(0)').remove();
      } else {
 	if (app[0] == "allaround") {
+		allteams=new Array();
+		allteams=loadteams();
+		for (var m = 0; m < allteams.length; m++) {
+			allteams[m].p = 0;
+			allteams[m].t1 = 0;
+			allteams[m].t2 = 0;
+			allteams[m].t3 = 0;
+			allteams[m].t4 = 0;
+		}
      		data = sortJSON(data,'number', '321');
 		//data.pop();
      		data = sortJSON(data,'id', '123');
-		for (var m = 0; m < data.length; m++) {
-			data[m]["total"]=0;
+		for (var n = 0; n < data.length; n++) {
+			data[n]["total"]=0;
 		}
 		for (var n = 0; n < apps.length; n++) {
 		         $.ajax({
@@ -962,6 +1022,28 @@ $.ajax({
 			} 
 		}
 	} 
+	for (var m = 0; m < allteams.length; m++) {
+		if (allteams[m].id == data[n].team) {
+	  		if (rank < 11) {
+				allteams[m].p = allteams[m].p + 11 - rank;
+			}
+			if (allteams[m].t1 <= data[n].total) {
+				allteams[m].t2 = allteams[m].t1;
+				allteams[m].t3 = allteams[m].t2;
+				allteams[m].t4 = allteams[m].t3;
+				allteams[m].t1 = data[n].total;
+			} else if (allteams[m].t2 <= data[n].total) {
+				allteams[m].t3 = allteams[m].t2;
+                                allteams[m].t4 = allteams[m].t3;
+				allteams[m].t2 = data[n].total;
+			} else if (allteams[m].t3 <= data[n].total) {
+				allteams[m].t4 = allteams[m].t3;
+				allteams[m].t3 = data[n].total;
+			} else if (allteams[m].t4 <= data[n].total) {
+				allteams[m].t4 = data[n].total;
+			}
+		}
+	  }
           data[n].rank = rank;
 	  klass = data[n].class;
 	  last_rank = last_rank + 1;
@@ -1033,7 +1115,17 @@ $.ajax({
         		.attr("value", Options[i] ).text(Options[i]));
       		}
 	}
-     if (type == "edit") {
+	for (var m = 0; m < allteams.length; m++) {
+		allteams[m].t = allteams[m].t1 + allteams[m].t2 + allteams[m].t3 + allteams[m].t4;
+		if (allteams[m].t < 1) {
+			allteams.splice(m, 1);
+			m--;
+		}
+	}
+     if (type == "team" ){
+      drawdynateamtable(table,allteams);
+     }
+     else if (type == "edit") {
      (function() {
       draweditable(table,type);
   })();
