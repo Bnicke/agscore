@@ -263,7 +263,6 @@ function isNumber(value) {
 }
 function agcalculate(part,number,agtable,index) {
     //var post=data[index];
-    console.log("Hej");
     var post = JSON.parse("{}");
     var post_tmp = JSON.parse("{}");
     var now = new Date();
@@ -296,10 +295,15 @@ function agcalculate(part,number,agtable,index) {
     var E3 = $("#" + table + " :input[name='e3_"+number+"']").val();
     var E4 = $("#" + table + " :input[name='e4_"+number+"']").val();
     var D = $("#" + table + " :input[name='d_"+number+"']").val();
-    if (typeof $("#" + table + " :input[name='b_"+number+"']").val() === 'undefined') {
+    if ( double[1] == 2) {
+	var bnumber = double[0] + "_1";
+    } else {
+	bnumber = number;
+    }
+    if (typeof $("#" + table + " :input[name='b_"+bnumber+"']").val() === 'undefined') {
 	var B = "";
     } else {
-    	var B = $("#" + table + " :input[name='b_"+number+"']").val();
+    	var B = $("#" + table + " :input[name='b_"+bnumber+"']").val();
     }
     Base = Base.replace(",",".");
     Pen = Pen.replace(",",".");
@@ -468,10 +472,10 @@ function agcalculate(part,number,agtable,index) {
 }
 function inputregD (index,part,agnumber,agvalue1,agvalue2,agtable,onlytot) {
 	var cell = "<div class=\"part1\">" + inputreg (index,part, agnumber + "_1",agvalue1,agtable,onlytot) + "</div><div class=\"part2\">" + inputreg (index,part, agnumber + "_2",agvalue2,agtable,onlytot) + "</div>";
-	if ( part == 'total' ) { 
-		var totalD = (parseFloat(agvalue1)+parseFloat(agvalue2))/2;
-		cell = cell + inputreg (index,part, agnumber,totalD.toFixed(2),agtable)	
-	} 
+	//if ( part == 'total' ) { 
+	//	var totalD = (parseFloat(agvalue1)+parseFloat(agvalue2))/2;
+	//	cell = cell + inputreg (index,part, agnumber,totalD.toFixed(2),agtable)	
+	//} 
 	return cell;
 }
 function inputreg (index,part,agnumber,agvalue,agtable,onlytot) {
@@ -856,11 +860,6 @@ $.ajax({
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
 		}
-//		if (isNumber(data[n].total)) {
-//			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" checked="checked" /><span></span></span></label>';
-//		} else {
-//			data[n].stored = '<label><span></span><span class="switch switch-6"><input onchange="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');" type="checkbox" id="check_' + n + '" name="check_' + n + '" value="PH" /><span></span></span></label>';
-//		}
 		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:void(0)" onclick="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
 		var onlytot = currrules[camelize(data[n].rules)].st;
 		if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
@@ -873,7 +872,7 @@ $.ajax({
                 data[n].base = inputregD(n,"base",data[n].number,data[n].base_1,data[n].base_2,table,onlytot);
                 data[n].avgE = inputregD(n,"avgE",data[n].number,data[n].avgE_1,data[n].avgE_2,table,onlytot);
                 data[n].e = inputregD(n,"e",data[n].number,data[n].e_1,data[n].e_2,table,onlytot);
-		data[n].total = inputregD(n,"total",data[n].number,data[n].total_1,data[n].total_2,table,onlytot);
+		data[n].total = inputregD(n,"total",data[n].number,data[n].total_1,data[n].total_2,table,onlytot) + inputreg(n,"total",data[n].number,data[n].total,table,onlytot);
 		} else {
 		data[n].pen = inputreg(n,"pen",data[n].number,data[n].pen,table,onlytot);
 		data[n].d = inputreg(n,"d",data[n].number,data[n].d,table,onlytot);
