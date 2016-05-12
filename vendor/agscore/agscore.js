@@ -661,6 +661,7 @@ features: {
     paginate: false,
     sort: true,
     pushState: true,
+    search: false,
     perPageSelect: false
   }
     })
