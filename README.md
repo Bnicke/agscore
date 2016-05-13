@@ -1,6 +1,5 @@
 # agscore
-#### Dummy files to start up.
-#### agscore 0.1
+#### agscore 2.0 alpha
 ## References:
 
 ####Mobility UI:
@@ -67,11 +66,12 @@ ProxyPassReverse /ES http://127.0.0.1:9200
 ```
 
 ### elastic
-Indexes for elastic search scores are `/<competition>/<Apparatus>/<startnumber>`. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/allaround/37 
+Indexes for elastic search scores are `/<competition>/<Apparatus>/<id>`. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/allaround/37 
 
-for start lists and competition settings `/<competition>/startlist/<startnumber>`, `/<competition>/class/<id>`, `/<competition>/rules/<id>`
+for start lists and competition settings `/<competition>/startList/<id>`, `/<competition>/class/<id>`, `/<competition>/rules/<id>`
 
-for global settings `/global/startlist/<id>` , `/global/competition/<id>` , `/global/team/<id>` , `/global/class/<id>`, `/global/rules/<id>`
+for global settings `/global/startList/<id>` , `/global/competition/<id>` , `/global/team/<id>` , `/global/class/<id>`, `/global/rules/<id>`
+for binaries (pictures)  `/bin/team/<id>` , `/bin/gymnast/<id>` 
 
 ####
 curl -XPUT http://localhost:9200/<competition>/startList/new -d'{"number":"0"}'
