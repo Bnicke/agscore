@@ -851,6 +851,7 @@ $.ajax({
      var pool = 'NONE';
      var team = 'NONE';
      var Options = new Array();
+	allteams=new Array();
      //if (type != "update" ) {
 //	clearInterval(timerresult);
  //    }
@@ -950,7 +951,6 @@ $.ajax({
        $('#' + table + '-search-pool option:gt(0)').remove();
      } else {
 	if (app[0] == "allaround") {
-		allteams=new Array();
 		allteams=loadteams();
 		for (var m = 0; m < allteams.length; m++) {
 			allteams[m].p = 0;
