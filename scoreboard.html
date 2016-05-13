@@ -26,12 +26,20 @@
 <body>
 <div id="board_table"></div>
 <script>
+var orglocation = document.URL.split("?")[0];
 initcompetition();
 if (agtype=="MAG") {
 var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="floor"><img src="images/floor.png"></th><th data-dynatable-column="pommelHorse"><img src="images/horse.png"></th><th data-dynatable-column="rings"><img src="images/rings.png"></th><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="parallelBars"><img src="images/bars.png"></th><th data-dynatable-column="highBar"><img src="images/highBar.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
 } else {
 var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="unevenBars"><img src="images/unevenBars.png"></th><th data-dynatable-column="beam"><img src="images/beam.png"></th><th data-dynatable-column="floor"><img src="images/floor.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
 }
+setInterval(function(){
+	if ($( ".dynatable-page-next" ).hasClass( "dynatable-disabled-page" )) {
+		window.location.href = orglocation;
+	} else {
+		$('.dynatable-page-next').click();
+	}
+}, 10000);
 $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
 </script>

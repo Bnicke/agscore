@@ -28,7 +28,7 @@ function fontResize() {
     $('body').css('font-size', newFont);
     $('img').css('max-width', imgsize);
     $('img').css('max-height', imgsize);
-    $('table').css('height', height-60);
+    $('table').css('height', height-70);
 };
 function loadcurrrules() {
 	currrules = [];
@@ -515,7 +515,9 @@ function agcalculate(part,number,agtable,index) {
 		notifytype = "error";
     	}
     });
+	if (notifytype != "success") {
     	    $.mobility.notify(notify,notifytype);
+	}
 }
 function inputregD (index,part,agnumber,agvalue1,agvalue2,agtable,onlytot) {
 	var cell = "<div class=\"part1\">" + inputreg (index,part, agnumber + "_1",agvalue1,agtable,onlytot) + "</div><div class=\"part2\">" + inputreg (index,part, agnumber + "_2",agvalue2,agtable,onlytot) + "</div>";
@@ -630,7 +632,9 @@ if (action == "POST" ) {
                 });
 }
 if (notify) {
+	if (notifytype != "success") {
         $.mobility.notify(notifytxt,notifytype);
+	}
 }
 
 }
@@ -689,6 +693,13 @@ features: {
 function drawdynatable(table,type) {
       var datalocal = data;
       if (type == "scoreboard") {
+      for (var i = 0; i < datalocal.length; i++) {
+	for (var j = 0; j < apps.length; j++) {
+		if (datalocal[i][apps[j]] == undefined) {
+			datalocal[i][apps[j]] = "";
+		}
+	}
+      }
       dynatable = $('#' + table).dynatable({
       dataset: {
         records: data
@@ -1006,7 +1017,11 @@ $.ajax({
                         		for (var i = 0; i < s.hits.hits.length; i++) {
 						for (var m = 0; m < data.length; m++) {
 							if (data[m].id == s.hits.hits[i]._source.id) {
-								if ((apps[n] == "vault" ) && (currrules[camelize(s.hits.hits[i]._source.rules)].v2a == "false" )) {
+								var v2a = "true";
+								if (agtype == "WAG") {
+									v2a = currrules[camelize(s.hits.hits[i]._source.rules)].v2a;
+								}
+								if ((apps[n] == "vault" ) && (v2a == "false" )) {
 									data[m][apps[n]]=s.hits.hits[i]._source.total_1
 								} else {
 									data[m][apps[n]]=s.hits.hits[i]._source.total;
@@ -1219,7 +1234,7 @@ function addgymnast(id) {
 		$.mobility.notify(datalocal._source.gymnast + " already in start list!","error");
 	 } else {
          	editableGrid.insertAfter(new_index, new_index, datalocal._source);
-                $.mobility.notify("Added " + datalocal._source.gymnast + ", " + datalocal._source.team ,"success")
+                //$.mobility.notify("Added " + datalocal._source.gymnast + ", " + datalocal._source.team ,"success")
 	 }
                         },
                         error: function(result){
@@ -1265,10 +1280,11 @@ function changerule(rule,rulejson) {
                 	data: rulejson,
                 	error: function(){
                         	$.mobility.notify("No competitions or is database down??","error");
-                	},
-                	success: function(t){
-				$.mobility.notify("Rule " + rules[1] + " updated!","success");
                 	}
+	//		,
+        //        	success: function(t){
+//				$.mobility.notify("Rule " + rules[1] + " updated!","success");
+ //               	}
         });
 
 		}

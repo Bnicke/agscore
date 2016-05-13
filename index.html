@@ -262,7 +262,7 @@ $('.profile-userpic').click(function () {
               var currpools = new Array();
               $.ajax({
                       'async': false,
-                      url: "/ES/" + competition + "/startList/_search?size=20&sort=pool",
+                      url: "/ES/" + competition + "/startList/_search?size=1000&sort=pool",
                       success: function(s){
                               for (var i = 0; i < s.hits.hits.length; i++) {
                                       currpools.push(s.hits.hits[i]._source.pool);
@@ -352,6 +352,23 @@ $('.profile-userpic').click(function () {
     </script>
      </script>
 
+  <script id="scoreboards" type="text/html">
+        <header class="head">
+        <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
+            <h1 class="title">Administration</h1>
+        </header>
+        <section class="body with-head with-foot">
+                <h4 class="pad upper">Scoreboards</h4>
+        <nav class="nav-list">
+	<a href="scoreboard.html">Scoreboard<i class="fa fa-external-link"></i></a>	
+        </nav>
+        </section>
+	<script>
+	loadcurrrules();
+    	loadcurrclasses();
+	</script>
+     </script>
+
     <script id="home" type="text/html">
         <header class="head">
 <!--            <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a>-->
@@ -373,6 +390,7 @@ $('.profile-userpic').click(function () {
         <nav class="nav-list">
     <a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
     <a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
+    <a data-do="go-forward" data-on="click" href="#scoreboards">Scoreboards<i class="fa fa-chevron-right"></i></a>
     <a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
 </nav>
         </section>
@@ -448,15 +466,15 @@ $('.profile-userpic').click(function () {
                 url: "/ES/global/startList/_search?q=agtype:" + agtype + '&size=100&sort=rules',
                 success: function(s){
             for (var i = 0; i < s.hits.hits.length; i++) {
-                comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
-                        }
+                	comprules.push(JSON.parse('{"id":"' + s.hits.hits[i]._source.rules + '"}'));
+             }
             lastrule="";
             var divclassrow = "";
             divcomprules='<div class="focus focus-group">';
             var localcomprules = new Array();
                 var comprow = "";
             for (var i = 0; i < comprules.length; i++) {
-                if (lastrule != comprules[i].id) {
+                if ((lastrule != comprules[i].id) && (comprules[i].id !== "undefined" )){
                         comprow = "";
                     var camelid=camelize(comprules[i].id);
                     var esrules = new Array();
