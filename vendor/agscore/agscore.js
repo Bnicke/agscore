@@ -14,6 +14,22 @@ var username = "User";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
 
+function fontResize() {
+    //Set default resolution and font size
+    var resolution = 1024;
+    var font = 13;
+    //Get window width
+    var width = $(window).width();
+    var height = $(window).height();
+	$('table').css('height', 544);
+    //Set new font size
+    var newFont = font * (width/resolution);
+    var imgsize = (newFont.toFixed(0)*3) + "px";
+    $('body').css('font-size', newFont);
+    $('img').css('max-width', imgsize);
+    $('img').css('max-height', imgsize);
+    $('table').css('height', height-60);
+};
 function loadcurrrules() {
 	currrules = [];
         $.ajax({
@@ -672,7 +688,24 @@ features: {
 }
 function drawdynatable(table,type) {
       var datalocal = data;
-      if (type == "global") {
+      if (type == "scoreboard") {
+      dynatable = $('#' + table).dynatable({
+      dataset: {
+        records: data
+      },
+      inputs: {
+         processingText: '<img style="width:100px;height:100px;top=50px;position: relative;top: 2em;left: 25px;" src="images/loading.gif"/>'
+      },
+features: {
+    paginate: true,
+    sort: false,
+    perPageSelect: false,
+    search: false
+  }
+    })
+   .bind('dynatable:afterUpdate', processingComplete("#" + table))
+   .data('dynatable');
+        } else if (type == "global") {
       dynatable = $('#' + table).dynatable({
       dataset: {
         records: datalocal
@@ -830,7 +863,7 @@ function clearscore(index,number,agtable,id) {
 //	data.shift();
 //}
 
-function drawgymtable(ESurl,table,type) {
+function drawgymtable(ESurl,table,type,draw) {
 var app = table.split("_");
 $.ajax({
   url: ESurl,
@@ -1085,7 +1118,7 @@ $.ajax({
 				data[n].rank = 4
 			}
 	  	}
-		if (app[0] != "startList") {
+		if ((app[0] != "startList") && (type != "scoreboard")){
 			data[n].gymnast = '<a onclick="gyminfo(\'' + data[n].id + '\');" href="#">' + data[n].gymnast + '</a>';
 		}
 		if (data[n].b > 0) {
@@ -1123,6 +1156,7 @@ $.ajax({
 			m--;
 		}
 	}
+    if (draw != "false" ){
      if (type == "team" ){
       drawdynateamtable(table,allteams);
      }
@@ -1139,6 +1173,9 @@ $.ajax({
      (function() {
       drawdynatable(table,type);
   })();
+	}
+   } else {
+	return data;
 	}
   }
 });

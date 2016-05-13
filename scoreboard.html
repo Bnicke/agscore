@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AGScore.se</title>
+<link rel="stylesheet" type="text/css" href="vendor/dynatable/jquery.dynatable.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/open-sans/open-sans.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/bootstrap.css" />
+
+<link rel="stylesheet" type="text/css" href="vendor/agscore/scoreboard.css" />
+    <script type="text/javascript" src="vendor/jquery/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="vendor/dynatable/jquery.dynatable.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function()
+             {       
+                 fontResize();
+                 $(window).bind('resize', function() {
+                     fontResize();
+                 });
+             }
+        );
+    </script>
+    <script src="vendor/agscore/agscore.js"></script>
+</head>
+<body>
+<div id="board_table"></div>
+<script>
+initcompetition();
+if (agtype=="MAG") {
+var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="floor"><img src="images/floor.png"></th><th data-dynatable-column="pommelHorse"><img src="images/horse.png"></th><th data-dynatable-column="rings"><img src="images/rings.png"></th><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="parallelBars"><img src="images/bars.png"></th><th data-dynatable-column="highBar"><img src="images/highBar.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
+} else {
+var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="unevenBars"><img src="images/unevenBars.png"></th><th data-dynatable-column="beam"><img src="images/beam.png"></th><th data-dynatable-column="floor"><img src="images/floor.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
+}
+$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
+drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+</script>
+</body>
+</html>
