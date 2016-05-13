@@ -1291,7 +1291,7 @@ function changecompetition(id) {
 				$( "#footid" ).replaceWith('<div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>');
 			}
         	});
-		description = description + '<br>' + agtype + '&nbsp;';
+		var description = currcompetition.description + '<br>' + agtype + '&nbsp;';
 		if (currcompetition.date) {
 			description = description + "Date: " + currcompetition.date
 	        }
@@ -1299,9 +1299,9 @@ function changecompetition(id) {
 		if (currcompetition.date2) {
 			description = description + '&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;' + currcompetition.date2
 	        }
-		if (currcompetition.description) {
-		 	$( "#pdescription" ).replaceWith('<p id="pdescription">' + currcompetition.description + '</p>');
-		 	$( "#menudescription" ).replaceWith('<p id="menudescription">' + currcompetition.description + '</p>');
+		if (description) {
+		 	$( "#pdescription" ).replaceWith('<p id="pdescription">' + description + '</p>');
+		 	$( "#menudescription" ).replaceWith('<p id="menudescription">' + description + '</p>');
 		}
 		if (currcompetition.name) {
 			currcompetitionname = currcompetition.name;
