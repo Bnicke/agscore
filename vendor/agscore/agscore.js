@@ -21,14 +21,13 @@ function fontResize() {
     //Get window width
     var width = $(window).width();
     var height = $(window).height();
-	$('table').css('height', 544);
     //Set new font size
     var newFont = font * (width/resolution);
     var imgsize = (newFont.toFixed(0)*3) + "px";
     $('body').css('font-size', newFont);
     $('img').css('max-width', imgsize);
     $('img').css('max-height', imgsize);
-    $('table').css('height', height-70);
+    $('#allaround_table').css('height', height-70);
 };
 function loadcurrrules() {
 	currrules = [];
