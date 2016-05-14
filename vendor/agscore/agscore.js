@@ -79,15 +79,21 @@ function loadcurrclasses() {
                 'async': false,
                 url: "/ES/" + competition + "/startList/_search?size=100&sort=class",
                 success: function(t){
-		       var lastclass = "";
                        for (var i = 0; i < t.hits.hits.length; i++) {
-			     if (lastclass != t.hits.hits[i]._source.class) {
-                             	currclasses.push(t.hits.hits[i]._source.class);
-			     }
-			     lastclass = t.hits.hits[i]._source.class;
+//			   currclasses.push(t.hits.hits[i]._source.class.split(' ').join(''));
+                           currclasses.push(t.hits.hits[i]._source.class);
                        }
                 }
         });
+	currclasses.sort();
+	lastclass="";
+       for (var m = 0; m < currclasses.length; m++) {
+		if (lastclass==currclasses[m]) {
+                        currclasses.splice(m, 1);
+                        m--;
+                }
+		lastclass=currclasses[m]
+        }
 }
 function updatecss(team) {
 	var value = $("#css_" + team ).val();
@@ -286,6 +292,9 @@ function sortJSON(tosort, key, way) {
         if (way === '321') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
     });
 }
+cmp = function(x, y){
+    return x > y ? 1 : x < y ? -1 : 0; 
+};
 function camelize(str) {
   str = str.replace(/[^a-zA-Z0-9 ]+/g, "");
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
@@ -913,7 +922,13 @@ $.ajax({
          });
 //     	data = sortJSON(data,'number', '123');
 	//data.shift();
-     	data = sortJSON(data,'pool', '123');
+//     	data = sortJSON(data,'pool', '123');
+       data.sort(function(a, b){
+                return cmp(
+                [cmp(a.pool, b.pool), cmp(a.number, b.number)],
+                [cmp(b.pool, a.pool), cmp(b.number, a.number)]
+                );
+        });
 	for (var n = 0; n < data.length; n++) {
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
@@ -998,12 +1013,15 @@ $.ajax({
 		allteams=loadteams();
 		for (var m = 0; m < allteams.length; m++) {
 			allteams[m].p = 0;
+			allteams[m].p1 = 0;
+			allteams[m].p2 = 0;
+			allteams[m].p3 = 0;
 			allteams[m].t1 = 0;
 			allteams[m].t2 = 0;
 			allteams[m].t3 = 0;
 			allteams[m].t4 = 0;
 		}
-     		data = sortJSON(data,'number', '321');
+     		//data = sortJSON(data,'number', '321');
 		//data.pop();
      		data = sortJSON(data,'id', '123');
 		for (var n = 0; n < data.length; n++) {
@@ -1036,8 +1054,13 @@ $.ajax({
          		});
 		}
 	}
-     	data = sortJSON(data,'total', '321');
-     	data = sortJSON(data,'class', '123');
+	if (app[0] != "pools") {
+        data.sort(function(a, b){
+                return cmp(
+                [cmp(a.class, b.class), -cmp(a.total, b.total), cmp(a.number, b.number)],     
+                [cmp(b.class, a.class), -cmp(b.total, a.total), cmp(b.number, a.number)]
+                );
+        });
      	for (var n = 0; n < data.length; n++) {
 	  if (type == "global") {
 		data[n].add = '<a href="javascript:void(0)" onclick="addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
@@ -1045,12 +1068,12 @@ $.ajax({
 	  if ( klass != data[n].class ) {
 		rank = 1;
      		last_rank = 0;
-	//	Options.push(data[n].class);
+		total=1000000;
 	  }
- 	  if ( total > data[n].total ) {
+ 	  if (total > data[n].total) {
  		rank = last_rank + 1; 
  	  }
-	  total = data[n].total;
+	  total = data[n].total.toFixed(2);
 	  for (var o = 0; o < parts.length; o++) {
 		if (data[n][parts[o]] == "&nbsp;") {
 			data[n][parts[o]] = "";
@@ -1071,11 +1094,30 @@ $.ajax({
 			} 
 		}
 	} 
+	var lastp = 0;
 	for (var m = 0; m < allteams.length; m++) {
 		if (allteams[m].id == data[n].team) {
 	  		if (rank < 11) {
-				allteams[m].p = allteams[m].p + 11 - rank;
+				lastp = 11 - rank;
+			} else {
+				lastp = 0;
 			}
+                        if (allteams[m].p1 <= lastp) {
+                                allteams[m].p2 = allteams[m].p1;
+                                allteams[m].p3 = allteams[m].p2;
+                                allteams[m].p4 = allteams[m].p3;
+                                allteams[m].p1 = lastp;
+                        } else if (allteams[m].p2 <= lastp) {
+                                allteams[m].p3 = allteams[m].p2;
+                                allteams[m].p4 = allteams[m].p3;
+                                allteams[m].p2 = lastp;
+                        } else if (allteams[m].t3 <= lastp) {
+                                allteams[m].p4 = allteams[m].p3;
+                                allteams[m].p3 = lastp;
+                        } else if (allteams[m].p4 <= lastp) {
+                                allteams[m].p4 = lastp;
+                        }
+
 			if (allteams[m].t1 <= data[n].total) {
 				allteams[m].t2 = allteams[m].t1;
 				allteams[m].t3 = allteams[m].t2;
@@ -1098,6 +1140,7 @@ $.ajax({
 	  last_rank = last_rank + 1;
 // 	  total = data[n].total;
      	}
+        }
 	hidden="false";
 	for (var n = 0; n < data.length; n++) {
 		for (var i = 0; i < parts.length; i++) {
@@ -1144,13 +1187,15 @@ $.ajax({
 			n--;
 		}
   	}
-	if (hidden=="true") {
-     		data = sortJSON(data,'number', '123');
-     		data = sortJSON(data,'rank', '123');
-     		data = sortJSON(data,'class', '123');
-	}
 	if (app[0] == "pools") {
                 data = sortJSON(data,'number', '123');
+	} else {
+        data.sort(function(a, b){
+                return cmp(
+                [cmp(a.class, b.class), cmp(a.rank, b.rank), cmp(a.number, b.number)],
+                [cmp(b.class, a.class), cmp(b.rank, a.rank), cmp(b.number, a.number)]
+                );
+        });
 	}
 	if (type != "update") {
        		var $el = $("#" + table + "-search-class");
@@ -1166,6 +1211,7 @@ $.ajax({
 	}
 	for (var m = 0; m < allteams.length; m++) {
 		allteams[m].t = allteams[m].t1 + allteams[m].t2 + allteams[m].t3 + allteams[m].t4;
+		allteams[m].p = allteams[m].p1 + allteams[m].p2 + allteams[m].p3 + allteams[m].p4;
 		if (allteams[m].t < 1) {
 			allteams.splice(m, 1);
 			m--;
