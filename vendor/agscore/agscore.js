@@ -1017,6 +1017,7 @@ $.ajax({
 			allteams[m].p2 = 0;
 			allteams[m].p3 = 0;
 			allteams[m].t1 = 0;
+			allteams[m].t = 0;
 			allteams[m].t2 = 0;
 			allteams[m].t3 = 0;
 			allteams[m].t4 = 0;
@@ -1073,7 +1074,9 @@ $.ajax({
  	  if (total > data[n].total) {
  		rank = last_rank + 1; 
  	  }
-	  total = data[n].total.toFixed(2);
+	  if (data[n].total !== undefined) {
+		total = data[n].total.toFixed(2);
+	  }
 	  for (var o = 0; o < parts.length; o++) {
 		if (data[n][parts[o]] == "&nbsp;") {
 			data[n][parts[o]] = "";
@@ -1138,7 +1141,6 @@ $.ajax({
           data[n].rank = rank;
 	  klass = data[n].class;
 	  last_rank = last_rank + 1;
-// 	  total = data[n].total;
      	}
         }
 	hidden="false";
