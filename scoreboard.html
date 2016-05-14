@@ -28,6 +28,8 @@
 <script>
 var orglocation = document.URL.split("?")[0];
 initcompetition();
+loadcurrrules();
+loadcurrclasses();
 if (agtype=="MAG") {
 var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="floor"><img src="images/floor.png"></th><th data-dynatable-column="pommelHorse"><img src="images/horse.png"></th><th data-dynatable-column="rings"><img src="images/rings.png"></th><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="parallelBars"><img src="images/bars.png"></th><th data-dynatable-column="highBar"><img src="images/highBar.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
 } else {

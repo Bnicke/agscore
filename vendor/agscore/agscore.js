@@ -1175,7 +1175,7 @@ $.ajax({
 				}
 			}
 			if (data[n].rank > 3) {
-				data[n].rank = 4
+				data[n].rank = 4;
 			}
 	  	}
 		if ((app[0] != "startList") && (type != "scoreboard")){
@@ -1184,7 +1184,8 @@ $.ajax({
 		if (data[n].b > 0) {
 			data[n].d = data[n].d + "<br>+" + data[n].b;
 		}
-		if (data[n].total == 0) {
+		if ((data[n].total == 0) || ((currrules[camelize(data[n].rules)].public == "false") && (type == "scoreboard"))) {
+//		if (data[n].total == 0) {
 			data.splice(n, 1);
 			n--;
 		}
