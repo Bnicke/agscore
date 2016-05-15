@@ -1212,7 +1212,7 @@ $.ajax({
       		}
 	}
 	for (var m = 0; m < allteams.length; m++) {
-		allteams[m].t = allteams[m].t1 + allteams[m].t2 + allteams[m].t3 + allteams[m].t4;
+		allteams[m].t = parseFloat(allteams[m].t1 + allteams[m].t2 + allteams[m].t3 + allteams[m].t4).toFixed(2);;
 		allteams[m].p = allteams[m].p1 + allteams[m].p2 + allteams[m].p3 + allteams[m].p4;
 		if (allteams[m].t < 1) {
 			allteams.splice(m, 1);

@@ -26,7 +26,9 @@
 <body>
 <div id="board_table"></div>
 <script>
-var orglocation = document.URL.split("?")[0];
+var refreshinterval = 10000;
+var clickinterval = 10000;
+var swinterval = 10000/2;
 initcompetition();
 loadcurrrules();
 loadcurrclasses();
@@ -35,13 +37,31 @@ var boardtable='<table id="allaround_table" class="table table-condensed"><thead
 } else {
 var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="unevenBars"><img src="images/unevenBars.png"></th><th data-dynatable-column="beam"><img src="images/beam.png"></th><th data-dynatable-column="floor"><img src="images/floor.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
 }
-setInterval(function(){
+var clicktimer = setInterval(function(){
 	if ($( ".dynatable-page-next" ).hasClass( "dynatable-disabled-page" )) {
-		window.location.href = orglocation;
+		$('a[data-dynatable-page="1"]').click();
 	} else {
 		$('.dynatable-page-next').click();
 	}
-}, 10000);
+}, clickinterval);
+
+var refreshtimer = setInterval(function(){
+                $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
+                fontResize();
+                drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+}, refreshinterval);
+
+var swtimer = setInterval(function(){
+	if ($('#board_table').is(":visible")) {
+		$('#board_table').hide();
+	} else {
+		$('#board_table').show();
+	}
+}, swinterval);
+
+clearInterval(swtimer);
+$('#board_table').show();
+
 $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
 </script>
