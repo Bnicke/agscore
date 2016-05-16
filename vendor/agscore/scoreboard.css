@@ -23,7 +23,6 @@ html, body
   display: none;
 }
 #app_table {
-/*    line-height: 0.6; */
     border: #FFFFFF 3px solid;
     border-collapse: collapse;
     border-spacing: 0px;
@@ -34,7 +33,6 @@ html, body
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
- /*   font-size: 8em; */
     font-weight: 900;
     page-break-inside: avoid;
 }
@@ -53,8 +51,8 @@ position: relative;
     top: 1.5em;
 }
 #points {
-    font-size: 9em;
-    margin-bottom: -0.4em;
+    font-size: 8em;
+    margin-bottom: -0.3em;
     margin-top: 0.2em;
 }
 #d {
@@ -67,7 +65,7 @@ position: relative;
     top: 0.7em;
 }
 #points_large {
-    font-size: 28em;
+    font-size: 23em;
     margin-top: 0.3em;
     position: relative;
     top: -0.5em;

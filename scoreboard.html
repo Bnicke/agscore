@@ -75,7 +75,7 @@ var swtimer = setInterval(function(){
 //clearInterval(refreshtimer);
 
 $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
-$("#score_table").replaceWith('<div id="score_table">' + singlescore + '</div>');
+$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
 $('#board_table').hide();
 $('#score_table').show();
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
