@@ -38,7 +38,10 @@ var boardtable='<table id="allaround_table" class="table table-condensed"><thead
 var scoretable='<table id="app_table"><tr><td style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">10.1</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/horse.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.2</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/rings.png);background-repeat:no-repeat;background-size :70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">16.3</p><p id="d">d1=2 d2=3</d></td></tr><tr><td style="background-image:url(images/vault.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/bars.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/highBar.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td></tr></table>'
 } else {
 var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="unevenBars"><img src="images/unevenBars.png"></th><th data-dynatable-column="beam"><img src="images/beam.png"></th><th data-dynatable-column="floor"><img src="images/floor.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
+var scoretable='<table id="app_table"><tr><td style="background-image:url(images/vault.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">10.1</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/unevenBars.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">12.2</p><p id="d">d1=2 d2=3</d></td></tr><tr><td style="background-image:url(images/beam.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td></tr></table>'
 }
+singlescore='<table id="app_table"><tr><td style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:100px 100px;"><p id="name_large">Alexander Benyammine Benyammine</p><p id="points_large">90.99</p><p id="d_large">d1=2 d2=3</d></td></tr></table></table>';
+
 var clicktimer = setInterval(function(){
 	if ($( ".dynatable-page-next" ).hasClass( "dynatable-disabled-page" )) {
 		$('a[data-dynatable-page="1"]').click();
@@ -72,7 +75,7 @@ var swtimer = setInterval(function(){
 //clearInterval(refreshtimer);
 
 $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
-$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
+$("#score_table").replaceWith('<div id="score_table">' + singlescore + '</div>');
 $('#board_table').hide();
 $('#score_table').show();
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
