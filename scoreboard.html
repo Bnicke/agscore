@@ -55,7 +55,7 @@ function tdreplace(app) {
 	}
 	var score = "0.00";
 	if (result[0].total) {
-                score = result[0].total.toFixed(2);
+                score = result[0].total;
         }
 	$("#" + app + "_large").replaceWith('<td id="' + app + '_large" style="background-image:url(images/' + app + '.png);background-repeat:no-repeat;background-size:100px 100px;"><p id="name_large">' + gymnast + '</p><p id="points_large">' + score + '</p><p id="d_large">' + D + '</p></td>');
 	$("#" + app).replaceWith('<td id="' + app + '" style="background-image:url(images/' + app + '.png);background-repeat:no-repeat;background-size:100px 100px;"><p id="name">' + gymnast + '</p><p id="points">' + score + '</p><p id="d">' + D + '</p></td>');
@@ -70,7 +70,7 @@ var refreshtable = setInterval(function(){
 }, refreshinterval);
 
 var refreshscore = setInterval(function(){
-	if (currapp) {
+	if ((currapp) && (currapp != "all")){
         	tdreplace(currapp);
 	} else {
                 for (var n = 0; n < apps.length; n++) {
@@ -116,6 +116,14 @@ function lastscore (app) {
                               }
                      }
               });
+	if (currrules[camelize(lastscore[0].rules)].public == "false") {
+		lastscore[0].total = '<i class="fa fa-thumbs-o-up fa2x" aria-hidden="true"></i>';
+		lastscore[0].d = '';
+		lastscore[0].d_1 = '';
+		lastscore[0].d_2 = '';
+	} else {
+		lastscore[0].total = lastscore[0].total.toFixed(2);
+	}
 	return lastscore;
 }
 function getParameterByName(name) {
@@ -136,6 +144,18 @@ if (currapp == agtype) {
 	$('#score_table').hide();
 	$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
 	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+        fontResize();
+} else if (currapp == "all") {
+        clearInterval(swtimer);
+        clearInterval(refreshtable);
+        clearInterval(clicktimer);
+        $('#score_table').show();
+        $('#board_table').hide();
+        $("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
+	for (var n = 0; n < apps.length; n++) {
+        	tdreplace(apps[n]);
+        }
+	fontResize();
 } else if (currapp) {
 	clearInterval(swtimer);	
 	clearInterval(refreshtable);
@@ -144,7 +164,8 @@ if (currapp == agtype) {
 	$('#board_table').hide();
 	scoretable='<table id="app_table"><tr><td id="' + currapp + '_large" style="background-image:url(images/' + currapp + '.png);background-repeat:no-repeat;background-size:100px 100px;"></td></tr></table></table>';
 	$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
-        tdreplace(currapp);
+        tdreplace(currapp);     
+	fontResize();
 } else {
 	$('#board_table').show();
 	$('#score_table').hide();
@@ -154,6 +175,7 @@ if (currapp == agtype) {
 	for (var n = 0; n < apps.length; n++) {
         	tdreplace(apps[n]);
         }
+	fontResize();
 }
 </script>
 </body>

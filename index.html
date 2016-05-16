@@ -364,11 +364,13 @@ $('.profile-userpic').click(function () {
         </nav>
         </section>
 	<script>
-	var divscoreboard = '<a href="scoreboard.html">' + appname[agtype] + ' plus all apparatus<i class="fa fa-external-link"></i></a>';
+	var divscoreboard = "";
     for (var n = 0; n < apps.length; n++) {
         divscoreboard = divscoreboard + '<a  href="scoreboard.html?app=' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-external-link"></i></a>';
     }
+    divscoreboard = divscoreboard + '<a href="scoreboard.html?app=all">All apparatus<i class="fa fa-external-link"></i></a>';
     divscoreboard = divscoreboard + '<a href="scoreboard.html?app=' + agtype + '">' + appname[agtype] + '<i class="fa fa-external-link"></i></a>';
+    divscoreboard = divscoreboard + '<a href="scoreboard.html">' + appname[agtype] + ' plus all apparatus<i class="fa fa-external-link"></i></a>';
     $( "div.nav-scoreboard" ).replaceWith(divscoreboard);
 	</script>
      </script>

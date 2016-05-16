@@ -60,9 +60,9 @@ position: relative;
     margin-bottom: -0.3em;
 }
 #name_large {
-    font-size: 4em;
+    font-size: 5em;
     position: relative;
-    top: 0.7em;
+    top: 0em;
 }
 #points_large {
     font-size: 23em;
@@ -71,6 +71,11 @@ position: relative;
     top: -0.5em;
     margin-bottom: -0.8em;
 }
+#thumb {
+    font-size: 15em;
+    margin-top: 1.5em;
+}
+
 #d_large {
     font-size: 7em;
     margin-bottom: -0.3em;
