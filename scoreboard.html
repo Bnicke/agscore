@@ -27,36 +27,58 @@
 <div id="board_table"></div>
 <div id="score_table"></div>
 <script>
-var refreshinterval = 10000;
-var clickinterval = 10000;
-var swinterval = 10000/2;
+var currapp = getParameterByName("app");
+var refreshinterval = 15000;
+if (currapp) {
+	refreshinterval = 10000;
+}
+var clickinterval = refreshinterval;
+var swinterval = refreshinterval/2;
 initcompetition();
 loadcurrrules();
 loadcurrclasses();
-if (agtype=="MAG") {
-var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="floor"><img src="images/floor.png"></th><th data-dynatable-column="pommelHorse"><img src="images/horse.png"></th><th data-dynatable-column="rings"><img src="images/rings.png"></th><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="parallelBars"><img src="images/bars.png"></th><th data-dynatable-column="highBar"><img src="images/highBar.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
-var scoretable='<table id="app_table"><tr><td style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">10.1</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/horse.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.2</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/rings.png);background-repeat:no-repeat;background-size :70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">16.3</p><p id="d">d1=2 d2=3</d></td></tr><tr><td style="background-image:url(images/vault.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/bars.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/highBar.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Alexander Benyammine Benyammine</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td></tr></table>'
-} else {
-var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="unevenBars"><img src="images/unevenBars.png"></th><th data-dynatable-column="beam"><img src="images/beam.png"></th><th data-dynatable-column="floor"><img src="images/floor.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
-var scoretable='<table id="app_table"><tr><td style="background-image:url(images/vault.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">10.1</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/unevenBars.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">12.2</p><p id="d">d1=2 d2=3</d></td></tr><tr><td style="background-image:url(images/beam.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td><td style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:70px 70px;"><p id="name">Hilda Maria Bergström</p><p id="points">12.13</p><p id="d">d1=2 d2=3</d></td></tr></table>'
-}
-singlescore='<table id="app_table"><tr><td style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:100px 100px;"><p id="name_large">Alexander Benyammine Benyammine</p><p id="points_large">90.99</p><p id="d_large">d1=2 d2=3</d></td></tr></table></table>';
 
-var clicktimer = setInterval(function(){
-	if ($( ".dynatable-page-next" ).hasClass( "dynatable-disabled-page" )) {
-		$('a[data-dynatable-page="1"]').click();
-	} else {
-		$('.dynatable-page-next').click();
+function tdreplace(app) {
+	var result = lastscore(app);
+	var D = "";
+	if (result[0].d_1) {
+		D="D1=" + result[0].d_1;
+		if (result[0].d_2) {
+			D=D+"&nbsp;D2=" + result[0].d_2;
+		}
+	} else if (result[0].d){
+		D="D=" + result[0].d;
 	}
-}, clickinterval);
+	var gymnast = "N/A";
+	if (result[0].gymnast) {
+		gymnast = result[0].gymnast;
+	}
+	var score = "0.00";
+	if (result[0].total) {
+                score = result[0].total.toFixed(2);
+        }
+	$("#" + app + "_large").replaceWith('<td id="' + app + '_large" style="background-image:url(images/' + app + '.png);background-repeat:no-repeat;background-size:100px 100px;"><p id="name_large">' + gymnast + '</p><p id="points_large">' + score + '</p><p id="d_large">' + D + '</p></td>');
+	$("#" + app).replaceWith('<td id="' + app + '" style="background-image:url(images/' + app + '.png);background-repeat:no-repeat;background-size:100px 100px;"><p id="name">' + gymnast + '</p><p id="points">' + score + '</p><p id="d">' + D + '</p></td>');
+}
 
-var refreshtimer = setInterval(function(){
+var refreshtable = setInterval(function(){
 		setTimeout(function() {
                 $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
                 fontResize();
                 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
 		}, 500);
 }, refreshinterval);
+
+var refreshscore = setInterval(function(){
+	if (currapp) {
+        	tdreplace(currapp);
+	} else {
+                for (var n = 0; n < apps.length; n++) {
+                        tdreplace(apps[n]);
+                }
+	}
+}, refreshinterval);
+
 
 var swtimer = setInterval(function(){
 	if ($('#board_table').is(":visible")) {
@@ -70,15 +92,69 @@ var swtimer = setInterval(function(){
 	}
 }, swinterval);
 
-//clearInterval(swtimer);
-//clearInterval(clicktimer);
-//clearInterval(refreshtimer);
+var clicktimer = setInterval(function(){
+	if ($( ".dynatable-page-next" ).hasClass( "dynatable-disabled-page" )) {
+		$('a[data-dynatable-page="1"]').click();
+	} else {
+		$('.dynatable-page-next').click();
+	}
+}, clickinterval);
 
-$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
-$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
-$('#board_table').hide();
-$('#score_table').show();
-drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+function lastscore (app) {
+	sortjson='{"sort" : [{ "timestamp" : {"order" : "desc"}}]}'
+	var lastscore = [];
+              $.ajax({
+                      'async': false,
+		      type: "POST",
+                      url: "/ES/" + competition + "/" + app + "/_search?size=1",
+		      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+		      data: sortjson,
+                      success: function(s){
+                              for (var i = 0; i < s.hits.hits.length; i++) {
+                                      lastscore.push(s.hits.hits[i]._source);
+                              }
+                     }
+              });
+	return lastscore;
+}
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+if (agtype=="MAG") {
+var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="floor"><img src="images/floor.png"></th><th data-dynatable-column="pommelHorse"><img src="images/pommelHorse.png"></th><th data-dynatable-column="rings"><img src="images/rings.png"></th><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="parallelBars"><img src="images/parallelBars.png"></th><th data-dynatable-column="highBar"><img src="images/highBar.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
+var scoretable='<table id="app_table"><tr><td id="floor" style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:70px 70px;"></td><td id="pommelHorse" style="background-image:url(images/pommelHorse.png);background-repeat:no-repeat;background-size:70px 70px;"></td><td id="rings" style="background-image:url(images/rings.png);background-repeat:no-repeat;background-size :70px 70px;"></td></tr><tr><td id="vault" style="background-image:url(images/vault.png);background-repeat:no-repeat;background-size:70px 70px;"></td><td id="parallelBars" style="background-image:url(images/parallelBars.png);background-repeat:no-repeat;background-size:70px 70px;"></td><td id="highBar" style="background-image:url(images/highBar.png);background-repeat:no-repeat;background-size:70px 70px;"></td></tr></table>'
+} else {
+var boardtable='<table id="allaround_table" class="table table-condensed"><thead><th>Class</th><th data-dynatable-column="rank"><i class="fa fa-trophy" aria-hidden="true"></i></th><th data-dynatable-column="number">#</th><th>Gymnast</th><th data-dynatable-column="team">Team</h><th data-dynatable-column="vault"><img src="images/vault.png"></th><th data-dynatable-column="unevenBars"><img src="images/unevenBars.png"></th><th data-dynatable-column="beam"><img src="images/beam.png"></th><th data-dynatable-column="floor"><img src="images/floor.png"></th><th>Total</th></thead> <tbody> </tbody></table>';
+var scoretable='<table id="app_table"><tr><td id="vault" style="background-image:url(images/vault.png);background-repeat:no-repeat;background-size:70px 70px;"></td><td id="unevenBars" style="background-image:url(images/unevenBars.png);background-repeat:no-repeat;background-size:70px 70px;"></td></tr><tr><td id="beam" style="background-image:url(images/beam.png);background-repeat:no-repeat;background-size:70px 70px;"></td><td id="floor" style="background-image:url(images/floor.png);background-repeat:no-repeat;background-size:70px 70px;"></td></tr></table>'
+}
+if (currapp == agtype) {
+	clearInterval(swtimer);
+	clearInterval(refreshscore);
+	$('#board_table').show();
+	$('#score_table').hide();
+	$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
+	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+} else if (currapp) {
+	clearInterval(swtimer);	
+	clearInterval(refreshtable);
+	clearInterval(clicktimer);
+	$('#score_table').show();
+	$('#board_table').hide();
+	scoretable='<table id="app_table"><tr><td id="' + currapp + '_large" style="background-image:url(images/' + currapp + '.png);background-repeat:no-repeat;background-size:100px 100px;"></td></tr></table></table>';
+	$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
+        tdreplace(currapp);
+} else {
+	$('#board_table').show();
+	$('#score_table').hide();
+	$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
+	$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
+	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+	for (var n = 0; n < apps.length; n++) {
+        	tdreplace(apps[n]);
+        }
+}
 </script>
 </body>
 </html>

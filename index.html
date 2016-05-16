@@ -358,11 +358,19 @@ $('.profile-userpic').click(function () {
             <h1 class="title">Scoreboards</h1>
         </header>
         <section class="body with-head with-foot">
-                <h4 class="pad">For projector e.g.  Press F11 </h4>
+                <h4 class="pad">Scoreboards for projector e.g.  Press F11 </h4>
         <nav class="nav-list">
-	<a href="scoreboard.html">Scoreboard<i class="fa fa-external-link"></i></a>	
+	<div class="nav-scoreboard"></div>
         </nav>
         </section>
+	<script>
+	var divscoreboard = '<a href="scoreboard.html">' + appname[agtype] + ' plus all apparatus<i class="fa fa-external-link"></i></a>';
+    for (var n = 0; n < apps.length; n++) {
+        divscoreboard = divscoreboard + '<a  href="scoreboard.html?app=' + apps[n] + '">' + appname[apps[n]] + '<i class="fa fa-external-link"></i></a>';
+    }
+    divscoreboard = divscoreboard + '<a href="scoreboard.html?app=' + agtype + '">' + appname[agtype] + '<i class="fa fa-external-link"></i></a>';
+    $( "div.nav-scoreboard" ).replaceWith(divscoreboard);
+	</script>
      </script>
 
     <script id="home" type="text/html">
@@ -841,7 +849,7 @@ $(function() {
       <script id="allaroundMAG" type="text/html">
         <header class="head">
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
-            <h1 class="title"><img src="images/floor.png" \><img src="images/horse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/bars.png" \><img src="images/highBar.png" \></h1>
+            <h1 class="title"><img src="images/floor.png" \><img src="images/pommelHorse.png" \><img src="images/rings.png" \><img src="images/vault.png" \><img src="images/parallelBars.png" \><img src="images/highBar.png" \></h1>
         </header>
         <section class="body with-foot with-head pad">
             <div class="refresh-pull hide" data-do="refresh-pull"
@@ -1018,7 +1026,7 @@ drawgymtable("/ES/" + competition + "/floor/_search?size=1000","floor_table");
         <header class="head">
 <!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
-            <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
+            <h1 class="title"><img src="images/pommelHorse.png" \>&nbsp;Pommel horse</h1>
         </header>
         <section class="body with-foot with-head pad">
             <div class="refresh-pull hide" data-do="refresh-pull"
@@ -1179,7 +1187,7 @@ drawgymtable("/ES/" + competition + "/vault/_search?size=1000","vault_table");
         <header class="head">
 <!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#results"><i class="fa fa-arrow-left"></i></a>
-            <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel Bars</h1>
+            <h1 class="title"><img src="images/parallelBars.png" \>&nbsp;Parallel Bars</h1>
         </header>
         <section class="body with-foot with-head pad">
             <div class="refresh-pull hide" data-do="refresh-pull"
@@ -1439,7 +1447,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","floor_table"
         <header class="head">
 <!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
-            <h1 class="title"><img src="images/horse.png" \>&nbsp;Pommel horse</h1>
+            <h1 class="title"><img src="images/pommelHorse.png" \>&nbsp;Pommel horse</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
@@ -1572,7 +1580,7 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","vault_table"
         <header class="head">
 <!--        <a class="head-btn btn btn-default pull-left" data-do="aside" data-on="click" href="#aside-left"><i class="fa fa-bars"></i></a> -->
             <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#register"><i class="fa fa-arrow-left"></i></a>
-            <h1 class="title"><img src="images/bars.png" \>&nbsp;Parallel bars</h1>
+            <h1 class="title"><img src="images/parallelBars.png" \>&nbsp;Parallel bars</h1>
         </header>
         <section class="body with-foot with-head pad">
 <div class="focus">
