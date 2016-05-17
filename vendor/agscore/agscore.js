@@ -76,7 +76,7 @@ function loadcurrclasses() {
         currclasses = [];
         $.ajax({
                 'async': false,
-                url: "/ES/" + competition + "/startList/_search?size=100&sort=class",
+                url: "/ES/" + competition + "/startList/_search?size=100",
                 success: function(t){
                        for (var i = 0; i < t.hits.hits.length; i++) {
 //			   currclasses.push(t.hits.hits[i]._source.class.split(' ').join(''));
@@ -93,6 +93,9 @@ function loadcurrclasses() {
                 }
 		lastclass=currclasses[m]
         }
+	if (currclasses == []) {
+		currclasses.push("None");
+	}
 }
 function updatecss(team) {
 	var value = $("#css_" + team ).val();
@@ -295,11 +298,15 @@ cmp = function(x, y){
     return x > y ? 1 : x < y ? -1 : 0; 
 };
 function camelize(str) {
+  if(str){
   str = str.replace(/[^a-zA-Z0-9 ]+/g, "");
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
     if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
     return index == 0 ? match.toLowerCase() : match.toUpperCase();
   });
+  } else {
+    return "";
+  }
 }
 function processingComplete(table) {
 	$(table + " td:contains('undefined')").html('');
@@ -1161,6 +1168,11 @@ $.ajax({
 				}
 			}
 		}
+		if (currrules[camelize(data[n].rules)] === undefined) {
+                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + rule + '","public":"true","st":"false","v2a":"false"}';
+                        } else {
+                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + rule + '","public":"true","bph":"false","sph":"false","sv":"true"}';
+                }
 	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public == "false" )) {
 			hidden="true";
 			for (var i = 0; i < apps.length; i++) {
