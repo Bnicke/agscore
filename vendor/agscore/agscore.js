@@ -1470,7 +1470,10 @@ function initcompetition(id) {
                         for (var i = 0; i < s.hits.hits.length; i++) {
                                 competitions.push(s.hits.hits[i]._source)
                         }
-                      competitions.reverse();
+			if (competitions.length == 0) {
+				competitions.push(JSON.parse('{"name":"None","date":"","date2":"","organizer":"","type":"","id":"none","description":"Dummy, do not use","created":1000000000}'));
+			}
+			competitions.reverse();
 //			competitions = sortJSON(competitions,'id', '123');
 //			competitions = sortJSON(competitions,'created', '123');
                         var $el = $("#select-competition");
