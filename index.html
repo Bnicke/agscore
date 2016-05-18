@@ -368,15 +368,15 @@ $('.profile-userpic').click(function () {
     <option>None</option>
   </select>
 </div>
-<div class="focus">
-<p id="pdescription"></p>
-</div>
         <nav class="nav-list">
     <a data-do="go-forward" data-on="click" href="#results">Results<i class="fa fa-chevron-right"></i></a>
     <a data-do="go-forward" data-on="click" href="#register">Register points<i class="fa fa-chevron-right"></i></a>
     <a data-do="go-forward" data-on="click" href="#scoreboards">Scoreboards<i class="fa fa-chevron-right"></i></a>
     <a data-do="go-forward" data-on="click" href="#administration">Administration<i class="fa fa-chevron-right"></i></a>
 </nav>
+<div class="focus">
+<p id="pdescription"></p>
+</div>
         </section>
     <script>
 setTimeout(function() {
@@ -539,10 +539,11 @@ initcompetition();
     <script id="administration" type="text/html">
         <header class="head">
         <a class="head-btn btn btn-default pull-left" data-do="go-back" data-on="click" href="#home"><i class="fa fa-arrow-left"></i></a>
-            <h1 class="title">Competitions</h1>
+            <h1 class="title">Administration</h1>
         </header>
 
         <section class="body with-head with-foot">
+<div id="div-admin">
             <div class="focus">
   <label class="top">Select<br>competition</label>
     <select id="select-competition" class="form-control">
@@ -563,8 +564,13 @@ initcompetition();
         <a data-do="go-forward" data-on="click" href="#rule">Rules<i class="fa fa-chevron-right"></i></a>
 	<a data-do="go-forward" data-on="click" href="#teams">Teams<i class="fa fa-chevron-right"></i></a>
         </nav>
+</div>
         </section>
         <script>
+if (username == "User" ) {
+        $( "#div-admin" ).replaceWith('<div id="div-admin"><div class="focus"><p>Please log in to register points!</p></div></div>');
+    }
+
 $(function() {
       $("#editcomp").click( function()
            {
