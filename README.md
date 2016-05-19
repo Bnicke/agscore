@@ -92,11 +92,23 @@ curl -XDELETE http://localhost:9200/comp1/allaround/18
 curl http://localhost:9200/comp1/allaround/18
 
 
+#### Security
+For security, use shield in ES
+```
+bin/plugin install license
+bin/plugin install shield
+bin/elasticsearch
+bin/shield/esusers useradd admin -r admin
+```
 
-###Convert allaround from old agscore
+You probably want to allow anonymous read.. for the audience e.g.
+If you add this to the end of elasticsearch.yml, unauthorized users will be in the default "user" role that has read access to everything
 ```
-for i in `cat file | awk '{print $2}'`; do
-	row=`cat test2 |  sed 's/,/./g' | grep -P "^.*\t$i " | awk -F'\t' '{print $2"\",\"born\": " $3",\"team\": \"" $4"\",\"class\": \"" $5"\",\"rules\": \"" $5"\",\"floor\": " $6",\"pommelHorse\": " $7",\"rings\": " $8",\"vault\": " $9",\"parallelBars\": " $10",\"highBar\": " $11",\"total\": " $12"}"'} | cut -f 1 -d ' ' --complement` 
-	echo "curl -XPUT http://localhost:9200/comp1/allaround/$i -d'{\"number\": "$i", \"gymnast\": \""$row\'
-done
+shield.authc:
+  anonymous:
+    username: anonymous_user
+    roles: user
+    authz_exception: true
 ```
+
+Log in as admin.

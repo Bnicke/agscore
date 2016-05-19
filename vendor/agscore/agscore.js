@@ -11,6 +11,8 @@ var agtype = "";
 var organizer = "";
 var apps = new Array();
 var username = "User";
+var bacreds = "";
+var baheader = "Dummy";
 var parts = new Array( "base", "pen", "e1" ,"e2", "e3", "e4", "e", "d", "avgE", "total");
 var appname = JSON.parse('{"floor":"Floor","pommelHorse":"Pommel horse","rings":"Still rings","vault":"Vault","parallelBars":"Parallel bars","highBar":"High bar","unevenBars":"Uneven bars","beam":"Balance beam","WAG":"Quadrathlon","MAG":"Hexathlon"}');
 
@@ -109,6 +111,9 @@ function updatecss(team) {
         data: post,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+	beforeSend: function (xhr){ 
+        	xhr.setRequestHeader(baheader, bacreds); 
+    	},
         success: function(s){
                 notify = "css updated!";
                 notifytype = "success";
@@ -242,6 +247,9 @@ function uploadFile(type,name) {
 		        data: post,
 		        contentType: "application/json; charset=utf-8",
 		        dataType: "json",
+			beforeSend: function (xhr){
+                		xhr.setRequestHeader(baheader, bacreds);
+        		},
 		        success: function(s){
 		                notify = "Image upladed!";
 		                notifytype = "success";
@@ -517,6 +525,9 @@ function agcalculate(part,number,agtable,index) {
         data: JSON.stringify(post),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+	beforeSend: function (xhr){
+                xhr.setRequestHeader(baheader, bacreds);
+        },
         success: function(s){
 		notify = "Gymnast #" + post.number + " " + app[0] + " updated";
 		notifytype = "success";
@@ -604,6 +615,9 @@ if (action == "POST" ) {
                         data: JSON.stringify(post),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
+	        	beforeSend: function (xhr){
+                		xhr.setRequestHeader(baheader, bacreds);
+        		},
                         success: function(s){
                                 notifytxt = "Gymnast " + post.gymnast + " updated!";
                                 notifytype = "success";
@@ -614,6 +628,9 @@ if (action == "POST" ) {
                         		data: JSON.stringify(post),
                         		contentType: "application/json; charset=utf-8",
                         		dataType: "json",
+					beforeSend: function (xhr){
+                				xhr.setRequestHeader(baheader, bacreds);
+        				},
                         		success: function(t){
                                 		notifytxt = "Gymnast " + post.gymnast + " updated!";
                                 		notifytype = "success";
@@ -1329,6 +1346,9 @@ function changerule(rule,rulejson) {
 		type: "POST",
                 url: "/ES/" + competition + "/rules/" + agtype + "-" + rules[1],
 		data: rulejson,
+		beforeSend: function (xhr){
+                	xhr.setRequestHeader(baheader, bacreds);
+        	},
                 error: function(){
                         $.mobility.notify("No competitions or is database down??","error");
                 },
@@ -1338,6 +1358,9 @@ function changerule(rule,rulejson) {
                 	type: "POST",
                 	url: "/ES/global/rules/" + agtype + "-" + rules[1],
                 	data: rulejson,
+		        beforeSend: function (xhr){
+                		xhr.setRequestHeader(baheader, bacreds);
+        		},
                 	error: function(){
                         	$.mobility.notify("No competitions or is database down??","error");
                 	}
@@ -1458,6 +1481,10 @@ function initcompetition(id) {
        } else {
 	username="User";
        }
+	if (readCookie("ba")) {
+		bacreds = readCookie("ba");
+		baheader = "Authorization";
+	}
        $( "#user" ).replaceWith('<span id="user" class="foot-nav-label">' + username + '</span>');
        $.ajax({
                 'async': false,

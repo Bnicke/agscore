@@ -128,7 +128,7 @@ $('.profile-userpic').click(function () {
                 </div>
                 <div class="login">
                 <div class="col-md-11">
-        <a class="httpauth" id="basic" href="/ES/">Log in with Basic Auth</a>
+        <a class="httpauth" id="basic" href="/ES/authtest/last">Log in with Basic Auth</a>
                 </div>
                 </div>
     <a class="modal_down" href="javascript:void(0)" onclick="$.mobility.modalClose('#profile');"><i class="fa fa-arrow-down fa-2x"></i></a>
@@ -1868,6 +1868,9 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
                         data: JSON.stringify(post),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
+			beforeSend: function (xhr){
+                		xhr.setRequestHeader(baheader, bacreds);
+        		},
                         success: function(s){
                                             $.ajax({
                                                 'async': false,
@@ -1876,6 +1879,9 @@ drawgymtable("/ES/" + competition + "/startList/_search?size=1000","unevenBars_t
                                                 data: '{"name":"dummy"}',
                                                 contentType: "application/json; charset=utf-8",
                                                 dataType: "json",
+						beforeSend: function (xhr){
+                					xhr.setRequestHeader(baheader, bacreds);
+        					},
                                                 success: function(s){   
                                 $.mobility.notify("Competition " + post.name +  mess ,"success");
                                                             changecompetition(post.id);

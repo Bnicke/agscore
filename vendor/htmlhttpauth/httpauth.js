@@ -79,25 +79,40 @@ function getHTTPObject() {
     }
 	return xmlhttp;
 }
-
+function make_base_auth(user, password) {
+  var tok = user + ':' + password;
+  var hash = btoa(tok);
+  return "Basic " + hash;
+}
 function login()
-{
+{	
     var username = document.getElementById(this.id + "-username").value;
     var password = document.getElementById(this.id + "-password").value;
+    var url = this.action;
+    var post = JSON.parse("{}");
+    var now = new Date();
+    post.timestamp = now.getTime();
+    post.username = username;
     var http = getHTTPObject();
-	//var url = "http://" + username + ":" + password + "@" + this.action.substr(7);
-	var url = this.action;
-    http.open("get", url, false, username, password);
-    http.send("");
-	if (http.status == 200) {
+    http.open("post", url, false, username, password);
+    http.setRequestHeader('Authorization', make_base_auth(username, password));
+    http.send(JSON.stringify(post));
+	if (http.status == 201) {
 		$.mobility.notify("Thank you, you are logged in as " + username + "." ,"success");
 		$.mobility.modalClose('#profile')
 		createCookie("username",username);
+		createCookie("ba", make_base_auth(username, password));
+		bacreds =  make_base_auth(username, password);
+		baheader = "Authorization";
 		initcompetition();
 	} else {
 	$.mobility.notify("Incorrect username and/or password!","error");
+		bacreds =  "";
+		baheader = "Dummy";
 		eraseCookie("username");
+		eraseCookie("ba");
 		username="User";
+		initcompetition();
     }
     return false;
 }
@@ -106,6 +121,8 @@ function logout()
 {
     var http = getHTTPObject();
     username="User";
+    eraseCookie("username");
+    eraseCookie("password");
     http.open("get", this.parentNode.action, false, "null", "null");
     http.send("");
     $.mobility.notify("You have been logged out.","success");
