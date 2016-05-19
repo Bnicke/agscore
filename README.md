@@ -48,8 +48,8 @@ docker run --name nginx --net=agscore -v $HOME/agscore/docker/nginx.conf:/etc/ng
 ## Local install
 Download Elastic search from https://www.elastic.co/downloads/elasticsearch
 ```
-  unzip  elasticsearch-2.2.1.zip 
-  cd elasticsearch-2.2.1/bin
+  unzip  elasticsearch-<version>.zip 
+  cd elasticsearch-<version>/bin
   ./elasticsearch
 ```
 Install apache:
@@ -93,7 +93,9 @@ curl http://localhost:9200/comp1/allaround/18
 
 
 #### Security
-For security, use shield in ES
+For security, use shield.
+
+Install shield and add an admin user to the predefined admin role:
 ```
 bin/plugin install license
 bin/plugin install shield

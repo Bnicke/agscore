@@ -120,9 +120,11 @@ function login()
 function logout()
 {
     var http = getHTTPObject();
-    username="User";
-    eraseCookie("username");
-    eraseCookie("password");
+                bacreds =  "";
+                baheader = "Dummy";
+                eraseCookie("username");
+                eraseCookie("ba");
+                username="User";
     http.open("get", this.parentNode.action, false, "null", "null");
     http.send("");
     $.mobility.notify("You have been logged out.","success");
