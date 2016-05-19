@@ -1186,9 +1186,9 @@ $.ajax({
 			}
 		}
 		if (currrules[camelize(data[n].rules)] === undefined) {
-                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + rule + '","public":"true","st":"false","v2a":"false"}';
+                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + data[n].rules + '","public":"true","st":"false","v2a":"false"}';
                         } else {
-                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + rule + '","public":"true","bph":"false","sph":"false","sv":"true"}';
+                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + data[n].rules + '","public":"true","bph":"false","sph":"false","sv":"true"}';
                 }
 	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public == "false" )) {
 			hidden="true";
