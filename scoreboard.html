@@ -40,6 +40,10 @@ loadcurrclasses();
 
 function tdreplace(app) {
 	var result = lastscore(app);
+	debugger;
+	if (result.length == 0) {
+		JSON.parse('{id: "none", gymnast: "Waiting for input...", total: "00.00"}');
+	}
 	var D = "";
 	if (result[0].d_1) {
 		D="D1=" + result[0].d_1;
