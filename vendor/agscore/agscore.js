@@ -1123,7 +1123,7 @@ $.ajax({
 	var lastp = 0;
 	for (var m = 0; m < allteams.length; m++) {
 		if (allteams[m].id == data[n].team) {
-	  		if (rank < 11) {
+	  		if ((rank < 11) && (data[n].total > 0)) {
 				lastp = 11 - rank;
 			} else {
 				lastp = 0;
@@ -1185,12 +1185,10 @@ $.ajax({
 				}
 			}
 		}
-		if (currrules[camelize(data[n].rules)] === undefined) {
-                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + data[n].rules + '","public":"true","st":"false","v2a":"false"}';
-                        } else {
-                        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + data[n].rules + '","public":"true","bph":"false","sph":"false","sv":"true"}';
-                }
-	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public == "false" )) {
+		//if (data[n].rules === undefined) {
+                //        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + data[n].rules + '","public":"true","st":"false","v2a":"false","bph":"false","sph":"false","sv":"true"}';
+		//}
+	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public === "false" )) {
 			hidden="true";
 			for (var i = 0; i < apps.length; i++) {
 				if (data[n][apps[i]]) {

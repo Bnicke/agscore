@@ -40,10 +40,6 @@ loadcurrclasses();
 
 function tdreplace(app) {
 	var result = lastscore(app);
-	debugger;
-	if (result.length == 0) {
-		JSON.parse('{id: "none", gymnast: "Waiting for input...", total: "00.00"}');
-	}
 	var D = "";
 	if (result[0].d_1) {
 		D="D1=" + result[0].d_1;
@@ -120,13 +116,17 @@ function lastscore (app) {
                               }
                      }
               });
-	if (currrules[camelize(lastscore[0].rules)].public == "false") {
+	if (lastscore.length > 0) {
+	if (currrules[camelize(lastscore[0].rules)].public === "false") {
 		lastscore[0].total = '<i class="fa fa-thumbs-o-up fa2x" aria-hidden="true"></i>';
 		lastscore[0].d = '';
 		lastscore[0].d_1 = '';
 		lastscore[0].d_2 = '';
 	} else {
 		lastscore[0].total = lastscore[0].total.toFixed(2);
+	}
+	} else {
+		lastscore.push(JSON.parse('{"total":"-.--","gymnast":"Waiting for input..."}'));
 	}
 	return lastscore;
 }
