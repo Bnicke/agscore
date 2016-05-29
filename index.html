@@ -655,6 +655,7 @@ if ( $(window).width() < 568 ) {
 } else if ( $(window).width() < 768 ) {
     $.mobility.notify("Editing the start list on a small screen is not recommended!","warning");
 }
+loadcurrrules();
 drawgymtable("/ES/" + competition + "/startList/_search?size=1000","startList_table","edit");
 drawgymtable("/ES/global/startList/_search?size=5000&q=agtype:" + agtype,"startList_all_table","global");
 $( "#startList_table-search" ).val(editableGrid.currentFilter);

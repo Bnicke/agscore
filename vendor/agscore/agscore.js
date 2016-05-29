@@ -33,15 +33,27 @@ function fontResize() {
 };
 function loadcurrrules() {
 	currrules = [];
+//	localrules = [];
         $.ajax({
                 'async': false,
                 url: "/ES/" + competition + "/rules/_search?size=100",
                 success: function(t){
                        for (var ii = 0; ii < t.hits.hits.length; ii++) {
+//                             localrules[t.hits.hits[ii]._source.id.split("-")[1]] = t.hits.hits[ii]._source;
                              currrules[t.hits.hits[ii]._source.id.split("-")[1]] = t.hits.hits[ii]._source;
                        }
                 }
         });
+//	allrules = [];
+//        $.ajax({
+//                'async': false,
+//                url: "/ES/" + competition + "/startList/_search?size=100",
+//                success: function(t){
+//                       for (var i = 0; i < t.hits.hits.length; i++) {
+//                           currclasses.push(t.hits.hits[i]._source.rules);
+//                       }
+//                }
+//        });
 }
 function loadteams() {
          var currteams = new Array();
@@ -81,7 +93,6 @@ function loadcurrclasses() {
                 url: "/ES/" + competition + "/startList/_search?size=100",
                 success: function(t){
                        for (var i = 0; i < t.hits.hits.length; i++) {
-//			   currclasses.push(t.hits.hits[i]._source.class.split(' ').join(''));
                            currclasses.push(t.hits.hits[i]._source.class);
                        }
                 }
