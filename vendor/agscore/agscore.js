@@ -949,8 +949,14 @@ $.ajax({
         });
 	for (var n = 0; n < data.length; n++) {
 		if (currrules[camelize(data[n].rules)] === undefined) {
-			data[n].rules = agtype;
+			currrules[camelize(data[n].rules)] = currrules[camelize(agtype)];
 		}
+                if (data[n].class === undefined) {
+                        data[n].class = "";
+                }
+                if (data[n].rules === undefined) {
+                        data[n].rules = "";
+                }
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
 				if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
@@ -1085,10 +1091,13 @@ $.ajax({
         });
      	for (var n = 0; n < data.length; n++) {
 		if (currrules[camelize(data[n].rules)] === undefined) {
-			data[n].rules = agtype;
+			currrules[camelize(data[n].rules)] = currrules[camelize(agtype)];
 		}
 		if (data[n].class === undefined) {
-			data[n].class = agtype;
+			data[n].class = "";
+		}
+		if (data[n].rules === undefined) {
+			data[n].rules = "";
 		}
 	  if (type == "global") {
 		data[n].add = '<a href="javascript:void(0)" onclick="addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
@@ -1173,8 +1182,14 @@ $.ajax({
 	hidden="false";
 	for (var n = 0; n < data.length; n++) {
 		if (currrules[camelize(data[n].rules)] === undefined) {
-			data[n].rules = agtype;
+			currrules[camelize(data[n].rules)] = currrules[camelize(agtype)];
 		}
+                if (data[n].class === undefined) {
+                        data[n].class = "";
+                }
+                if (data[n].rules === undefined) {
+                        data[n].rules = "";
+                }
 		for (var i = 0; i < parts.length; i++) {
 			if ((data[n][parts[i]] == "&nbsp;") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
 				data[n][parts[i]] = "";
