@@ -33,27 +33,17 @@ function fontResize() {
 };
 function loadcurrrules() {
 	currrules = [];
-//	localrules = [];
         $.ajax({
                 'async': false,
                 url: "/ES/" + competition + "/rules/_search?size=100",
                 success: function(t){
                        for (var ii = 0; ii < t.hits.hits.length; ii++) {
-//                             localrules[t.hits.hits[ii]._source.id.split("-")[1]] = t.hits.hits[ii]._source;
                              currrules[t.hits.hits[ii]._source.id.split("-")[1]] = t.hits.hits[ii]._source;
                        }
                 }
         });
-//	allrules = [];
-//        $.ajax({
-//                'async': false,
-//                url: "/ES/" + competition + "/startList/_search?size=100",
-//                success: function(t){
-//                       for (var i = 0; i < t.hits.hits.length; i++) {
-//                           currclasses.push(t.hits.hits[i]._source.rules);
-//                       }
-//                }
-//        });
+       currrules[camelize("WAG")] = '{"id":"WAG-WAG","public":"true","st":"false","v2a":"false"}';
+       currrules[camelize("MAG")] = '{"id":"MAG-MAG","public":"true","bph":"false","sph":"false","sv":"true"}';
 }
 function loadteams() {
          var currteams = new Array();
@@ -938,10 +928,7 @@ $.ajax({
      var pool = 'NONE';
      var team = 'NONE';
      var Options = new Array();
-	allteams=new Array();
-     //if (type != "update" ) {
-//	clearInterval(timerresult);
- //    }
+     allteams=new Array();
      if (type == "reg") {
          $.ajax({
          	'async': false,
@@ -954,9 +941,6 @@ $.ajax({
          	error: function(xhr, ajaxOptions, thrownError) {
          	}
          });
-//     	data = sortJSON(data,'number', '123');
-	//data.shift();
-//     	data = sortJSON(data,'pool', '123');
        data.sort(function(a, b){
                 return cmp(
                 [cmp(a.pool, b.pool), cmp(a.number, b.number)],
@@ -964,6 +948,9 @@ $.ajax({
                 );
         });
 	for (var n = 0; n < data.length; n++) {
+		if (currrules[camelize(data[n].rules)] === undefined) {
+			data[n].rules = agtype;
+		}
 		for (var m = 0; m < data_pre.length; m++) {
 			if ( data_pre[m].id == data[n].id) {
 				if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
@@ -1097,6 +1084,9 @@ $.ajax({
                 );
         });
      	for (var n = 0; n < data.length; n++) {
+		if (currrules[camelize(data[n].rules)] === undefined) {
+			data[n].rules = agtype;
+		}
 	  if (type == "global") {
 		data[n].add = '<a href="javascript:void(0)" onclick="addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
 	  }
@@ -1179,6 +1169,9 @@ $.ajax({
         }
 	hidden="false";
 	for (var n = 0; n < data.length; n++) {
+		if (currrules[camelize(data[n].rules)] === undefined) {
+			data[n].rules = agtype;
+		}
 		for (var i = 0; i < parts.length; i++) {
 			if ((data[n][parts[i]] == "&nbsp;") || (data[n][parts[i]] == "0" ) || (data[n][parts[i]] == 0) || (data[n][parts[i]] == "<br>")) {
 				data[n][parts[i]] = "";
@@ -1196,9 +1189,6 @@ $.ajax({
 				}
 			}
 		}
-		//if (data[n].rules === undefined) {
-                //        currrules[camelize(data[n].rules)] = '{"id":"' + agtype + '-' + data[n].rules + '","public":"true","st":"false","v2a":"false","bph":"false","sph":"false","sv":"true"}';
-		//}
 	  	if ((username == "User" ) && (currrules[camelize(data[n].rules)].public === "false" )) {
 			hidden="true";
 			for (var i = 0; i < apps.length; i++) {
