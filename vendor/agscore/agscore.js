@@ -1087,6 +1087,9 @@ $.ajax({
 		if (currrules[camelize(data[n].rules)] === undefined) {
 			data[n].rules = agtype;
 		}
+		if (data[n].class === undefined) {
+			data[n].class = agtype;
+		}
 	  if (type == "global") {
 		data[n].add = '<a href="javascript:void(0)" onclick="addgymnast(\'' + data[n].id + '\');"><i class="fa fa-plus"></i></a>';
 	  }
