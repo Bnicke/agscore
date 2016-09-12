@@ -83,12 +83,12 @@ function loadcurrclasses() {
                 url: "/ES/" + competition + "/startList/_search?size=100",
                 success: function(t){
                        for (var i = 0; i < t.hits.hits.length; i++) {
-                           currclasses.push(t.hits.hits[i]._source.class);
+                           currclasses.push(t.hits.hits[i]._source.class.trim());
                        }
                 }
         });
-	currclasses.sort();
-	lastclass="";
+       currclasses.sort();
+       lastclass="";
        for (var m = 0; m < currclasses.length; m++) {
 		if (lastclass==currclasses[m]) {
                         currclasses.splice(m, 1);
