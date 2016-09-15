@@ -83,7 +83,7 @@ function loadcurrclasses() {
                 url: "/ES/" + competition + "/startList/_search?size=100",
                 success: function(t){
                        for (var i = 0; i < t.hits.hits.length; i++) {
-                           currclasses.push(t.hits.hits[i]._source.class.trim());
+			   currclasses.push(t.hits.hits[i]._source.class);
                        }
                 }
         });
