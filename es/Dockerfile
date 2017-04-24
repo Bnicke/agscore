@@ -11,6 +11,6 @@ echo '    authz_exception: true' >> /usr/share/elasticsearch/config/elasticsearc
 chmod 777 /usr/share/elasticsearch/bin/shield/esusers
 
 COPY es-entrypoint.sh /
-chmod 777 /es-entrypoint.sh
+RUN chmod 777 /es-entrypoint.sh
 ENTRYPOINT ["/es-entrypoint.sh"]
 CMD ["elasticsearch"]
