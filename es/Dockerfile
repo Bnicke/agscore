@@ -7,8 +7,10 @@ RUN echo 'shield.authc:' >> /usr/share/elasticsearch/config/elasticsearch.yml &&
 echo '  anonymous:' >> /usr/share/elasticsearch/config/elasticsearch.yml && \
 echo '    username: anonymous_user' >> /usr/share/elasticsearch/config/elasticsearch.yml && \
 echo '    roles: user' >> /usr/share/elasticsearch/config/elasticsearch.yml && \
-echo '    authz_exception: true' >> /usr/share/elasticsearch/config/elasticsearch.yml
+echo '    authz_exception: true' >> /usr/share/elasticsearch/config/elasticsearch.yml && \
+chmod 777 /usr/share/elasticsearch/bin/shield/esusers
 
 COPY es-entrypoint.sh /
+chmod 777 /es-entrypoint.sh
 ENTRYPOINT ["/es-entrypoint.sh"]
 CMD ["elasticsearch"]
