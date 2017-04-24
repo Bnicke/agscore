@@ -1,7 +1,7 @@
 FROM elasticsearch:2.4.4
 
-/usr/share/elasticsearch/bin/plugin install license
-/usr/share/elasticsearch/bin/plugin install shield
+RUN /usr/share/elasticsearch/bin/plugin install license && \
+/usr/share/elasticsearch/bin/plugin install shield && \
 /usr/share/elasticsearch/bin/shield/esusers useradd admin -r admin
 
 RUN echo 'shield.authc:
