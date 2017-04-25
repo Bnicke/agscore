@@ -9,7 +9,7 @@ echo '    username: anonymous_user' >> /usr/share/elasticsearch/config/elasticse
 echo '    roles: user' >> /usr/share/elasticsearch/config/elasticsearch.yml && \
 echo '    authz_exception: true' >> /usr/share/elasticsearch/config/elasticsearch.yml && \
 chmod 777 /usr/share/elasticsearch/bin/shield/esusers && \
-mkdir -p /usr/share/elasticsearch/config/shield && \
+mkdir -p /usr/share/elasticsearch/config/shield 
 
 
 COPY config/shield/* /usr/share/elasticsearch/config/shield
