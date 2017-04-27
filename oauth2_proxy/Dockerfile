@@ -6,4 +6,4 @@ FROM centos:latest
 COPY run.sh /
 RUN chmod 755 /run.sh 
 EXPOSE 4180 8080
-CMD ["/run.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "/run.sh ${*}", "--"]
