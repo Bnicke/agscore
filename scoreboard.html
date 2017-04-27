@@ -65,7 +65,7 @@ var refreshtable = setInterval(function(){
 		setTimeout(function() {
                 $("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
                 fontResize();
-                drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+                drawgymtable("/es/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
 		}, 500);
 }, refreshinterval);
 
@@ -106,7 +106,7 @@ function lastscore (app) {
               $.ajax({
                       'async': false,
 		      type: "POST",
-                      url: "/ES/" + competition + "/" + app + "/_search?size=1",
+                      url: "/es/" + competition + "/" + app + "/_search?size=1",
 		      contentType: "application/json; charset=utf-8",
                       dataType: "json",
 		      data: sortjson,
@@ -147,7 +147,7 @@ if (currapp == agtype) {
 	$('#board_table').show();
 	$('#score_table').hide();
 	$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
-	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+	drawgymtable("/es/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
         fontResize();
 } else if (currapp == "all") {
         clearInterval(swtimer);
@@ -175,7 +175,7 @@ if (currapp == agtype) {
 	$('#score_table').hide();
 	$("#board_table").replaceWith('<div id="board_table">' + boardtable + '</div>');
 	$("#score_table").replaceWith('<div id="score_table">' + scoretable + '</div>');
-	drawgymtable("/ES/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
+	drawgymtable("/es/" + competition + "/startList/_search?size=1000","allaround_table","scoreboard");
 	for (var n = 0; n < apps.length; n++) {
         	tdreplace(apps[n]);
         }

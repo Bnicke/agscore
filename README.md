@@ -61,12 +61,12 @@ Install apache:
 ####httpd.conf:
 ```
 ProxyRequests Off
-ProxyPass /ES http://127.0.0.1:9200
-ProxyPassReverse /ES http://127.0.0.1:9200
+ProxyPass /es http://127.0.0.1:9200
+ProxyPassReverse /es http://127.0.0.1:9200
 ```
 
 ### elastic
-Indexes for elastic search scores are `/<competition>/<Apparatus>/<id>`. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/ES/KFUMKM15/allaround/37 
+Indexes for elastic search scores are `/<competition>/<Apparatus>/<id>`. Ex: http://localhost:9200/KFUMKM15/pommelHorse/37 or http://hostname/es/KFUMKM15/allaround/37 
 
 for start lists and competition settings `/<competition>/startList/<id>`, `/<competition>/class/<id>`, `/<competition>/rules/<id>`
 

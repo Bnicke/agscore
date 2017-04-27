@@ -35,7 +35,7 @@ function loadcurrrules() {
 	currrules = [];
         $.ajax({
                 'async': false,
-                url: "/ES/" + competition + "/rules/_search?size=100",
+                url: "/es/" + competition + "/rules/_search?size=100",
                 success: function(t){
                        for (var ii = 0; ii < t.hits.hits.length; ii++) {
                              currrules[t.hits.hits[ii]._source.id.split("-")[1]] = t.hits.hits[ii]._source;
@@ -49,7 +49,7 @@ function loadteams() {
          var currteams = new Array();
              $.ajax({
                 'async': false,
-                url: "/ES/global/startList/_search?size=100",
+                url: "/es/global/startList/_search?size=100",
                 success: function(ss){
                         for (var ii = 0; ii < ss.hits.hits.length; ii++) {
                                 currteams.push(JSON.parse('{"id":"' + ss.hits.hits[ii]._source.team + '"}'));
@@ -58,7 +58,7 @@ function loadteams() {
              });
              $.ajax({
                 'async': false,
-                url: "/ES/global/competition/_search?size=100",
+                url: "/es/global/competition/_search?size=100",
                 success: function(ss){
                         for (var ii = 0; ii < ss.hits.hits.length; ii++) {
                                 currteams.push(JSON.parse('{"id":"' + ss.hits.hits[ii]._source.organizer + '"}'));
@@ -80,7 +80,7 @@ function loadcurrclasses() {
         currclasses = [];
         $.ajax({
                 'async': false,
-                url: "/ES/" + competition + "/startList/_search?size=100",
+                url: "/es/" + competition + "/startList/_search?size=100",
                 success: function(t){
                        for (var i = 0; i < t.hits.hits.length; i++) {
 			   currclasses.push(t.hits.hits[i]._source.class);
@@ -108,7 +108,7 @@ function updatecss(team) {
     $.ajax({
         'async': false,
         type: "POST",
-        url: "/ES/global/team/" + team,
+        url: "/es/global/team/" + team,
         data: post,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -131,7 +131,7 @@ function uploadimage(id,type,text) {
 	$( "#upload_text" ).replaceWith('<div id="upload_text">Upload image for ' + text + '</div>');
         $.ajax({
                 'async': false,
-                 url: "/ES/bin/" + type + "/" + id,
+                 url: "/es/bin/" + type + "/" + id,
                  success: function(s){
 			$( "#upload_preview" ).replaceWith('<img id="upload_preview" src="' + s._source.blob + '" alt="">');
                  },
@@ -148,21 +148,21 @@ function gyminfo(id) {
 	var teamimg ="";
 	$.ajax({
                 'async': false,
-                 url: "/ES/" + competition + "/startList/" + id,
+                 url: "/es/" + competition + "/startList/" + id,
                  success: function(s){
 			info=s;
 		 }
         });
         $.ajax({
                 'async': false,
-                 url: "/ES/bin/gymnast/" + id,
+                 url: "/es/bin/gymnast/" + id,
                  success: function(u){
         		image = '<div class="profile-userpic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
                  }
         });
         $.ajax({
                 'async': false,
-                 url: "/ES/bin/team/" + camelize(info._source.team),
+                 url: "/es/bin/team/" + camelize(info._source.team),
                  success: function(u){
                         teamimg = '<div class="profile-teampic"><img src="' + u._source.blob + '" class="img-responsive" alt=""></div>';
                  }
@@ -189,7 +189,7 @@ function deleteFile(type,file) {
     $.ajax({
         'async': false,
         type: "DELETE",
-        url: "/ES/bin/" + type + "/" + file,
+        url: "/es/bin/" + type + "/" + file,
         success: function(s){
                 notify = "Image deleted!";
                 notifytype = "success";
@@ -244,7 +244,7 @@ function uploadFile(type,name) {
     		$.ajax({
 		        'async': false,
 		        type: "POST",
-		        url: "/ES/bin/" + type + "/" + name,
+		        url: "/es/bin/" + type + "/" + name,
 		        data: post,
 		        contentType: "application/json; charset=utf-8",
 		        dataType: "json",
@@ -522,7 +522,7 @@ function agcalculate(part,number,agtable,index) {
     $.ajax({
 	'async': false,
         type: "POST",
-        url: "/ES/" + competition + "/" + app[0] + "/" + post.id,
+        url: "/es/" + competition + "/" + app[0] + "/" + post.id,
         data: JSON.stringify(post),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -584,13 +584,13 @@ function checkrule (rule) {
 	var rulejson = "";
 	$.ajax({
 		'async': false,
-		 url: "/ES/" + competition + "/rules/" + agtype + "-" + rule,
+		 url: "/es/" + competition + "/rules/" + agtype + "-" + rule,
 		 success: function(s){
 		 },
 		 error: function(e){
 		 	        $.ajax({
                 			'async': false,
-                 			url: "/ES/global/rules/" + agtype + "-" + rule,
+                 			url: "/es/global/rules/" + agtype + "-" + rule,
                  			success: function(s){
                         			rulejson = JSON.stringify(s._source);
 						changerule(rule,rulejson);
@@ -612,7 +612,7 @@ if (action == "POST" ) {
                 $.ajax({
                         'async': false,
                         type: "POST",
-                        url: "/ES/" + competition + "/startList/" + post.id,
+                        url: "/es/" + competition + "/startList/" + post.id,
                         data: JSON.stringify(post),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -625,7 +625,7 @@ if (action == "POST" ) {
 				$.ajax({
                         		'async': false,
                         		type: "POST",
-                        		url: "/ES/global/startList/" + post.id,
+                        		url: "/es/global/startList/" + post.id,
                         		data: JSON.stringify(post),
                         		contentType: "application/json; charset=utf-8",
                         		dataType: "json",
@@ -652,7 +652,7 @@ if (action == "POST" ) {
                 $.ajax({
                     'async': false,
                     type: "DELETE",
-                    url: "/ES/" + competition + "/startList/" + post.id,
+                    url: "/es/" + competition + "/startList/" + post.id,
                     success: function(s){
                                 notifytxt = "Gymnast " + post.gymnast + " deleted!";
                                 notifytype = "success";
@@ -877,7 +877,7 @@ function clearscore(index,number,agtable,id) {
                 $.ajax({
                     'async': false,
                     type: "DELETE",
-                    url: "/ES/" + competition + "/" + app[0] +"/" + id,
+                    url: "/es/" + competition + "/" + app[0] +"/" + id,
                     success: function(s){
 			$.mobility.notify(id + " deleted!","success");
                     }
@@ -932,7 +932,7 @@ $.ajax({
      if (type == "reg") {
          $.ajax({
          	'async': false,
-         	url: "/ES/" + competition + "/" + app[0] + "/_search?size=1000&sort=number",
+         	url: "/es/" + competition + "/" + app[0] + "/_search?size=1000&sort=number",
          	success: function(s){
 			for (var i = 0; i < s.hits.hits.length; i++) {
         			data_pre.push(s.hits.hits[i]._source)
@@ -1058,7 +1058,7 @@ $.ajax({
 		for (var n = 0; n < apps.length; n++) {
 		         $.ajax({
                 		'async': false,
-                		url: "/ES/" + competition + "/" + apps[n] + "/_search?size=1000",
+                		url: "/es/" + competition + "/" + apps[n] + "/_search?size=1000",
                 		success: function(s){
                         		for (var i = 0; i < s.hits.hits.length; i++) {
 						for (var m = 0; m < data.length; m++) {
@@ -1301,7 +1301,7 @@ function delgymnast(id) {
 function addgymnast(id) {
 	$.ajax({
                         'async': false,
-                        url: "/ES/global/startList/" + id,
+                        url: "/es/global/startList/" + id,
                         success: function(datalocal){
          var new_index=editableGrid.getRowCount() + 1;
          var new_startnr = 0;
@@ -1361,7 +1361,7 @@ function changerule(rule,rulejson) {
 	$.ajax({
                 'async': false,
 		type: "POST",
-                url: "/ES/" + competition + "/rules/" + agtype + "-" + rules[1],
+                url: "/es/" + competition + "/rules/" + agtype + "-" + rules[1],
 		data: rulejson,
 		beforeSend: function (xhr){
                 	xhr.setRequestHeader(baheader, bacreds);
@@ -1373,7 +1373,7 @@ function changerule(rule,rulejson) {
 		        $.ajax({
                 	'async': false,
                 	type: "POST",
-                	url: "/ES/global/rules/" + agtype + "-" + rules[1],
+                	url: "/es/global/rules/" + agtype + "-" + rules[1],
                 	data: rulejson,
 		        beforeSend: function (xhr){
                 		xhr.setRequestHeader(baheader, bacreds);
@@ -1396,7 +1396,7 @@ function deletecompetition(id) {
         $.ajax({
                 'async': false,
 		type: "DELETE",
-                url: "/ES/global/competition/" + id,
+                url: "/es/global/competition/" + id,
                 error: function(){
                         $.mobility.notify("No competitions or is database down??","error");
                 },
@@ -1404,7 +1404,7 @@ function deletecompetition(id) {
 			$.ajax({
                 		'async': false,
                 		type: "DELETE",
-                		url: "/ES/" + id + "/",
+                		url: "/es/" + id + "/",
                 		error: function(){
                         		$.mobility.notify("No competitions or is database down??","error");
                 		},
@@ -1422,7 +1422,7 @@ function changecompetition(id) {
 	competition = id;
 	$.ajax({
                 'async': false,
-                url: "/ES/global/competition/" + id,
+                url: "/es/global/competition/" + id,
                 error: function(){
                         $.mobility.notify("No competitions or is database down??","error");
                 },
@@ -1436,7 +1436,7 @@ function changecompetition(id) {
 		organizer = currcompetition.organizer;
         	$.ajax({
                 	'async': false,
-                 	url: "/ES/bin/team/" + camelize(organizer),
+                 	url: "/es/bin/team/" + camelize(organizer),
                  	success: function(u){
 				$( "#footid" ).replaceWith('<div id=footid><img height="50px" src="' + u._source.blob + '"></div>');
                  	},
@@ -1468,7 +1468,7 @@ function changecompetition(id) {
 		var css="";
         	$.ajax({
                 'async': false,
-                url: "/ES/global/team/_search?q=id:" + camelize(organizer),
+                url: "/es/global/team/_search?q=id:" + camelize(organizer),
                 success: function(s){
                         for (var i = 0; i < s.hits.hits.length; i++) {
 				css = s.hits.hits[i]._source.css;
@@ -1505,7 +1505,7 @@ function initcompetition(id) {
        $( "#user" ).replaceWith('<span id="user" class="foot-nav-label">' + username + '</span>');
        $.ajax({
                 'async': false,
-                url: "/ES/global/competition/_search?size=100&sort=created",
+                url: "/es/global/competition/_search?size=100&sort=created",
                 error: function(){
                         $.mobility.notify("No competitions or is database down??","error");
                 },
