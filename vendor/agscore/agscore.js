@@ -1502,7 +1502,7 @@ function initcompetition(id) {
 		bacreds = readCookie("ba");
 		baheader = "Authorization";
 	}
-       $( "#user" ).replaceWith('<span id="user" class="foot-nav-label">' + username + '</span>');
+       //$( "#user" ).replaceWith('<span id="user" class="foot-nav-label">' + username + '</span>');
        $.ajax({
                 'async': false,
                 url: "/es/global/competition/_search?size=100&sort=created",
