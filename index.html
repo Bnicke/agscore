@@ -54,10 +54,10 @@
     <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#menu">
         <div id=footid><i class="foot-nav-icon fa fa-bars"></i></div>
     </a>
-            <span id="user"><a class="foot-nav-item" href="/login/">
+            <a id="user" class="foot-nav-item" href="/login/">
                 <i class="foot-nav-icon fa fa-user fa"></i>
                 <span class="foot-nav-label">Log in</span>
-            </a></span>
+            </a>
 <!--
             <a class="foot-nav-item" data-do="modal-open" data-on="click" href="#profile">
                 <i class="foot-nav-icon fa fa-user"></i>
@@ -327,7 +327,7 @@ $('.profile-userpic').click(function () {
         }
         $( "div.nav-register" ).replaceWith(divnavregister);
     } else  {
-        $( "div.nav-register" ).replaceWith('<div class="focus"><p>Please log in to register points!</p></div>');
+        $( "div.nav-register" ).replaceWith('<div class="focus"><p>Please log in!</p></div>');
     }
     loadcurrrules();
     loadcurrclasses();
@@ -573,7 +573,7 @@ initcompetition();
         </section>
         <script>
 if (username == "User" ) {
-        $( "#div-admin" ).replaceWith('<div id="div-admin"><div class="focus"><p>Please log in to register points!</p></div></div>');
+        $( "#div-admin" ).replaceWith('<div id="div-admin"><div class="focus"><p>Please log in!</p></div></div>');
     }
 
 $(function() {
