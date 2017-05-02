@@ -1495,8 +1495,10 @@ function changecompetition(id) {
 function initcompetition(id) {
        if (readCookie("username")) {
        	username=readCookie("username");
+$( "#user" ).replaceWith('<span id="user"><a class="foot-nav-item" href="/login/logout.html"><i class="foot-nav-icon fa fa-user fa"></i><span class="foot-nav-label">Log out</span></a></span>');
        } else {
 	username="User";
+$( "#user" ).replaceWith('<span id="user"><a class="foot-nav-item" href="/login/"><i class="foot-nav-icon fa fa-user fa"></i><span class="foot-nav-label">Log in</span></a></span>');
        }
 	if (readCookie("ba")) {
 		bacreds = readCookie("ba");
