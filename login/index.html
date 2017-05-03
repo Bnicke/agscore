@@ -4,6 +4,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="refresh" content="1; url=/">
         <script type="text/javascript">
+if (document.cookie.indexOf("username=") == 0) {
+  expiry = new Date();
+  expiry.setTime(expiry.getTime()+(10*60*10000000)); 
+  document.cookie = "username=yes; expires=" + expiry.toGMTString();
+}
             window.location.href = "/"
         </script>
         <title>Logged in</title>
