@@ -999,7 +999,7 @@ $.ajax({
 		if ( pool != data[n].pool ) {
 			Options.push(data[n].pool);
 		}
-		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:void(0)" onclick="clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\');"><i class="fa fa-times fa-2x"></i></a>'
+		data[n].delete = '<a onclick="return confirm(\'Are you sure clear the scores for gymnast #' + data[n].number + " " + data[n].gymnast + '?\')" href="javascript:clearscore(\'' + n + '\',\'' + data[n].number + '\',\'' + table + '\',\'' + data[n].id + '\')"><i class="fa fa-times fa-2x"></i></a>';
 		var onlytot = currrules[camelize(data[n].rules)].st;
 		if (((agtype == "WAG") && (app[0] == "vault")) || ((app[0] == "pommelHorse" ) && (currrules[camelize(data[n].rules)].sph == "true" )) || ((app[0] == "vault" ) && (currrules[camelize(data[n].rules)].sv == "true" ))) {
 		data[n].pen = inputregD(n,"pen",data[n].number,data[n].pen_1,data[n].pen_2,table,onlytot);
