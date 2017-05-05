@@ -1,7 +1,7 @@
 #!/bin/sh
-if [ $googleserviceaccountjson ]; then
-	echo $googleserviceaccountjson | base64 -d > /googleserviceaccountjson
-	/usr/share/oauth2_proxy/oauth2_proxy "$@" -google-service-account-json=/googleserviceaccountjson
+if [ $authenticatedemailsfile ]; then
+	echo $authenticatedemailsfile | base64 -d > /authenticatedemailsfile
+	/usr/share/oauth2_proxy/oauth2_proxy "$@" -authenticated-emails-file=/authenticatedemailsfile
 else
 	/usr/share/oauth2_proxy/oauth2_proxy "$@"
 fi
