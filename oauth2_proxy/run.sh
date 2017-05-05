@@ -1,4 +1,5 @@
 #!/bin/sh
+/update_users.sh &
 if [ -z ${authenticatedemailsfile+x} ]; then 
 	echo "authenticatedemailsfile is unset" 
 	/usr/share/oauth2_proxy/oauth2_proxy "$@"
