@@ -1,5 +1,5 @@
 FROM centos:latest
-RUN INSTALL_PKGS="python curl"
+RUN INSTALL_PKGS="python curl" && \
 	yum -y update && \
     	yum -y install --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
     	yum clean all
