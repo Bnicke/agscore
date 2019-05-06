@@ -1,0 +1,24 @@
+user nobody nogroup;
+worker_processes auto;          # auto-detect number of logical CPU cores
+
+events {
+  worker_connections 512;       # set the max number of simultaneous connections (per worker process)
+}
+
+http {
+      include       /etc/nginx/mime.types;
+  server {
+    listen *:80;                # Listen for incoming connections from any interface on port 80
+    server_name "";             # Don't worry if "Host" HTTP Header is empty or not set
+    root /usr/share/nginx/html; # serve static files from here
+
+    location /es/ {            # catch any requests that start with /app/
+	  proxy_pass  http://${ES_HOST}:${ES_PORT};
+                                #
+                                # NOTE: If you don't put a forward slash / at the end of the upstream name
+                                #       then you'll find nginx passes the request as /app/ rather than just /
+                                #       Putting / after the upstream name means it acts more like the alias directive
+                                #       If I kept it as http://app; then I would've needed to add a /app/ route to Sinatra
+    }
+  }
+}
