@@ -13,7 +13,7 @@ http {
     root /usr/share/nginx/html; # serve static files from here
 
     location /es/ {            # catch any requests that start with /app/
-	  proxy_pass  http://${ES_HOST}:${ES_PORT};
+	  proxy_pass  http://${ES_HOST}:${ES_PORT}/;
                                 #
                                 # NOTE: If you don't put a forward slash / at the end of the upstream name
                                 #       then you'll find nginx passes the request as /app/ rather than just /
